@@ -27,7 +27,7 @@ export class ModalityService {
     };
     
     //verifica se o elemento existe. Se existir, retorna o elemento. Se não, retorna um erro.
-    private static async isExistent(id: number) {
+    static async isExistent(id: number) {
         const modality = await Modality.findByPk(id);
         if (!modality) {
             throw new Error('Modalidade não encontrada.');
