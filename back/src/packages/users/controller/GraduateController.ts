@@ -7,7 +7,7 @@ export const graduateController = {
             const graduates = await GraduateService.getAllGraduates();
             res.json(graduates);
         } catch (error: any) {
-            res.status(500).json({ error: 'Erro interno do servidor', details: error.message });
+            res.status(500).json({ error: 'Erro interno do servidor', details: JSON.stringify(error) });
         };
     },
 
@@ -17,7 +17,7 @@ export const graduateController = {
             const graduate = await GraduateService.getGraduateById(graduateId);
             res.json(graduate);
         } catch (error: any) {
-            res.status(500).json({ error: 'Erro interno do servidor.', details: error.message });
+            res.status(500).json({ error: 'Erro interno do servidor.', details: JSON.stringify(error) });
         };
     },
 
@@ -25,9 +25,9 @@ export const graduateController = {
         const graduateData = req.body;
         try {
             const newGraduate = await GraduateService.createGraduate(graduateData);
-            res.status(201).json(newGraduate);
+            res.status(201).json({ newGraduate , msg: 'Egresso criado.'});
         } catch (error: any) {
-            res.status(500).json({ error: 'Erro interno do servidor.', details: error.message });
+            res.status(500).json({ error: 'Erro interno do servidor.', details: JSON.stringify(error) });
         };
     },
 
@@ -36,9 +36,9 @@ export const graduateController = {
         const graduateData = req.body;
         try {
             const updatedGraduate = await GraduateService.updateGraduate(graduateId, graduateData);
-            res.json(updatedGraduate);
+            res.json({ updatedGraduate, msg: 'Egresso atualizado.' });
         } catch (error: any) {
-            res.status(500).json({ error: 'Erro interno do servidor.', details: error.message });
+            res.status(500).json({ error: 'Erro interno do servidor.', details: JSON.stringify(error) });
         };
     },
 
@@ -46,9 +46,9 @@ export const graduateController = {
         const graduateId = Number(req.params.id);
         try {
             await GraduateService.deleteGraduate(graduateId);
-            res.status(204).end();
+            res.status(200).json({ msg: 'Egresso deletado.' }).end();
         } catch (error: any) {
-            res.status(500).json({ error: 'Erro interno do servidor.', details: error.message });
+            res.status(500).json({ error: 'Erro interno do servidor.', details: JSON.stringify(error) });
         };
     },
 };

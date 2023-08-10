@@ -7,7 +7,7 @@ export const employmentTypeController = {
             const employmentTypes = await EmploymentTypeService.getAllEmploymentTypes();
             res.json(employmentTypes);
         } catch (error: any) {
-            res.status(500).json({ error: 'Erro interno do servidor', details: error.message });
+            res.status(500).json({ error: 'Erro interno do servidor', details: JSON.stringify(error) });
         };
     },
 
@@ -17,7 +17,7 @@ export const employmentTypeController = {
             const employmentType = await EmploymentTypeService.getEmploymentTypeById(employmentTypeId);
             res.json(employmentType);
         } catch (error: any) {
-            res.status(500).json({ error: 'Erro interno do servidor.', details: error.message });
+            res.status(500).json({ error: 'Erro interno do servidor.', details: JSON.stringify(error) });
         };
     },
 
@@ -25,9 +25,9 @@ export const employmentTypeController = {
         const employmentTypeData = req.body;
         try {
             const newEmploymentType = await EmploymentTypeService.createEmploymentType(employmentTypeData);
-            res.status(201).json(newEmploymentType);
+            res.status(201).json({ newEmploymentType, msg: 'Tipo de vínculo empregatício criado.' });
         } catch (error: any) {
-            res.status(500).json({ error: 'Erro interno do servidor.', details: error.message });
+            res.status(500).json({ error: 'Erro interno do servidor.', details: JSON.stringify(error) });
         };
     },
 
@@ -36,9 +36,9 @@ export const employmentTypeController = {
         const employmentTypeData = req.body;
         try {
             const updatedEmploymentType = await EmploymentTypeService.updateEmploymentType(employmentTypeId, employmentTypeData);
-            res.json(updatedEmploymentType);
+            res.json({ updatedEmploymentType, msg: 'Tipo de vínculo empregatício atualizado.' });
         } catch (error: any) {
-            res.status(500).json({ error: 'Erro interno do servidor.', details: error.message });
+            res.status(500).json({ error: 'Erro interno do servidor.', details: JSON.stringify(error) });
         };
     },
 
@@ -46,9 +46,9 @@ export const employmentTypeController = {
         const employmentTypeId = Number(req.params.id);
         try {
             await EmploymentTypeService.deleteEmploymentType(employmentTypeId);
-            res.status(204).end();
+            res.status(200).json({ msg: 'Tipo de vínculo empregatício deletado.' }).end();
         } catch (error: any) {
-            res.status(500).json({ error: 'Erro interno do servidor.', details: error.message });
+            res.status(500).json({ error: 'Erro interno do servidor.', details: JSON.stringify(error) });
         };
     },
 };

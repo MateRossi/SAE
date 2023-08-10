@@ -7,7 +7,7 @@ export const modalityController = {
             const modalities = await ModalityService.getAllModalities();
             res.json(modalities);
         } catch (error: any) {
-            res.status(500).json({ error: 'Erro interno do servidor', details: error.message });
+            res.status(500).json({ error: 'Erro interno do servidor', details: JSON.stringify(error) });
         };
     },
 
@@ -17,7 +17,7 @@ export const modalityController = {
             const modality = await ModalityService.getModalityById(modalityId);
             res.json(modality);
         } catch (error: any) {
-            res.status(500).json({ error: 'Erro interno do servidor.', details: error.message });
+            res.status(500).json({ error: 'Erro interno do servidor.', details: JSON.stringify(error) });
         };
     },
 
@@ -25,9 +25,9 @@ export const modalityController = {
         const modalityData = req.body;
         try {
             const newModality = await ModalityService.createModality(modalityData);
-            res.status(201).json(newModality);
+            res.status(201).json({ newModality, msg: 'Modalidade criada.' });
         } catch (error: any) {
-            res.status(500).json({ error: 'Erro interno do servidor.', details: error.message });
+            res.status(500).json({ error: 'Erro interno do servidor.', details: JSON.stringify(error) });
         };
     },
 
@@ -36,9 +36,9 @@ export const modalityController = {
         const modalityData = req.body;
         try {
             const updatedModality = await ModalityService.updateModality(modalityId, modalityData);
-            res.json(updatedModality);
+            res.json({ updatedModality, msg: 'Modalidade atualizada.' });
         } catch (error: any) {
-            res.status(500).json({ error: 'Erro interno do servidor.', details: error.message });
+            res.status(500).json({ error: 'Erro interno do servidor.', details: JSON.stringify(error) });
         };
     },
 
@@ -46,9 +46,9 @@ export const modalityController = {
         const modalityId = Number(req.params.id);
         try {
             await ModalityService.deleteModality(modalityId);
-            res.status(204).end();
+            res.status(200).json({ msg: 'Modalidade deletada.' }).end();
         } catch (error: any) {
-            res.status(500).json({ error: 'Erro interno do servidor.', details: error.message });
+            res.status(500).json({ error: 'Erro interno do servidor.', details: JSON.stringify(error) });
         };
     },
 };

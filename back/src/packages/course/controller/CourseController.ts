@@ -7,7 +7,7 @@ export const courseController = {
             const courses = await CourseService.getAllCourses();
             res.json(courses);
         } catch (error: any) {
-            res.status(500).json({ error: 'Erro interno do servidor', details: error.message });
+            res.status(500).json({ error: 'Erro interno do servidor', details: JSON.stringify(error) });
         };
     },
 
@@ -17,7 +17,7 @@ export const courseController = {
             const course = await CourseService.getCourseById(courseId);
             res.json(course);
         } catch (error: any) {
-            res.status(500).json({ error: 'Erro interno do servidor.', details: error.message });
+            res.status(500).json({ error: 'Erro interno do servidor.', details: JSON.stringify(error) });
         };
     },
 
@@ -25,9 +25,9 @@ export const courseController = {
         const courseData = req.body;
         try {
             const newCourse = await CourseService.createCourse(courseData);
-            res.status(201).json(newCourse);
+            res.status(201).json({ newCourse, msg: 'Curso criado.' });
         } catch (error: any) {
-            res.status(500).json({ error: 'Erro interno do servidor.', details: error.message });
+            res.status(500).json({ error: 'Erro interno do servidor.', details: JSON.stringify(error) });
         };
     },
 
@@ -36,9 +36,9 @@ export const courseController = {
         const courseData = req.body;
         try {
             const updatedCourse = await CourseService.updateCourse(courseId, courseData);
-            res.json(updatedCourse);
+            res.json({ updatedCourse, msg: 'Curso atualizado.' });
         } catch (error: any) {
-            res.status(500).json({ error: 'Erro interno do servidor.', details: error.message });
+            res.status(500).json({ error: 'Erro interno do servidor.', details: JSON.stringify(error) });
         };
     },
 
@@ -46,9 +46,9 @@ export const courseController = {
         const courseId = Number(req.params.id);
         try {
             await CourseService.deleteCourse(courseId);
-            res.status(204).end();
+            res.status(200).json({ msg: 'Curso deletado' }).end();
         } catch (error: any) {
-            res.status(500).json({ error: 'Erro interno do servidor.', details: error.message });
+            res.status(500).json({ error: 'Erro interno do servidor.', details: JSON.stringify(error) });
         };
     },
 };
