@@ -4,8 +4,9 @@ const router = express.Router();
 //COURSES
 import modalityRouter from '../packages/course/routes/ModalityRouter';
 import courseRouter from '../packages/course/routes/CourseRouter';
-//CRM
 
+//GRADUATES
+import graduateRouter from '../packages/users/routes/GraduateRouter';
 
 //GED
 
@@ -13,6 +14,8 @@ import courseRouter from '../packages/course/routes/CourseRouter';
 //COURSES
 router.use('/modalities', modalityRouter);
 router.use('/courses', courseRouter);
+router.use('/graduates', graduateRouter);
+
 //CRM
 
 
