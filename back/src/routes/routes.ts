@@ -8,17 +8,17 @@ import courseRouter from '../packages/course/routes/CourseRouter';
 //GRADUATES
 import graduateRouter from '../packages/users/routes/GraduateRouter';
 
-//GED
-
+//POSITIONS
+import employmentTypeRouter from '../packages/position/routes/EmploymentTypeRoute';
 
 //COURSES
 router.use('/modalities', modalityRouter);
 router.use('/courses', courseRouter);
+
+//GRADUATES
 router.use('/graduates', graduateRouter);
 
-//CRM
-
-
-//GED
+//POSITIONS
+router.use('/employmentTypes', employmentTypeRouter);
 
 export default router;
