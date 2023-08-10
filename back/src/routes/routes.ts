@@ -1,8 +1,8 @@
 import express from 'express';
 const router = express.Router();
 
-//USERS
-
+//MODALITY
+import modalityRouter from '../packages/modality/routes/modalityRouter';
 
 //CRM
 
@@ -10,8 +10,8 @@ const router = express.Router();
 //GED
 
 
-//USERS
-
+//MODALITY
+router.use('/modalities', modalityRouter);
 
 //CRM
 
