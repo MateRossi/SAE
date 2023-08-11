@@ -10,6 +10,7 @@ import graduateRouter from '../packages/users/routes/GraduateRouter';
 
 //POSITIONS
 import employmentTypeRouter from '../packages/position/routes/EmploymentTypeRoute';
+import positionRouter from '../packages/position/routes/PositionRouter';
 
 //COURSES
 router.use('/modalities', modalityRouter);
@@ -20,5 +21,7 @@ router.use('/graduates', graduateRouter);
 
 //POSITIONS
 router.use('/employmentTypes', employmentTypeRouter);
+router.use('/positions', positionRouter);
+
 
 export default router;

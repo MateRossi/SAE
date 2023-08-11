@@ -1,6 +1,16 @@
 import { CourseService } from "../service/CourseService";
 import { Request, Response } from 'express';
 
+//HERE
+function errorDetails (error: any) {
+    const details = {
+        name: error.name,
+        message: error.message,
+        stack: error.stack,
+    }
+    return details;
+}
+
 export const courseController = {
     async getAllCourses(req: Request, res: Response) {
         try {
@@ -27,7 +37,8 @@ export const courseController = {
             const newCourse = await CourseService.createCourse(courseData);
             res.status(201).json({ newCourse, msg: 'Curso criado.' });
         } catch (error: any) {
-            res.status(500).json({ error: 'Erro interno do servidor.', details: JSON.stringify(error) });
+            //HERE
+            res.status(500).json({ error: 'Erro interno do servidor.', details: JSON.stringify(errorDetails(error)) });
         };
     },
 
@@ -48,7 +59,8 @@ export const courseController = {
             await CourseService.deleteCourse(courseId);
             res.status(200).json({ msg: 'Curso deletado' }).end();
         } catch (error: any) {
-            res.status(500).json({ error: 'Erro interno do servidor.', details: JSON.stringify(error) });
+            //HERE
+            res.status(500).json({ error: 'Erro interno do servidor.', details: JSON.stringify(errorDetails(error)) });
         };
     },
 };
