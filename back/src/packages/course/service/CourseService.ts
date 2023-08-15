@@ -1,5 +1,6 @@
 import Course from "../model/Course";
 import { ModalityService } from "./ModalityService";
+import { NotFoundError } from "../../utilities/Error/NotFoundError";
 
 export class CourseService {
     static async getAllCourses() {
@@ -33,7 +34,7 @@ export class CourseService {
     static async isExistent(id: number) {
         const course = await Course.findByPk(id);
         if (!course) {
-            throw new Error('Curso não encontrado.');
+            throw new NotFoundError('Curso não encontrado.');
         };
         return course;
     };

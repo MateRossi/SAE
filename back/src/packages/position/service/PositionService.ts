@@ -1,5 +1,6 @@
 import Position from "../model/Position";
 import { EmploymentTypeService } from "./EmploymentTypeService";
+import { NotFoundError } from "../../utilities/Error/NotFoundError";
 
 export class PositionService {
     static async getAllPositions() {
@@ -33,7 +34,7 @@ export class PositionService {
     static async isExistent(id: number) {
         const position = await Position.findByPk(id);
         if (!position) {
-            throw new Error('Cargo não encontrado.');
+            throw new NotFoundError('Cargo não encontrado.');
         };
         return position;
     };

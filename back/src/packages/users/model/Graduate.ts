@@ -30,7 +30,6 @@ Graduate.init(
         password: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
         },
         courseId: {
             type: DataTypes.INTEGER,

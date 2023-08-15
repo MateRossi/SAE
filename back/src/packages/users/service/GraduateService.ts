@@ -1,5 +1,6 @@
 import Graduate from "../model/Graduate";
 import { CourseService }  from "../../course/service/CourseService";
+import { NotFoundError } from "../../utilities/Error/NotFoundError"; 
 
 export class GraduateService {
     static async getAllGraduates() {
@@ -33,7 +34,7 @@ export class GraduateService {
     static async isExistent(id: number) {
         const graduate = await Graduate.findByPk(id);
         if (!graduate) {
-            throw new Error('Egresso não encontrado.');
+            throw new NotFoundError('Egresso não encontrado.');
         };
         return graduate;
     };

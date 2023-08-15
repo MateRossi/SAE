@@ -1,4 +1,5 @@
 import EmploymentType from "../model/EmploymentType";
+import { NotFoundError } from "../../utilities/Error/NotFoundError";
 
 export class EmploymentTypeService {
     static async getAllEmploymentTypes() {
@@ -30,7 +31,7 @@ export class EmploymentTypeService {
     static async isExistent(id: number) {
         const employmentType = await EmploymentType.findByPk(id);
         if (!employmentType) {
-            throw new Error('Tipo de vínculo empregatício não encontrado.');
+            throw new NotFoundError('Tipo de vínculo empregatício não encontrado.');
         };
         return employmentType;
     };

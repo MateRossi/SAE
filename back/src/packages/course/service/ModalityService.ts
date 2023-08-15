@@ -1,4 +1,5 @@
 import Modality from "../model/Modality";
+import { NotFoundError } from "../../utilities/Error/NotFoundError";
 
 export class ModalityService {
     static async getAllModalities() {
@@ -30,7 +31,7 @@ export class ModalityService {
     static async isExistent(id: number) {
         const modality = await Modality.findByPk(id);
         if (!modality) {
-            throw new Error('Modalidade não encontrada.');
+            throw new NotFoundError('Modalidade não encontrada.');
         };
         return modality;
     };
