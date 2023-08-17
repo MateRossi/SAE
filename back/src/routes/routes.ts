@@ -15,6 +15,11 @@ import positionRouter from '../packages/position/routes/PositionRouter';
 //COMPANIES
 import companyRouter from '../packages/company/routes/CompanyRouter';
 
+//EDUCATION
+import degreeLevelRouter from '../packages/education/routes/DegreeLevelRouter';
+
+//###################################### - - #############
+
 //COURSES
 router.use('/modalities', modalityRouter);
 router.use('/courses', courseRouter);
@@ -28,5 +33,8 @@ router.use('/positions', positionRouter);
 
 //COMPANIES
 router.use('/companies', companyRouter);
+
+//EDUCATION
+router.use('/degreeLevels', degreeLevelRouter);
 
 export default router;
