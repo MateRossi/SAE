@@ -12,6 +12,9 @@ import graduateRouter from '../packages/users/routes/GraduateRouter';
 import employmentTypeRouter from '../packages/position/routes/EmploymentTypeRoute';
 import positionRouter from '../packages/position/routes/PositionRouter';
 
+//COMPANIES
+import companyRouter from '../packages/company/routes/CompanyRouter';
+
 //COURSES
 router.use('/modalities', modalityRouter);
 router.use('/courses', courseRouter);
@@ -23,5 +26,7 @@ router.use('/graduates', graduateRouter);
 router.use('/employmentTypes', employmentTypeRouter);
 router.use('/positions', positionRouter);
 
+//COMPANIES
+router.use('/companies', companyRouter);
 
 export default router;
