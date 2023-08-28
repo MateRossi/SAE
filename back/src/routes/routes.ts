@@ -17,6 +17,7 @@ import companyRouter from '../packages/company/routes/CompanyRouter';
 
 //EDUCATION
 import degreeLevelRouter from '../packages/education/routes/DegreeLevelRouter';
+import externalCourseRouter from '../packages/education/routes/ExternalCourseRouter';
 
 //###################################### - - #############
 
@@ -36,5 +37,6 @@ router.use('/companies', companyRouter);
 
 //EDUCATION
 router.use('/degreeLevels', degreeLevelRouter);
+router.use('/externalCourses', externalCourseRouter);
 
 export default router;
