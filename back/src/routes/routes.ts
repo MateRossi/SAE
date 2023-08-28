@@ -19,6 +19,9 @@ import companyRouter from '../packages/company/routes/CompanyRouter';
 import degreeLevelRouter from '../packages/education/routes/DegreeLevelRouter';
 import externalCourseRouter from '../packages/education/routes/ExternalCourseRouter';
 
+//SURVEYS
+import surveyRouter from '../packages/survey/routes/SurveyRouter';
+
 //###################################### - - #############
 
 //COURSES
@@ -38,5 +41,8 @@ router.use('/companies', companyRouter);
 //EDUCATION
 router.use('/degreeLevels', degreeLevelRouter);
 router.use('/externalCourses', externalCourseRouter);
+
+//SURVEYS
+router.use('/surveys', surveyRouter);
 
 export default router;
