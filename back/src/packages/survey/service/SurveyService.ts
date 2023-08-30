@@ -1,4 +1,6 @@
 import Survey from "../model/Survey";
+import situations from "../../utilities/labelMapping/situation";
+
 import { PositionService } from "../../position/service/PositionService";
 import { ExternalCourseService } from "../../education/service/ExternalCourseService";
 import { DegreeLevelService } from "../../education/service/DegreeLevelService";
@@ -16,6 +18,10 @@ export class SurveyService {
     };
 
     static async createSurvey(surveyData: Survey) {
+        if(!this.validateSituation(surveyData)) {
+            throw new Error("Verifique se os campos " + this.validateSituation(surveyData).missingFields + "foram preenchidos corretamente.");
+        };
+        
         const {
             situation,
             courseRelationshipLevel,
@@ -43,6 +49,7 @@ export class SurveyService {
     };
 
     static async updateSurvey(id: number, updatedData: Survey) {
+        this.validateSituation(updatedData);
         const survey = await this.isExistent(id);
         const {
             situation,
@@ -88,18 +95,12 @@ export class SurveyService {
     static validateSituation(data: Survey) {
         const { situation } = data;
     
-        const validationRequirements = {
-            'trabalhando e estudando': ['courseRelationshipLevel', 'educationRequirement', 'worksInArea', 'positionId', 'externalCourseId', 'companyId'],
-            'apenas trabalhando': ['educationRequirement', 'worksInArea', 'positionId', 'companyId'],
-            'apenas estudando': ['courseRelationshipLevel', 'externalCourseId'],
-        };
-    
-        const requiredFields = validationRequirements[situation] || [];
-        const missingFields = requiredFields.filter(field => data[field] == null);
+        const requiredFields = situations[situation] || [];
+        const missingFields = requiredFields.filter(field => data[field as keyof Survey] == null);
     
         return {
             isValid: missingFields.length === 0,
             missingFields: missingFields,
         };
-    }
+    };
 };
