@@ -47,6 +47,7 @@ Survey.init(
         },
         degreeLevelId: {
             type: DataTypes.INTEGER,
+            allowNull: false,
         },
         companyId: {
             type: DataTypes.INTEGER,

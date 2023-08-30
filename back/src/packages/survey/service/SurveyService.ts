@@ -85,4 +85,21 @@ export class SurveyService {
     };
 
     //verificar elementos com base na resposta de "situação atual". Possívelmente, verificar na controller.
+    static validateSituation(data: Survey) {
+        const { situation } = data;
+    
+        const validationRequirements = {
+            'trabalhando e estudando': ['courseRelationshipLevel', 'educationRequirement', 'worksInArea', 'positionId', 'externalCourseId', 'companyId'],
+            'apenas trabalhando': ['educationRequirement', 'worksInArea', 'positionId', 'companyId'],
+            'apenas estudando': ['courseRelationshipLevel', 'externalCourseId'],
+        };
+    
+        const requiredFields = validationRequirements[situation] || [];
+        const missingFields = requiredFields.filter(field => data[field] == null);
+    
+        return {
+            isValid: missingFields.length === 0,
+            missingFields: missingFields,
+        };
+    }
 };
