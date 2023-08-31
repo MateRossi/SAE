@@ -1,5 +1,4 @@
 import Survey from "../model/Survey";
-import situations from "../../utilities/labelMapping/situation";
 
 import { PositionService } from "../../position/service/PositionService";
 import { ExternalCourseService } from "../../education/service/ExternalCourseService";
@@ -17,11 +16,7 @@ export class SurveyService {
         return survey;
     };
 
-    static async createSurvey(surveyData: Survey) {
-        if(!this.validateSituation(surveyData)) {
-            throw new Error("Verifique se os campos " + this.validateSituation(surveyData).missingFields + "foram preenchidos corretamente.");
-        };
-        
+    static async createSurvey(surveyData: Survey) {       
         const {
             situation,
             courseRelationshipLevel,
@@ -32,10 +27,7 @@ export class SurveyService {
             degreeLevelId,
             companyId,
         } = surveyData;
-        await PositionService.isExistent(positionId);
-        await ExternalCourseService.isExistent(externalCourseId);
-        await DegreeLevelService.isExistent(degreeLevelId);
-        await CompanyService.isExistent(companyId);
+        await this.validateIdNotEmpty(positionId, externalCourseId, degreeLevelId, companyId);
         return Survey.create({
             situation,
             courseRelationshipLevel,
@@ -49,7 +41,6 @@ export class SurveyService {
     };
 
     static async updateSurvey(id: number, updatedData: Survey) {
-        this.validateSituation(updatedData);
         const survey = await this.isExistent(id);
         const {
             situation,
@@ -61,10 +52,7 @@ export class SurveyService {
             degreeLevelId,
             companyId,
         } = updatedData;
-        await PositionService.isExistent(positionId);
-        await ExternalCourseService.isExistent(externalCourseId);
-        await DegreeLevelService.isExistent(degreeLevelId);
-        await CompanyService.isExistent(companyId);
+        await this.validateIdNotEmpty(positionId, externalCourseId, degreeLevelId, companyId);
         return survey.update({
             situation,
             courseRelationshipLevel,
@@ -91,16 +79,21 @@ export class SurveyService {
         return survey;
     };
 
-    //verificar elementos com base na resposta de "situação atual". Possívelmente, verificar na controller.
-    static validateSituation(data: Survey) {
-        const { situation } = data;
-    
-        const requiredFields = situations[situation] || [];
-        const missingFields = requiredFields.filter(field => data[field as keyof Survey] == null);
-    
-        return {
-            isValid: missingFields.length === 0,
-            missingFields: missingFields,
+    //validar para quando os campos não obrigatórios da pesquisa são não-nulos.
+    //se uma pessoa enviar algum valor no ID de empresa, verificar se essa empresa existe e assim por diante.
+
+    private static async validateIdNotEmpty(positionId: number, externalCourseId: number, degreeLevelId: number, companyId: number) {
+        if (positionId) {
+            await PositionService.isExistent(positionId);
+        };
+        if (externalCourseId) {
+            await ExternalCourseService.isExistent(externalCourseId);
+        };
+        if (degreeLevelId) {
+            await DegreeLevelService.isExistent(degreeLevelId);
+        };
+        if (companyId) {
+            await CompanyService.isExistent(companyId);
         };
     };
 };
