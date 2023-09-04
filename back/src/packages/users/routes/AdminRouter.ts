@@ -4,7 +4,7 @@ import authenticateToken from '../middleware/AdminMiddleware';
 
 const adminRouter = express.Router();
 
-adminRouter.get('/', authenticateToken, adminController.getAllAdmins);
+adminRouter.get('/', authenticateToken('admin'), adminController.getAllAdmins);
 adminRouter.get('/:id', authenticateToken, adminController.getAdminById);
 adminRouter.post('/', authenticateToken, adminController.createAdmin);
 adminRouter.put('/:id', authenticateToken, adminController.updateAdmin);
