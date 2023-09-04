@@ -1,5 +1,8 @@
 import Admin from "../model/Admin";
 import { NotFoundError } from "../../utilities/Error/NotFoundError"; 
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { environment } from "../../../env/env.local";
 
 export class AdminService {
     static async getAllAdmins() {
@@ -26,6 +29,25 @@ export class AdminService {
         const admin = await this.isExistent(id);
         await admin.destroy();
     };
+
+    static async loginAdmin(login: string, password: string) {
+        const admin = await Admin.findOne({ where: { login } });
+        console.log('User' + admin)
+        
+        if (!admin) {
+            throw new NotFoundError('Usuário não encontrado.');
+        };
+
+        const isPasswordValid = await bcrypt.compare(password, admin.password);
+
+        if (!isPasswordValid) {
+            throw new Error('Senha incorreta.');
+        };
+
+        const token  = jwt.sign({ id: admin.id, login: admin.login }, environment.jwtSecret, {expiresIn: '1h'});
+
+        return { login, token };
+    }
     
     //verifica se o elemento existe. Se existir, retorna o elemento. Se não, retorna um erro.
     static async isExistent(id: number) {
