@@ -39,6 +39,8 @@ export const adminController = {
         try {
             const adminId = Number(req.params.id);
             const adminData = req.body;
+            const hashedPassword = await bcrypt.hash(adminData.password, 10);
+            adminData.password = hashedPassword;
             const updatedAdmin = await AdminService.updateAdmin(adminId, adminData);
             res.json({ updatedAdmin, msg: 'Admin atualizado.' });
         } catch (error) {
