@@ -22,6 +22,9 @@ import externalCourseRouter from '../packages/education/routes/ExternalCourseRou
 //SURVEYS
 import surveyRouter from '../packages/survey/routes/SurveyRouter';
 
+//ADMINS
+import adminRouter from '../packages/users/routes/AdminRouter';
+
 //###################################### - - #############
 
 //COURSES
@@ -44,5 +47,8 @@ router.use('/externalCourses', externalCourseRouter);
 
 //SURVEYS
 router.use('/surveys', surveyRouter);
+
+//ADMINS
+router.use('/admins', adminRouter);
 
 export default router;
