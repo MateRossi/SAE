@@ -1,6 +1,6 @@
 import express from 'express';
 import { sequelize } from './config/database/sequelize';
-import Router from './routes/routes';
+import Router from './routes';
 
 const app = express();
 const port = process.env.PORT || 3000;
