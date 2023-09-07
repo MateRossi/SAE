@@ -11,10 +11,17 @@ function authenticateToken(req: Request, res: Response, next: NextFunction) {
 
     const tokenWithoutBearer = token.replace('Bearer ', '');
 
-    jwt.verify(tokenWithoutBearer, environment.jwtSecret, (err: any, decoded) => {
+    jwt.verify(tokenWithoutBearer, environment.jwtSecret, (err: any, decoded: any) => {
         if (err) {
             return res.status(403).json({ error: 'Token inválido.' });
         };
+
+        const graduateId = decoded.id;
+        const requestedGraduateId = req.params.id;
+
+        if (graduateId != requestedGraduateId) {
+            return res.status(403).json({ message: 'Acesso não autorizado.' });
+        }
         next();
     });
 };

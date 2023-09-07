@@ -9,6 +9,8 @@ class Graduate extends Model {
     public password!: string;
     public courseId!: number;
 
+    public role: string = 'graduate';
+
     //demais dados do egresso.
     
     static associate() {

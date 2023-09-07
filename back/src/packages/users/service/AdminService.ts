@@ -44,7 +44,7 @@ export class AdminService {
             throw new Error('Senha incorreta.');
         };
 
-        const token = jwt.sign({ id: admin.id, login: admin.login, role: 'admin' }, environment.jwtSecret, {expiresIn: '1h'});
+        const token = jwt.sign({ id: admin.id, login: admin.login, role: admin.role }, environment.jwtSecret, {expiresIn: '1h'});
 
         return { login, token };
     }

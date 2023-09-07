@@ -5,7 +5,7 @@ import authenticateToken from '../middleware/GraduateMiddleware';
 
 const graduateRouter = express.Router();
 
-graduateRouter.get('/', authenticateToken, graduateController.getAllGraduates);
+graduateRouter.get('/', graduateController.getAllGraduates);
 graduateRouter.get('/:id', authenticateToken, graduateController.getGraduateById);
 graduateRouter.post('/', graduateController.createGraduate);
 graduateRouter.put('/:id', authenticateToken, graduateController.updateGraduate);

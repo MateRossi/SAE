@@ -47,7 +47,7 @@ export class GraduateService {
             throw new Error('Senha incorreta.');
         };
 
-        const token = jwt.sign({ id: graduate.id, login: graduate.login }, environment.jwtSecret, {expiresIn: '1h'});
+        const token = jwt.sign({ id: graduate.id, login: graduate.login, role: graduate.role }, environment.jwtSecret, {expiresIn: '1h'});
 
         return { login, token };
     };

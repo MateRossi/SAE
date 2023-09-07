@@ -5,6 +5,7 @@ class Admin extends Model {
     public id!: number;
     public login!: string;
     public password!: string;
+    public role: string = 'admin';
 };
 
 Admin.init(
