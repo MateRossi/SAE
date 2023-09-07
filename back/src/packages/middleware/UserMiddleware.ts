@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import { environment } from '../../env/env.local';
 
-function graduateToken(req: Request, res: Response, next: NextFunction) {
+function userToken(req: Request, res: Response, next: NextFunction) {
     const token = req.headers.authorization;
 
     if (!token) {
@@ -15,15 +15,8 @@ function graduateToken(req: Request, res: Response, next: NextFunction) {
         if (err) {
             return res.status(403).json({ error: 'Token inválido.' });
         };
-
-        const graduateId = decoded.id;
-        const requestedGraduateId = req.params.id;
-
-        if (graduateId != requestedGraduateId) {
-            return res.status(403).json({ message: 'Acesso não autorizado.' });
-        }
         next();
     });
 };
 
-export default graduateToken;
+export default userToken;

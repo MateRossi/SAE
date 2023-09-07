@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import { environment } from '../../env/env.local';
 
-function authenticateToken(role: string) {
+function adminToken(role: string) {
     return (req: Request, res: Response, next: NextFunction) => {
         const token = req.headers.authorization;
 
@@ -27,4 +27,4 @@ function authenticateToken(role: string) {
     }
 };
 
-export default authenticateToken;
+export default adminToken;

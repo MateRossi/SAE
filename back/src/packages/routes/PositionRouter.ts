@@ -1,6 +1,6 @@
 import express from 'express';
 import { positionController } from '../controller/PositionController';
-//import auth token
+import userToken from '../middleware/UserMiddleware';
 
 const positionRouter = express.Router();
 
