@@ -4,9 +4,11 @@ import userToken from '../middleware/UserMiddleware';
 
 const positionRouter = express.Router();
 
-positionRouter.get('/', positionController.getAllPositions);
-positionRouter.get('/:id', positionController.getPositionById);
-positionRouter.post('/', positionController.createPosition);
+positionRouter.get('/', userToken, positionController.getAllPositions);
+positionRouter.get('/:id', userToken, positionController.getPositionById);
+positionRouter.post('/', userToken, positionController.createPosition);
+
+//egresso poderá alterar apenas o seu próprio cargo.
 positionRouter.put('/:id', positionController.updatePosition);
 positionRouter.delete('/:id', positionController.deletePosition);
 
