@@ -4,6 +4,7 @@ import { PositionService } from "../service/PositionService";
 import { ExternalCourseService } from "../service/ExternalCourseService";
 import { DegreeLevelService } from "../service/DegreeLevelService";
 import { CompanyService } from "../service/CompanyService";
+import { GraduateService } from "../service/GraduateService";
 import { NotFoundError } from "../utilities/Error/NotFoundError";
 
 export class SurveyService {
@@ -26,7 +27,9 @@ export class SurveyService {
             externalCourseId,
             degreeLevelId,
             companyId,
+            graduateId,
         } = surveyData;
+        await GraduateService.isExistent(graduateId);
         await this.validateIdNotEmpty(positionId, externalCourseId, degreeLevelId, companyId);
         return Survey.create({
             situation,
@@ -37,6 +40,7 @@ export class SurveyService {
             externalCourseId,
             degreeLevelId,
             companyId,
+            graduateId,
         });
     };
 
@@ -51,7 +55,9 @@ export class SurveyService {
             externalCourseId,
             degreeLevelId,
             companyId,
+            graduateId,
         } = updatedData;
+        await GraduateService.isExistent(graduateId);
         await this.validateIdNotEmpty(positionId, externalCourseId, degreeLevelId, companyId);
         return survey.update({
             situation,
@@ -62,6 +68,7 @@ export class SurveyService {
             externalCourseId,
             degreeLevelId,
             companyId,
+            graduateId,
         });
     };
 

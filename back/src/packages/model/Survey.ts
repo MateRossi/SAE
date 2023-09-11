@@ -4,6 +4,7 @@ import Position from "../model/Position";
 import ExternalCourse from "../model/ExternalCourse";
 import DegreeLevel from "../model/DegreeLevel";
 import Company from "../model/Company";
+import Graduate from "./Graduate";
 
 class Survey extends Model {
     public id!: number;
@@ -15,12 +16,14 @@ class Survey extends Model {
     public externalCourseId!: number;
     public degreeLevelId!: number;
     public companyId!: number;
+    public graduateId!: number;
 
     static associate() {
         this.belongsTo(Position, { as: 'surveyPosition', foreignKey: 'positionId' });
         this.belongsTo(ExternalCourse, { as: 'surveyExternalCourse', foreignKey: 'externalCourseId' });
         this.belongsTo(DegreeLevel, { as: 'surveyDegreeLevel', foreignKey: 'degreeLevelId' });
         this.belongsTo(Company, { as: 'surveyCompany', foreignKey: 'companyId' });
+        this.belongsTo(Graduate, { as: 'surveyGraduate', foreignKey: 'graduateId' });
     };
 };
 
@@ -51,6 +54,10 @@ Survey.init(
         },
         companyId: {
             type: DataTypes.INTEGER,
+        },
+        graduateId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
         },
     },
     {
