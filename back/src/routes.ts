@@ -25,6 +25,9 @@ import surveyRouter from './packages/routes/SurveyRouter';
 //ADMINS
 import adminRouter from './packages/routes/AdminRouter';
 
+//ZIPCODE
+import zipCodeRouter from './packages/routes/ZipCodeRouter';
+
 //###################################### - - #############
 
 //COURSES
@@ -50,5 +53,8 @@ router.use('/surveys', surveyRouter);
 
 //ADMINS
 router.use('/admins', adminRouter);
+
+//ZIPCODE
+router.use("/zipCode", zipCodeRouter);
 
 export default router;
