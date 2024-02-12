@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import { Paper, ThemeProvider, Typography, createTheme } from '@mui/material';
 import { ptBR } from '@mui/x-data-grid';
+import SignIn from './pages/SignInPage';
 
 const defaultTheme = createTheme(
   {
@@ -22,9 +23,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Paper>
-        <Typography variant="h2">Colé meu bom.</Typography>
-      </Paper>
+      <SignIn />
     </ThemeProvider>
   )
 }
