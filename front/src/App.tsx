@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './App.css'
-import { Paper, ThemeProvider, Typography, createTheme } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ptBR } from '@mui/x-data-grid';
 import SignIn from './pages/SignInPage';
