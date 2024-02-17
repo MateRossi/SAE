@@ -1,9 +1,14 @@
 import express from 'express';
+import cors from 'cors';
 import { sequelize } from './config/database/sequelize';
 import Router from './routes';
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+app.use(cors({
+    origin: 'http://localhost:5173'
+}));
 
 app.use(express.json());
 
