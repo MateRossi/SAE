@@ -1,11 +1,13 @@
-import Layout from "./Layouts/Layout";
-import GraduateLayout from './Layouts/GraduateLayout';
-import AdminLayout from './Layouts/AdminLayout';
+import Layout from "./layouts/Layout";
+import GraduateLayout from './layouts/GraduateLayout';
+import AdminLayout from './layouts/AdminLayout';
 import LoginPage from './pages/visitants/LoginPage';
+import AdminLogin from './pages/visitants/AdminLogin';
 import RegisterPage from './pages/visitants/RegisterPage';
 import UanuthorizedPage from './pages/visitants/UnauthorizedPage';
+import MissingPage from "./pages/MissingPage";
 
- //graduate pages
+//graduate pages
 import AcademicHistoryPage from './pages/graduates/AcademicHistoryPage';
 import FollowUpPage from './pages/graduates/FollowUpPage';
 import ProfessionalHistoryPage from './pages/graduates/ProfessionalHistoryPage';
@@ -14,7 +16,17 @@ import ReviewPage from './pages/graduates/ReviewPage';
 import SameClassPage from './pages/graduates/SameClassPage';
 import SameCoursePage from './pages/graduates/SameCoursePage';
 
+//admin pages
+import CompaniesPage from './pages/admins/CompaniesPage';
+import ConfirmRegisterPage from './pages/admins/ConfirmRegisterPage';
+import CoursesPage from './pages/admins/CoursesPage';
+import GraduatesPage from './pages/admins/GraduatesPage';
+import ModalitiesPage from './pages/admins/ModalitiesPage';
+import PreRegisterPage from './pages/admins/PreRegisterPage';
+import StatisticsPage from "./pages/admins/StatisticsPage";
+
 import { Routes, Route } from "react-router-dom"
+
 
 function App() {
   return (
@@ -22,6 +34,7 @@ function App() {
       <Route path="/" element={<Layout />}>
         {/*Rotas públicas*/}
         <Route path="login" element={<LoginPage />} />
+        <Route path="adlogin" element={<AdminLogin />} />
         <Route path="unauthorized" element={<UanuthorizedPage />} />
         <Route path="register" element={<RegisterPage />} />
       </Route>
@@ -37,9 +50,18 @@ function App() {
         <Route path="course" element={<SameCoursePage />} />
       </Route>
 
+      {/* Rotas que o admin tem acesso. Colocar várias talbes juntas ao invés de modalidade, etc?*/}
       <Route path="/admin" element={<AdminLayout />}>
-
+        <Route path="companies" element={<CompaniesPage />} />
+        <Route path="confirmRegister" element={<ConfirmRegisterPage />} />
+        <Route path="courses" element={<CoursesPage />} />
+        <Route path="graduates" element={<GraduatesPage />} />
+        <Route path="modalities" element={<ModalitiesPage />} />
+        <Route path="preRegister" element={<PreRegisterPage />} />
+        <Route path="statistics" element={<StatisticsPage />} />
       </Route>
+
+      <Route path='*' element={<MissingPage />} />
     </Routes>
   )
 }

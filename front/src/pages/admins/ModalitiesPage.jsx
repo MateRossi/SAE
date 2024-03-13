@@ -1,4 +1,4 @@
-function Modalities() {
+function ModalitiesPage() {
     return (
         <div>
             Modalidades
@@ -6,4 +6,4 @@ function Modalities() {
     )
 }
 
-export default Modalities;
+export default ModalitiesPage;
