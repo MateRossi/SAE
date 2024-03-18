@@ -16,16 +16,16 @@ export class GraduateService {
     };
 
     static async createGraduate(graduateData: Graduate) {
-        const { name, login, password, courseId } = graduateData;
+        const { name, email, password, graduationYear, courseId } = graduateData;
         await CourseService.isExistent(courseId);
-        return Graduate.create({ name, login, password, courseId });
+        return Graduate.create({ name, email, password, graduationYear, courseId });
     };
 
     static async updateGraduate(id: number, updatedData: Graduate) {
         const graduate = await this.isExistent(id);
-        const { name, login, password, courseId } = updatedData;
+        const { name, email, password, graduationYear, courseId } = updatedData;
         await CourseService.isExistent(courseId);
-        return graduate.update({ name, login, password, courseId });
+        return graduate.update({ name, email, password, graduationYear, courseId });
     };
     
     static async deleteGraduate(id: number) {
@@ -47,7 +47,7 @@ export class GraduateService {
             throw new Error('Senha incorreta.');
         };
 
-        const token = jwt.sign({ id: graduate.id, login: graduate.login, role: graduate.role }, environment.jwtSecret, {expiresIn: '1h'});
+        const token = jwt.sign({ id: graduate.id, login: graduate.email, role: graduate.role }, environment.jwtSecret, {expiresIn: '1h'});
 
         return { login, token };
     };

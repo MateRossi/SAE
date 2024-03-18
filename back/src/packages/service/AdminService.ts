@@ -41,7 +41,7 @@ export class AdminService {
         const isPasswordValid = await bcrypt.compare(password, admin.password);
 
         if (!isPasswordValid) {
-            throw new Error('Senha incorreta.');
+            throw new Error('Senha incorreta ou nome de usuário incorretos.');
         };
 
         const token = jwt.sign({ id: admin.id, login: admin.login, role: admin.role }, environment.jwtSecret, {expiresIn: '1h'});

@@ -1,30 +1,44 @@
 import { Model, DataTypes } from "sequelize";
 import { sequelize } from "../../config/database/sequelize";
 import Course from "../model/Course";
+import Review from "./Review";
 
 class Graduate extends Model {
     public id!: number;
+    public enrollment!: string;
     public name!: string;
-    public login!: string;
+    public email!: string;
     public password!: string;
+    public allowEmails!: boolean;
+    public phoneNumber!: string;
+    public tellTrajectory!: boolean;
+    public workedBefore!: boolean;
+    public degreeLevel!: string; 
+    public commentary!: string;
+
+    public graduationYear!: number;
     public courseId!: number;
-
+    public reviewId!: number;
+    
     public role: string = 'graduate';
-
-    //demais dados do egresso.
     
     static associate() {
         this.belongsTo(Course, { as: "courseGraduate", foreignKey: 'courseId' });
+        this.hasOne(Review, { as: "reviewGraduate", foreignKey: 'graduateId' });
     };
 };
 
 Graduate.init(
     {
+        enrollment: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
         name: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        login: {
+        email: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
@@ -32,6 +46,45 @@ Graduate.init(
         password: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        allowEmails: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: true,
+        },
+        phoneNumber: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        tellTrajectory: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+        },
+        workedBefore: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true, 
+        },
+        degreeLevel: {
+            type: DataTypes.ENUM(
+                'Técnico Completo', 
+                'Superior Completo',
+                'Pós graduação lato sensu incompleta',
+                'Pós graduação lato sensu completa',
+                'Pós graduação stricto sensu incompleta',
+                'Pós graduação stricto sensu completa',
+                'Não sabe / prefere não opinar', 
+            ),
+            allowNull: true,
+        },
+        commentary: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        graduationYear: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            validate: {
+                is: /19[5-9][0-9]|2[0-9]{3}/,
+            }
         },
         courseId: {
             type: DataTypes.INTEGER,
