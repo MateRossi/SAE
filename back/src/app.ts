@@ -1,11 +1,14 @@
 import express from 'express';
 import { sequelize } from './config/database/sequelize';
 import Router from './routes';
+import associateModels from './packages/middleware/associations';
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+
+associateModels();
 
 app.use(Router);
 (async () => {

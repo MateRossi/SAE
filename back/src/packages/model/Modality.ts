@@ -7,7 +7,7 @@ class Modality extends Model {
     public description!: string;
 
     static associate() {
-        this.hasMany(Course, {as: 'coursesModality', foreignKey: 'modalityId' });
+        this.hasMany(Course, {as: 'courses', foreignKey: 'modalityId' });
     };
 };
 

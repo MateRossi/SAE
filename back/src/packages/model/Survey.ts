@@ -10,7 +10,7 @@ class Survey extends Model {
     //atributos do trabalho
     public positionName!: string;
     public employmentType!: string;
-    public worksInArea!: string;
+    public worksInArea!: boolean;
     public positionEducationRequirement!: number;
 
     //atributos do curso externo
@@ -21,7 +21,7 @@ class Survey extends Model {
     public companyId!: number;
     public graduateId!: number;
 
-    static validatePosition(value: string, situation: string) {
+    static validatePosition(value: string|boolean, situation: string) {
         if ((situation === 'Trabalhando' || situation === 'Trabalhando e estudando') && !value) {
             throw new Error('Se você está trabalhando, por favor preencha as informações referentes ao cargo!');
         };
@@ -53,8 +53,8 @@ Survey.init(
         positionName: {
             type: DataTypes.STRING,
             validate: {
-                validatePositionName(value: string) {
-                    Survey.validatePosition(value, this.situation);
+                validatePositionName(value: string, situation: string) {
+                    Survey.validatePosition(value, situation);
                 }   
             },
             allowNull: true,
@@ -70,8 +70,8 @@ Survey.init(
                 'Outros',
             ),
             validate: {
-                validateEmploymentType(value: string) {
-                    Survey.validatePosition(value, this.situation);
+                validateEmploymentType(value: string, situation: string) {
+                    Survey.validatePosition(value, situation);
                 }   
             },
             allowNull: true,
@@ -79,8 +79,8 @@ Survey.init(
         worksInArea: {
             type: DataTypes.BOOLEAN,
             validate: {
-                validateWorksInArea(value: string) {
-                    Survey.validatePosition(value, this.situation);
+                validateWorksInArea(value: boolean, situation: string) {
+                    Survey.validatePosition(value, situation);
                 }   
             },
             allowNull: true,
@@ -88,8 +88,8 @@ Survey.init(
         positionEducationRequirement: {
             type: DataTypes.INTEGER,
             validate: {
-                validatePositionEducationRequirement(value: string) {
-                    Survey.validatePosition(value, this.situation);
+                validatePositionEducationRequirement(value: string, situation: string) {
+                    Survey.validatePosition(value, situation);
                 },
                 min: 1,
                 max: 5,   
@@ -99,8 +99,8 @@ Survey.init(
         externalCourseName: {
             type: DataTypes.STRING,
             validate: {
-                validateExternalCourseName(value: string) {
-                    Survey.validateExternalCourse(value, this.situation);
+                validateExternalCourseName(value: string, situation: string) {
+                    Survey.validateExternalCourse(value, situation);
                 },   
             },
             allowNull: true,
@@ -108,8 +108,8 @@ Survey.init(
         courseRelationLevel: {
             type: DataTypes.INTEGER,
             validate: {
-                validateExternalCourseName(value: string) {
-                    Survey.validateExternalCourse(value, this.situation);
+                validateExternalCourseName(value: string, situation: string) {
+                    Survey.validateExternalCourse(value, situation);
                 },
                 min: 1,
                 max: 5,   
@@ -119,8 +119,8 @@ Survey.init(
         companyId: {
             type: DataTypes.INTEGER,
             validate: {
-                validateCompanyId(value: string) {
-                    Survey.validatePosition(value, this.situation);
+                validateCompanyId(value: string, situation: string) {
+                    Survey.validatePosition(value, situation);
                 }   
             },
             allowNull: true,

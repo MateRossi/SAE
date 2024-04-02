@@ -30,6 +30,7 @@ class Graduate extends Model {
 
 Graduate.init(
     {
+        //matricula
         enrollment: {
             type: DataTypes.STRING,
             allowNull: true,

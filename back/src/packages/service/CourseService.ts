@@ -1,10 +1,16 @@
 import Course from "../model/Course";
-import { ModalityService } from "./ModalityService";
 import { NotFoundError } from "../utilities/Error/NotFoundError";
+import Modality from "../model/Modality";
 
 export class CourseService {
     static async getAllCourses() {
-        return Course.findAll();
+        return Course.findAll({ 
+            include: [{ 
+                model: Modality, 
+                as: 'modality',
+                attributes: ['description'], 
+            }],
+        });
     };
 
     static async getCourseById(id: number) {
@@ -14,14 +20,20 @@ export class CourseService {
 
     static async createCourse(courseData: Course) {
         const { name, acronym, modalityId } = courseData;
-        await ModalityService.isExistent(modalityId);
+        const modality = await Modality.findByPk(modalityId);
+        if (!modality) {
+            throw new NotFoundError('Não foi possível adicionar este curso. Modalidade inválida');
+        }
         return Course.create({ name, acronym, modalityId });
     };
 
     static async updateCourse(id: number, updatedData: Course) {
         const course = await this.isExistent(id);
         const { name, acronym, modalityId } = updatedData;
-        await ModalityService.isExistent(modalityId);
+        const modality = await Modality.findByPk(modalityId);
+        if (!modality) {
+            throw new NotFoundError('Não foi possível alterar este curso. Modalidade inválida');
+        }
         return course.update({ name, acronym, modalityId });
     };
     
@@ -32,7 +44,14 @@ export class CourseService {
     
     //verifica se o elemento existe. Se existir, retorna o elemento. Se não, retorna um erro.
     static async isExistent(id: number) {
-        const course = await Course.findByPk(id);
+        const course = await Course.findOne({ 
+            where: {id},
+            include: [{ 
+                model: Modality, 
+                as: 'modality',
+                attributes: ['description'] 
+            }]
+        });
         if (!course) {
             throw new NotFoundError('Curso não encontrado.');
         };

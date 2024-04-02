@@ -103,8 +103,8 @@ Review.init(
     },
     {
         sequelize,
-        modelName: 'Course',
-        tableName: 'course',
+        modelName: 'Review',
+        tableName: 'review',
     },
 );
 

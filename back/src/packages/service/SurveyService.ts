@@ -1,10 +1,6 @@
 import Survey from "../model/Survey";
-
-import { PositionService } from "../service/PositionService";
-import { ExternalCourseService } from "../service/ExternalCourseService";
-import { DegreeLevelService } from "../service/DegreeLevelService";
-import { CompanyService } from "../service/CompanyService";
 import { GraduateService } from "../service/GraduateService";
+import { CompanyService } from "./CompanyService";
 import { NotFoundError } from "../utilities/Error/NotFoundError";
 
 export class SurveyService {
@@ -20,25 +16,25 @@ export class SurveyService {
     static async createSurvey(surveyData: Survey) {       
         const {
             situation,
-            courseRelationshipLevel,
-            educationRequirement,
+            positionName,
+            employmentType,
             worksInArea,
-            positionId,
-            externalCourseId,
-            degreeLevelId,
+            positionEducationRequirement,
+            externalCourseName,
+            courseRelationLevel,
             companyId,
             graduateId,
         } = surveyData;
         await GraduateService.isExistent(graduateId);
-        await this.validateIdNotEmpty(positionId, externalCourseId, degreeLevelId, companyId);
+        await CompanyService.isExistent(companyId);
         return Survey.create({
             situation,
-            courseRelationshipLevel,
-            educationRequirement,
+            positionName,
+            employmentType,
             worksInArea,
-            positionId,
-            externalCourseId,
-            degreeLevelId,
+            positionEducationRequirement,
+            externalCourseName,
+            courseRelationLevel,
             companyId,
             graduateId,
         });
@@ -48,25 +44,25 @@ export class SurveyService {
         const survey = await this.isExistent(id);
         const {
             situation,
-            courseRelationshipLevel,
-            educationRequirement,
+            positionName,
+            employmentType,
             worksInArea,
-            positionId,
-            externalCourseId,
-            degreeLevelId,
+            positionEducationRequirement,
+            externalCourseName,
+            courseRelationLevel,
             companyId,
             graduateId,
         } = updatedData;
         await GraduateService.isExistent(graduateId);
-        await this.validateIdNotEmpty(positionId, externalCourseId, degreeLevelId, companyId);
+        await CompanyService.isExistent(companyId);
         return survey.update({
             situation,
-            courseRelationshipLevel,
-            educationRequirement,
+            positionName,
+            employmentType,
             worksInArea,
-            positionId,
-            externalCourseId,
-            degreeLevelId,
+            positionEducationRequirement,
+            externalCourseName,
+            courseRelationLevel,
             companyId,
             graduateId,
         });
@@ -84,23 +80,5 @@ export class SurveyService {
             throw new NotFoundError('Pesquisa não encontrada.');
         };
         return survey;
-    };
-
-    //validar para quando os campos não obrigatórios da pesquisa são não-nulos.
-    //se uma pessoa enviar algum valor no ID de empresa, verificar se essa empresa existe e assim por diante.
-
-    private static async validateIdNotEmpty(positionId: number, externalCourseId: number, degreeLevelId: number, companyId: number) {
-        if (positionId) {
-            await PositionService.isExistent(positionId);
-        };
-        if (externalCourseId) {
-            await ExternalCourseService.isExistent(externalCourseId);
-        };
-        if (degreeLevelId) {
-            await DegreeLevelService.isExistent(degreeLevelId);
-        };
-        if (companyId) {
-            await CompanyService.isExistent(companyId);
-        };
     };
 };

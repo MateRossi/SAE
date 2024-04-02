@@ -7,8 +7,8 @@ const companyRouter = express.Router();
 
 companyRouter.get('/', userToken, companyController.getAllCompanies);
 companyRouter.get('/:id', userToken, companyController.getCompanyById);
-companyRouter.post('/', userToken, companyController.createCompany);
-companyRouter.put('/:id', adminToken('admin'), companyController.updateCompany);
-companyRouter.delete('/:id', adminToken('admin'), companyController.deleteCompany);
+companyRouter.post('/', companyController.createCompany);
+companyRouter.put('/:id', companyController.updateCompany);
+companyRouter.delete('/:id', companyController.deleteCompany);
 
 export default companyRouter;

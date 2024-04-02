@@ -26,7 +26,7 @@ export const surveyController = {
         try {
             const surveyData = req.body;
             const newSurvey = await SurveyService.createSurvey(surveyData);
-            res.status(201).json({ newSurvey, msg: 'Pesquisa criada.' });
+            res.status(201).json({ newSurvey, msg: 'A pesquisa foi salva.' });
         } catch (error: any) {
             ErrorResponse.handleErrorResponse(error, res);
         };
@@ -37,7 +37,7 @@ export const surveyController = {
             const surveyId = Number(req.params.id);
             const surveyData = req.body;
             const updatedSurvey = await SurveyService.updateSurvey(surveyId, surveyData);
-            res.json({ updatedSurvey, msg: 'Pesquisa atualizada.' });
+            res.json({ updatedSurvey, msg: 'A pesquisa foi atualizada.' });
         } catch (error: any) {
             ErrorResponse.handleErrorResponse(error, res);
         };
@@ -47,7 +47,7 @@ export const surveyController = {
         try {
             const surveyId = Number(req.params.id);
             await SurveyService.deleteSurvey(surveyId);
-            res.status(200).json({ msg: 'Pesquisa deletada.' }).end();
+            res.status(200).json({ msg: 'A pesquisa foi deletada.' }).end();
         } catch (error: any) {
             ErrorResponse.handleErrorResponse(error, res);
         };

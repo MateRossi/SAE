@@ -1,9 +1,16 @@
+import Course from "../model/Course";
 import Modality from "../model/Modality";
 import { NotFoundError } from "../utilities/Error/NotFoundError";
 
 export class ModalityService {
     static async getAllModalities() {
-        return Modality.findAll();
+        return Modality.findAll({ 
+            include: [{ 
+                model: Course, 
+                as: 'courses',
+                attributes: ['id', 'name', 'acronym'],
+            }]
+        });
     };
 
     static async getModalityById(id: number) {
@@ -29,7 +36,14 @@ export class ModalityService {
     
     //verifica se o elemento existe. Se existir, retorna o elemento. Se não, retorna um erro.
     static async isExistent(id: number) {
-        const modality = await Modality.findByPk(id);
+        const modality = await Modality.findOne({ 
+            where: {id},
+            include: [{ 
+                model: Course, 
+                as: 'courses',
+                attributes: ['id', 'name', 'acronym'],
+            }]
+        });
         if (!modality) {
             throw new NotFoundError('Modalidade não encontrada.');
         };

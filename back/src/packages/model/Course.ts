@@ -9,7 +9,7 @@ class Course extends Model {
     public modalityId!: number;
 
     static associate() {
-        this.belongsTo(Modality, { as: 'courseModality', foreignKey: 'modalityId' });
+        this.belongsTo(Modality, { as: 'modality', foreignKey: {allowNull: false} });
     };
 };
 
@@ -24,10 +24,6 @@ Course.init(
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
-        },
-        modalityId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
         },
     },
     {
