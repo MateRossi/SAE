@@ -15,16 +15,16 @@ class Graduate extends Model {
     public workedBefore!: boolean;
     public degreeLevel!: string; 
     public commentary!: string;
-
     public graduationYear!: number;
+    
     public courseId!: number;
     public reviewId!: number;
     
     public role: string = 'graduate';
     
     static associate() {
-        this.belongsTo(Course, { as: "courseGraduate", foreignKey: 'courseId' });
-        this.hasOne(Review, { as: "reviewGraduate", foreignKey: 'graduateId' });
+        this.belongsTo(Course, { as: "course", foreignKey: {allowNull: false} });
+        this.hasOne(Review, { as: "review", foreignKey: 'graduateId' });
     };
 };
 
@@ -86,10 +86,6 @@ Graduate.init(
             validate: {
                 is: /19[5-9][0-9]|2[0-9]{3}/,
             }
-        },
-        courseId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
         },
     },
     {

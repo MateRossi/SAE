@@ -51,6 +51,9 @@ export class AdminService {
     
     //verifica se o elemento existe. Se existir, retorna o elemento. Se não, retorna um erro.
     static async isExistent(id: number) {
+        if (!id) {
+            throw new Error('Identificador inválido');
+        }
         const admin = await Admin.findByPk(id);
         if (!admin) {
             throw new NotFoundError('Admin não encontrado.');

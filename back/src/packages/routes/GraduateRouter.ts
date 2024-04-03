@@ -8,7 +8,7 @@ const graduateRouter = express.Router();
 //ALTERAR PARA QUE O ADMIN TAMBÉM POSSA ALTERAR, OBTER E DELETAR.
 
 graduateRouter.get('/', graduateController.getAllGraduates);
-graduateRouter.get('/:id', graduateToken, graduateController.getGraduateById);
+graduateRouter.get('/:id', graduateController.getGraduateById);
 graduateRouter.post('/', graduateController.createGraduate);
 graduateRouter.put('/:id', graduateToken, graduateController.updateGraduate);
 graduateRouter.delete('/:id', graduateToken, graduateController.deleteGraduate);

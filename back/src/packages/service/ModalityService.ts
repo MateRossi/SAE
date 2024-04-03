@@ -36,6 +36,9 @@ export class ModalityService {
     
     //verifica se o elemento existe. Se existir, retorna o elemento. Se não, retorna um erro.
     static async isExistent(id: number) {
+        if (!id) {
+            throw new Error('Identificador inválido');
+        }
         const modality = await Modality.findOne({ 
             where: {id},
             include: [{ 

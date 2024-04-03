@@ -1,10 +1,17 @@
+import Graduate from "../model/Graduate";
 import Review from "../model/Review";
 import { GraduateService }  from "../service/GraduateService";
 import { NotFoundError } from "../utilities/Error/NotFoundError";
 
 export class ReviewService {
     static async getAllReviews() {
-        return Review.findAll();
+        return Review.findAll({
+            include: [{
+                model: Graduate,
+                as: 'graduate',
+                attributes: ['name', 'graduationYear', 'email', 'allowEmails']
+            }]
+        });
     };
 
     static async getReviewById(id: number) {
@@ -22,7 +29,7 @@ export class ReviewService {
             theoKnowledgeRating,
             practKnowledgeRating,
             teachersRating,
-            expectationSatisfaction,
+            courseExpectation,
             graduateId,
         } = reviewData;
         await GraduateService.isExistent(graduateId);
@@ -35,7 +42,7 @@ export class ReviewService {
             theoKnowledgeRating,
             practKnowledgeRating,
             teachersRating,
-            expectationSatisfaction,
+            courseExpectation,
             graduateId    
         });
     };
@@ -51,7 +58,7 @@ export class ReviewService {
             theoKnowledgeRating,
             practKnowledgeRating,
             teachersRating,
-            expectationSatisfaction,
+            courseExpectation,
             graduateId,
         } = updatedData;
         await GraduateService.isExistent(graduateId);
@@ -66,7 +73,7 @@ export class ReviewService {
             theoKnowledgeRating,
             practKnowledgeRating,
             teachersRating,
-            expectationSatisfaction,    
+            courseExpectation,    
         });
     };
     
@@ -77,7 +84,17 @@ export class ReviewService {
     
     //verifica se o elemento existe. Se existir, retorna o elemento. Se não, retorna um erro.
     static async isExistent(id: number) {
-        const review = await Review.findByPk(id);
+        if (!id) {
+            throw new Error('Identificador inválido');
+        }
+        const review = await Review.findOne({
+            where: {id},
+            include: [{
+                model: Graduate,
+                as: 'graduate',
+                attributes: ['name', 'graduationYear', 'email', 'allowEmails']
+            }]
+        });
         if (!review) {
             throw new NotFoundError('Avaliações não encontradas.');
         };

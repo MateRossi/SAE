@@ -12,12 +12,12 @@ class Review extends Model {
     public theoKnowledgeRating!: number;
     public practKnowledgeRating!: number;
     public teachersRating!: number;
-    public expectationSatisfaction!: string;
+    public courseExpectation!: string;
 
     public graduateId!: number;
 
     static associate() {
-        this.belongsTo(Graduate, { as: 'graduateReview', foreignKey: 'graduateId' });
+        this.belongsTo(Graduate, { as: 'graduate', foreignKey: {allowNull: false} });
     };
 };
 
@@ -94,12 +94,8 @@ Review.init(
                 'Não atendeu as expectativas',
                 'Não sabe / prefere não opinar',
             ),
-            allowNull: true,
-        },
-        graduateId: {
-            type: DataTypes.INTEGER,
             allowNull: false,
-        }
+        },
     },
     {
         sequelize,
