@@ -1,3 +1,5 @@
+import './SystemDescription.css';
+
 function SystemDescription() {
     return (
         <article className="systemDescription">

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import SystemDescription from "../../components/SystemDescription";
 
 function LoginPage() {
@@ -25,8 +25,11 @@ function LoginPage() {
                     id="password"
                     type="password"
                 />
-
                 <button type="submit">Entrar</button>
+                <span className="LoginLinks">
+                    <Link to={'/forgotPassword'}>Esqueci minha senha</Link>
+                    <Link to={'/registerPage'}>Solicitar cadastro</Link>
+                </span>
             </form>
         </main>
     )
