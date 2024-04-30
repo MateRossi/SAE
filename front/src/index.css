@@ -19,6 +19,27 @@ body {
   color: #242424;
 }
 
+.persistCheck {
+  display: flex;
+  flex-direction: row;
+  width: calc(100% - 10%);
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  height: 2.5rem;
+  padding: 0.25rem;
+}
+
+.loginForm .persistCheck > label {
+  align-self: center;
+  margin-left: 0.25rem;
+}
+
+.persistCheck input[type='checkbox']{
+  height: 1rem;
+  width: 1rem;
+}
+
 .LoginLinks {
   width: calc(100% - 10%);
   display: flex;
@@ -78,7 +99,7 @@ body {
   margin-bottom: 1rem;
 }
 
-.loginForm input {
+.loginForm input[type="text"], .loginForm input[type="email"], .loginForm input[type="password"] {
   width: calc(100% - 10%);
   height: 2rem;
   outline: none;

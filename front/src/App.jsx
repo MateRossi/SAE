@@ -26,6 +26,7 @@ import PreRegisterPage from './pages/admins/PreRegisterPage';
 import StatisticsPage from "./pages/admins/StatisticsPage";
 
 import { Routes, Route } from "react-router-dom"
+import PersistLogin from "./components/PersistLogin";
 
 
 function App() {
@@ -39,26 +40,28 @@ function App() {
         <Route path="register" element={<RegisterPage />} />
       </Route>
 
-      {/* Rotas que o egresso tem acesso graduate id? já que é apenas um? */}
-      <Route path="/graduate" element={<GraduateLayout />}>
-        <Route path="academicHistory" element={<AcademicHistoryPage />} />
-        <Route path="followUp" element={<FollowUpPage />} />
-        <Route path="professionalHistory" element={<ProfessionalHistoryPage />} />
-        <Route path="profile" element={<ProfilePage />} />
-        <Route path="review" element={<ReviewPage />} />
-        <Route path="class" element={<SameClassPage />} />
-        <Route path="course" element={<SameCoursePage />} />
-      </Route>
+      <Route element={<PersistLogin />}>
+        {/* Rotas que o egresso tem acesso graduate id? já que é apenas um? */}
+        <Route path="/graduate" element={<GraduateLayout />}>
+          <Route path="academicHistory" element={<AcademicHistoryPage />} />
+          <Route path="followUp" element={<FollowUpPage />} />
+          <Route path="professionalHistory" element={<ProfessionalHistoryPage />} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="review" element={<ReviewPage />} />
+          <Route path="class" element={<SameClassPage />} />
+          <Route path="course" element={<SameCoursePage />} />
+        </Route>
 
-      {/* Rotas que o admin tem acesso. Colocar várias talbes juntas ao invés de modalidade, etc?*/}
-      <Route path="/admin" element={<AdminLayout />}>
-        <Route path="companies" element={<CompaniesPage />} />
-        <Route path="confirmRegister" element={<ConfirmRegisterPage />} />
-        <Route path="courses" element={<CoursesPage />} />
-        <Route path="graduates" element={<GraduatesPage />} />
-        <Route path="modalities" element={<ModalitiesPage />} />
-        <Route path="preRegister" element={<PreRegisterPage />} />
-        <Route path="statistics" element={<StatisticsPage />} />
+        {/* Rotas que o admin tem acesso. Colocar várias talbes juntas ao invés de modalidade, etc?*/}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route path="companies" element={<CompaniesPage />} />
+          <Route path="confirmRegister" element={<ConfirmRegisterPage />} />
+          <Route path="courses" element={<CoursesPage />} />
+          <Route path="graduates" element={<GraduatesPage />} />
+          <Route path="modalities" element={<ModalitiesPage />} />
+          <Route path="preRegister" element={<PreRegisterPage />} />
+          <Route path="statistics" element={<StatisticsPage />} />
+        </Route>
       </Route>
 
       <Route path='*' element={<MissingPage />} />

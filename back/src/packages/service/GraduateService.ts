@@ -91,7 +91,6 @@ export class GraduateService {
             {
                 model: Review,
                 as: 'review',
-                all: true,
             },
         ],
         });
