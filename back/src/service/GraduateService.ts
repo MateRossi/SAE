@@ -56,8 +56,8 @@ export class GraduateService {
     };
 
     static async loginGraduate(login: string, password: string) {
-        const graduate = await Graduate.findOne({ where: { login } });
-        console.log('User' + graduate)
+        const graduate = await Graduate.findOne({ where: { email: login } });
+        console.log('User' + graduate?.name)
 
         if (!graduate) {
             throw new NotFoundError('Usuário não encontrado.');
