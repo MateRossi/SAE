@@ -6,7 +6,7 @@ import useInput from "../../hooks/useInput";
 import useToggle from "../../hooks/useToggle";
 
 import axios from '../../api/axios';
-const LOGIN_URL = '/login';
+const LOGIN_URL = '/graduates/login';
 
 function LoginPage() {
     const { setAuth } = useAuth();
@@ -35,7 +35,7 @@ function LoginPage() {
         e.preventDefault();
         try {
             const response = await axios.post(LOGIN_URL,
-                JSON.stringify({ user, pwd }),
+                JSON.stringify({ login: user, password: pwd }),
                 {
                     headers: {'Content-Type': 'application/json'},
                     withCredentials: true
