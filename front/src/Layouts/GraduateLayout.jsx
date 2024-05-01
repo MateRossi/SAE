@@ -1,9 +1,10 @@
 import { Outlet } from "react-router-dom";
+import GraduateMenu from "../components/GraduateMenu";
 
 function GraduateLayout() {
     return (
         <>
-            <div>Graduate layout</div>
+            <GraduateMenu />
             <Outlet />
         </>
     )

@@ -1,4 +1,4 @@
-import Layout from "./Layouts/Layout";
+import Layout from './Layouts/Layout';
 import GraduateLayout from './Layouts/GraduateLayout';
 import AdminLayout from './Layouts/AdminLayout';
 import LoginPage from './pages/visitants/LoginPage';
@@ -32,9 +32,9 @@ import PersistLogin from "./components/PersistLogin";
 function App() {
   return (
     <Routes>
+      {/*Rotas públicas*/}
       <Route path="/" element={<Layout />}>
-        {/*Rotas públicas*/}
-        <Route path="login" element={<LoginPage />} />
+        <Route path="/" element={<LoginPage />}/>
         <Route path="adlogin" element={<AdminLogin />} />
         <Route path="unauthorized" element={<UanuthorizedPage />} />
         <Route path="register" element={<RegisterPage />} />
@@ -43,13 +43,13 @@ function App() {
       <Route element={<PersistLogin />}>
         {/* Rotas que o egresso tem acesso graduate id? já que é apenas um? */}
         <Route path="/graduate" element={<GraduateLayout />}>
+          <Route path="/graduate" element={<SameCoursePage />} />
           <Route path="academicHistory" element={<AcademicHistoryPage />} />
           <Route path="followUp" element={<FollowUpPage />} />
           <Route path="professionalHistory" element={<ProfessionalHistoryPage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="review" element={<ReviewPage />} />
           <Route path="class" element={<SameClassPage />} />
-          <Route path="course" element={<SameCoursePage />} />
         </Route>
 
         {/* Rotas que o admin tem acesso. Colocar várias talbes juntas ao invés de modalidade, etc?*/}

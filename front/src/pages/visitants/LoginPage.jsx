@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import useAuth from '../../hooks/useAuth';
 import SystemDescription from "../../components/SystemDescription";
 import useInput from "../../hooks/useInput";
@@ -12,8 +12,6 @@ function LoginPage() {
     const { setAuth } = useAuth();
 
     const navigate = useNavigate();
-    const location = useLocation();
-    const from = location.state?.from?.pathname || '/';
 
     const userRef = useRef();
     const errRef = useRef();
@@ -42,12 +40,17 @@ function LoginPage() {
                 }
             );
             console.log(JSON.stringify(response?.data));
-            const accessToken = response?.data?.accessToken;
+            const accessToken = response?.data?.token;
             const role = response?.data?.role;
-            setAuth({ user, pwd, role, accessToken });
+            const id = response?.data?.id;
+            setAuth({ user, pwd, role, accessToken, id });
             resetUser();
             setPwd('');
-            navigate(from, {replace: true});
+            if (role === 'admin') {
+                navigate('/admin', {replace: true});
+            } else {
+                navigate('/graduate', {replace: true});
+            } 
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No server response.');
@@ -56,7 +59,7 @@ function LoginPage() {
             } else if (err.response?.status === 401) {
                 setErrMsg('Unauthorized');
             } else {
-                setErrMsg('Login failed');
+                setErrMsg('Login failed', err.message);
             }
             errRef.current.focus();
         }
@@ -99,7 +102,7 @@ function LoginPage() {
                 </div>
                 <span className="LoginLinks">
                     <Link to={'/forgotPassword'}>Esqueci minha senha</Link>
-                    <Link to={'/registerPage'}>Solicitar cadastro</Link>
+                    <Link to={'/register'}>Solicitar cadastro</Link>
                 </span>
             </form>
         </main>

@@ -1,9 +1,13 @@
+import '../page.css';
+
 function AcademicHistoryPage() {
     return (
-        <div>
-            Academic History page
+        <div className="Page">
+            <main className="PageContent">
+                test
+            </main>
         </div>
     )
 }
 
-export default AcademicHistoryPage;
+export default AcademicHistoryPage; 
