@@ -77,7 +77,7 @@ export class GraduateService {
             process.env.JWT_SECRET || 'SEAG@2024TTCCMR',
             { expiresIn: '1h' });
 
-        return { login, token };
+        return { id: graduate.id, login, token, role: graduate.role };
     };
 
     //verifica se o elemento existe. Se existir, retorna o elemento. Se não, retorna um erro.
@@ -103,5 +103,22 @@ export class GraduateService {
             throw new NotFoundError('Egresso não encontrado.');
         };
         return graduate;
+    };
+
+    //rotas personalizadas
+    static async getGraduatesSameCourse(id: number) {
+        const graduate = await this.isExistent(id);
+        
+        return Graduate.findAll({
+            include: [{
+                model: Course,
+                as: 'course',
+                attributes: ['id'],
+                where: {
+                    id: graduate.courseId
+                }
+            }],
+            attributes: ['id', 'enrollment', 'name', 'email', 'allowEmails', 'graduationYear'],
+        });
     };
 };

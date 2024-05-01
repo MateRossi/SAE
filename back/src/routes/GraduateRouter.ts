@@ -13,5 +13,6 @@ graduateRouter.post('/', graduateController.createGraduate);
 graduateRouter.put('/:id', graduateToken, graduateController.updateGraduate);
 graduateRouter.delete('/:id', graduateToken, graduateController.deleteGraduate);
 graduateRouter.post('/login', graduateController.loginGraduate);
+graduateRouter.get('/:id/same-course', graduateController.getGraduatesSameCourse);
 
 export default graduateRouter;

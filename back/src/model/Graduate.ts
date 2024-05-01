@@ -87,6 +87,10 @@ Graduate.init(
                 is: /19[5-9][0-9]|2[0-9]{3}/,
             }
         },
+        role: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
     },
     {
         sequelize,

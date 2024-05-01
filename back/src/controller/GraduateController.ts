@@ -68,4 +68,14 @@ export const graduateController = {
             ErrorResponse.handleErrorResponse(error, res);
         };
     },
+
+    async getGraduatesSameCourse(req: Request, res: Response) {
+        try {
+            const graduateId = Number(req.params.id);
+            const graduates = await GraduateService.getGraduatesSameCourse(graduateId);
+            res.json(graduates);
+        } catch (error) {
+            ErrorResponse.handleErrorResponse(error, res);
+        };
+    }, 
 };
