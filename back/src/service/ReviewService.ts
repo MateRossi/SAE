@@ -1,13 +1,13 @@
-import Graduate from "../model/Graduate";
+import User from "../model/User";
 import Review from "../model/Review";
-import { GraduateService }  from "../service/GraduateService";
+import { UserService }  from "../service/UserService";
 import { NotFoundError } from "../errors/NotFoundError";
 
 export class ReviewService {
     static async getAllReviews() {
         return Review.findAll({
             include: [{
-                model: Graduate,
+                model: User,
                 as: 'graduate',
                 attributes: ['name', 'graduationYear', 'email', 'allowEmails']
             }]
@@ -30,9 +30,9 @@ export class ReviewService {
             practKnowledgeRating,
             teachersRating,
             courseExpectation,
-            graduateId,
+            userId,
         } = reviewData;
-        await GraduateService.isExistent(graduateId);
+        await UserService.isExistent(userId);
         return Review.create({
             desireToWorkArea,
             learningLevelRating,
@@ -43,7 +43,7 @@ export class ReviewService {
             practKnowledgeRating,
             teachersRating,
             courseExpectation,
-            graduateId    
+            userId    
         });
     };
 
@@ -59,9 +59,9 @@ export class ReviewService {
             practKnowledgeRating,
             teachersRating,
             courseExpectation,
-            graduateId,
+            userId,
         } = updatedData;
-        await GraduateService.isExistent(graduateId);
+        await UserService.isExistent(userId);
 
         //não passo o id do egresso para não editar a informação de qual egresso fez qual review.
         return review.update({
@@ -85,12 +85,12 @@ export class ReviewService {
     //verifica se o elemento existe. Se existir, retorna o elemento. Se não, retorna um erro.
     static async isExistent(id: number) {
         if (!id) {
-            throw new Error('Identificador inválido');
+            throw new Error('Identificador inválido de avaliação inválido ou não informado');
         }
         const review = await Review.findOne({
             where: {id},
             include: [{
-                model: Graduate,
+                model: User,
                 as: 'graduate',
                 attributes: ['name', 'graduationYear', 'email', 'allowEmails']
             }]

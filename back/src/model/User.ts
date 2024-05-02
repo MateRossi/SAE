@@ -3,7 +3,7 @@ import { sequelize } from "../db/sequelize";
 import Course from "./Course";
 import Review from "./Review";
 
-class Graduate extends Model {
+class User extends Model {
     public id!: number;
     public enrollment!: string;
     public name!: string;
@@ -20,15 +20,22 @@ class Graduate extends Model {
     public courseId!: number;
     public reviewId!: number;
     
-    public role: string = 'graduate';
+    public role!: string;
+    public refreshToken!: string;
     
     static associate() {
         this.belongsTo(Course, { as: "course", foreignKey: {allowNull: false} });
-        this.hasOne(Review, { as: "review", foreignKey: 'graduateId' });
+        this.hasOne(Review, { as: "review", foreignKey: 'userId' });
+    };
+
+    static validateRole(value: number | null, role: string) {
+        if (!value && role === 'graduate') {
+            throw new Error('É necessario informar o ano de graduação');
+        };
     };
 };
 
-Graduate.init(
+User.init(
     {
         //matricula
         enrollment: {
@@ -80,23 +87,34 @@ Graduate.init(
             type: DataTypes.STRING,
             allowNull: true,
         },
-        graduationYear: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            validate: {
-                is: /19[5-9][0-9]|2[0-9]{3}/,
-            }
-        },
         role: {
             type: DataTypes.STRING,
             allowNull: false,
+            defaultValue: 'graduate',
         },
+        graduationYear: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            validate: {
+                is: {
+                    args: [/19[5-9][0-9]|2[0-9]{3}/],
+                    msg: 'Ano de graduação inválido',
+                },
+            },
+        },
+        refreshToken: {
+            type: DataTypes.STRING,
+        }
     },
     {
         sequelize,
-        modelName: 'Graduate',
-        tableName: 'graduate',
+        modelName: 'User',
+        tableName: 'user',
     },
 );
 
-export default Graduate;
+User.beforeValidate((user: User) => {
+    User.validateRole(user.graduationYear, user.role);
+});
+
+export default User;

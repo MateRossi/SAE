@@ -1,7 +1,7 @@
 import { Model, DataTypes } from "sequelize";
 import { sequelize } from "../db/sequelize";
 import Company from "./Company";
-import Graduate from "./Graduate";
+import User from "./User";
 
 class Survey extends Model {
     public id!: number;
@@ -19,7 +19,7 @@ class Survey extends Model {
 
     //foreign keys
     public companyId!: number;
-    public graduateId!: number;
+    public userId!: number;
 
     static validatePosition(value: string|boolean, situation: string) {
         if ((situation === 'Trabalhando' || situation === 'Trabalhando e estudando') && !value) {
@@ -35,7 +35,7 @@ class Survey extends Model {
 
     static associate() {
         this.belongsTo(Company, { as: 'surveyCompany', foreignKey: 'companyId' });
-        this.belongsTo(Graduate, { as: 'surveyGraduate', foreignKey: 'graduateId' });
+        this.belongsTo(User, { as: 'surveyUser', foreignKey: 'userId' });
     };
 };
 
@@ -125,7 +125,7 @@ Survey.init(
             },
             allowNull: true,
         },
-        graduateId: {
+        userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },

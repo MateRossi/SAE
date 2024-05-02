@@ -1,6 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 import { sequelize } from "../db/sequelize";
-import Graduate from './Graduate';
+import User from './User';
 
 class Review extends Model {
     public id!: number;
@@ -14,10 +14,10 @@ class Review extends Model {
     public teachersRating!: number;
     public courseExpectation!: string;
 
-    public graduateId!: number;
+    public userId!: number;
 
     static associate() {
-        this.belongsTo(Graduate, { as: 'graduate', foreignKey: {allowNull: false} });
+        this.belongsTo(User, { as: 'user', foreignKey: {allowNull: false} });
     };
 };
 

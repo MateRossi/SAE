@@ -1,5 +1,5 @@
 import Survey from "../model/Survey";
-import { GraduateService } from "./GraduateService";
+import { UserService } from "./UserService";
 import { CompanyService } from "./CompanyService";
 import { NotFoundError } from "../errors/NotFoundError";
 
@@ -23,9 +23,9 @@ export class SurveyService {
             externalCourseName,
             courseRelationLevel,
             companyId,
-            graduateId,
+            userId,
         } = surveyData;
-        await GraduateService.isExistent(graduateId);
+        await UserService.isExistent(userId);
         await CompanyService.isExistent(companyId);
         return Survey.create({
             situation,
@@ -36,7 +36,7 @@ export class SurveyService {
             externalCourseName,
             courseRelationLevel,
             companyId,
-            graduateId,
+            userId,
         });
     };
 
@@ -51,9 +51,9 @@ export class SurveyService {
             externalCourseName,
             courseRelationLevel,
             companyId,
-            graduateId,
+            userId,
         } = updatedData;
-        await GraduateService.isExistent(graduateId);
+        await UserService.isExistent(userId);
         await CompanyService.isExistent(companyId);
         return survey.update({
             situation,
@@ -64,7 +64,7 @@ export class SurveyService {
             externalCourseName,
             courseRelationLevel,
             companyId,
-            graduateId,
+            userId,
         });
     };
 
@@ -76,7 +76,7 @@ export class SurveyService {
     //verifica se o elemento existe. Se existir, retorna o elemento. Se não, retorna um erro.
     static async isExistent(id: number) {
         if (!id) {
-            throw new Error('Identificador inválido');
+            throw new Error('Identificador inválido de pesquisa inválido ou não informado');
         }
         const survey = await Survey.findByPk(id);
         if (!survey) {

@@ -6,6 +6,7 @@ import Router from './routes';
 import associateModels from './src/middleware/Associations';
 import cors from 'cors';
 import corsOptions from './src/config/corsOptions';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -13,6 +14,8 @@ const port = process.env.PORT || 3000;
 app.use(cors(corsOptions));
 
 app.use(express.json());
+
+app.use(cookieParser());
 
 associateModels();
 

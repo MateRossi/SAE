@@ -2,6 +2,7 @@ import { Response } from 'express';
 import { NotFoundError } from './NotFoundError';
 import { ServerError } from './ServerError';
 import { UniqueConstraintError, ValidationError } from 'sequelize';
+import { Unauthorized } from './Unauthorized';
 
 export  class ErrorResponse {
     static handleErrorResponse(error: any, res: Response) {
@@ -16,6 +17,8 @@ export  class ErrorResponse {
             res.status(409).json({ error: `O valor ${field} providenciado já existe em ${table}` })
         } else if (error instanceof ValidationError) {
             res.status(409).json({ error: error.message });
+        } else if (error instanceof Unauthorized) {
+            res.status(401).json({ error: error.message });
         } else {
             res.status(500).json({ error: 'Erro interno do servidor', details: err.message });
         };
