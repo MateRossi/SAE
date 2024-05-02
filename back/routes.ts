@@ -14,8 +14,6 @@ import companyRouter from './src/routes/CompanyRouter';
 //SURVEYS
 import surveyRouter from './src/routes/SurveyRouter';
 
-//ZIPCODE
-import zipCodeRouter from './src/routes/ZipCodeRouter';
 
 //Reviews
 import reviewRouter from './src/routes/ReviewRouter';
@@ -34,9 +32,6 @@ router.use('/companies', companyRouter);
 
 //SURVEYS
 router.use('/surveys', surveyRouter);
-
-//ZIPCODE
-router.use("/zipCode", zipCodeRouter);
 
 //REVIEWS
 router.use('/reviews', reviewRouter);

@@ -6,10 +6,19 @@ import Router from './routes';
 import associateModels from './src/middleware/Associations';
 import cors from 'cors';
 import corsOptions from './src/config/corsOptions';
+import credentials from './src/middleware/Credentials';
 import cookieParser from 'cookie-parser';
+import verifyJwt from './src/middleware/verifyJWT';
+import auth from './src/routes/AuthRouter';
+import logout from './src/routes/LogoutRouter';
+import refresh from './src/routes/RefreshRouter';
+import zipCode from './src/routes/ZipCodeRouter';
+import registerGraduate from './src/routes/RegisterRouter';
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+app.use(credentials);
 
 app.use(cors(corsOptions));
 
@@ -18,6 +27,14 @@ app.use(express.json());
 app.use(cookieParser());
 
 associateModels();
+
+app.use('/auth', auth);
+app.use('/register', registerGraduate);
+app.use('/refresh', refresh);
+app.use('/logout', logout);
+app.use("/zipcode", zipCode);
+
+app.use(verifyJwt);
 
 app.use(Router);
 

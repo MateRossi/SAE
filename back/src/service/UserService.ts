@@ -38,6 +38,25 @@ export class UserService {
         return user;
     };
 
+    static async getGraduateById(id: number) {
+        const graduate = await User.findOne({
+            where: {
+                id,
+                role: 'graduate',
+            },
+            include: [{
+                model: Course,
+                as: 'course',
+                attributes: ['name', 'acronym'],
+            }],
+            attributes: { exclude: ['password'] }
+        });
+        if (!graduate) {
+            throw new NotFoundError('Egresso não encontrado.');
+        }
+        return graduate;
+    };
+
     static async getUserByRefreshToken(refreshToken: string) {
         if (!refreshToken) {
             throw new Error ('Token inválido');

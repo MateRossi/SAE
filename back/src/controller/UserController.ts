@@ -46,6 +46,17 @@ export const userController = {
         };
     },
 
+    async getGraduateById(req: Request, res: Response) {
+        console.log('getgraduate byid');
+        try {
+            const userId = Number(req.params.id);
+            const user = await UserService.getGraduateById(userId);
+            res.json(user);
+        } catch (error) {
+            ErrorResponse.handleErrorResponse(error, res);
+        };
+    },
+
     async createGraduate(req: Request, res: Response) {
         console.log('creategrad');
         try {
@@ -125,6 +136,11 @@ export const userController = {
     async login(req: Request, res: Response) {
         console.log('login')
         const { login, password } = req.body;
+        
+        if (!login || !password) return res
+        .status(400)
+        .json({ 'message': 'Login e senha são necessários' });
+        
         try {
             const user = await UserService.login(login, password);
             const role = user.role;
@@ -140,7 +156,7 @@ export const userController = {
                 { expiresIn: '1h' }
             );
             const refreshToken = jwt.sign(
-                { "username": user.name },
+                { "email": user.email },
                 process.env.JWT_SECRET || 'SEAG@2024TTCCMR',
                 { expiresIn: '1d' }
             );
@@ -169,10 +185,39 @@ export const userController = {
         }
 
         const result = await user?.update({ refreshToken: '' });
-        console.log(result);
 
         res.clearCookie('jwt', { httpOnly: true, sameSite: 'none', secure: true }) //secure: true - only serves on https.
         res.sendStatus(204);
+    },
+
+    async refreshToken(req: Request, res: Response) {
+        console.log('refresh');
+        const cookies = req.cookies;
+        if (!cookies?.jwt) return res.sendStatus(401);
+        const refreshToken = cookies.jwt;
+
+        const foundUser = await UserService.getUserByRefreshToken(refreshToken);
+        if (!foundUser) return res.sendStatus(403);
+
+        jwt.verify(
+            refreshToken,
+            process.env.JWT_SECRET || "SEAG@2024TTCCMR",
+            (err: any, decoded: any) => {
+                if (err || foundUser.email != decoded.email) return res.sendStatus(403);
+                const role = foundUser.role;
+                const accessToken = jwt.sign(
+                    {
+                        "UserInfo": {
+                            "username": foundUser.name,
+                            "role": role,
+                        },
+                    },
+                    process.env.JWT_SECRET || 'SEAG@2024TTCCMR',
+                    { expiresIn: '1h' }
+                );
+                res.json({ accessToken });
+            }
+        );
     },
 
     async getGraduatesSameCourse(req: Request, res: Response) {

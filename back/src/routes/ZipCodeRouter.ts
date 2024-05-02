@@ -1,8 +1,8 @@
-import express from "express";
-import getAddress from "../controller/ZipCodeController";
+import express from 'express';
+import getAddress from '../controller/ZipCodeController';
 
-const zipCodeRouter = express.Router();
+const zipCode = express.Router();
 
-zipCodeRouter.get("/:zipCode", getAddress);
+zipCode.get('/:zipCode', getAddress);
 
-export default zipCodeRouter;
+export default zipCode;
