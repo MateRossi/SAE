@@ -19,6 +19,27 @@ body {
   color: #242424;
 }
 
+.hide {
+  display: none;
+}
+
+.valid {
+  color: limegreen;
+  margin-left: 0.25rem;
+}
+
+.years {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+}
+
+.invalid {
+  color: red;
+  margin-left: 0.25rem;
+}
+
 .persistCheck {
   display: flex;
   flex-direction: row;
@@ -30,12 +51,12 @@ body {
   padding: 0.25rem;
 }
 
-.loginForm .persistCheck > label {
+.loginForm .persistCheck>label {
   align-self: center;
   margin-left: 0.25rem;
 }
 
-.persistCheck input[type='checkbox']{
+.persistCheck input[type='checkbox'] {
   height: 1rem;
   width: 1rem;
 }
@@ -99,7 +120,9 @@ body {
   margin-bottom: 1rem;
 }
 
-.loginForm input[type="text"], .loginForm input[type="email"], .loginForm input[type="password"] {
+.loginForm input[type="text"],
+.loginForm input[type="email"],
+.loginForm input[type="password"] {
   width: calc(100% - 10%);
   height: 2rem;
   outline: none;
@@ -131,12 +154,93 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+.line {
+  display: inline-block;
+}
+
+.instructions {
+  font-size: 0.75rem;
+  border-radius: 0.25rem;
+  background: #000;
+  color: #fff;
+  padding: 0.25rem;
+  position: relative;
+  bottom: 10px;
+  margin-bottom: 5px;
+}
+
+.RegisterForm {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.FormColumn {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+.FormColumn label {
+  width: 100%;
+}
+
+.RegisterForm input[type="text"],
+.RegisterForm input[type="email"],
+.RegisterForm input[type="password"] {
+  width: 100%;
+  height: 2rem;
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+  padding-left: 10px;
+}
+
+.FormTitle {
+  background-color: rgb(240, 240, 240);
+  width: 100%;
+  text-align: center;
+  font-weight: 350;
+  font-size: 1.1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 0.5rem 0.5rem 0rem 0rem;
+  margin-bottom: 1rem;
+}
+
+.Form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.625rem;
+  padding-bottom: 1rem;
+}
+
+.errMsg {
+  background-color: lightpink;
+  color: firebrick;
+  font-weight: bold;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.offscreen {
+  position: absolute;
+  left: -9999px;
 }
 
 @media (prefers-color-scheme: light) {
@@ -144,9 +248,11 @@ button:focus-visible {
     color: #213547;
     background-color: #ffffff;
   }
+
   a:hover {
     color: #747bff;
   }
+
   button {
     background-color: #f9f9f9;
   }

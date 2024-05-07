@@ -6,8 +6,7 @@ function Header() {
             <div className="DarkHeader">
                 <ul>
                     <li>ENTRAR</li>
-                    <li>CADASTRO</li>
-                    <li>ADMIN</li>
+                    <li>SOLICITAR CADASTRO</li>
                 </ul>
             </div>
             <div className='HeaderTitle'>

@@ -2,7 +2,6 @@ import Layout from './Layouts/Layout';
 import GraduateLayout from './Layouts/GraduateLayout';
 import AdminLayout from './Layouts/AdminLayout';
 import LoginPage from './pages/visitants/LoginPage';
-import AdminLogin from './pages/visitants/AdminLogin';
 import RegisterPage from './pages/visitants/RegisterPage';
 import UanuthorizedPage from './pages/visitants/UnauthorizedPage';
 import MissingPage from "./pages/MissingPage";
@@ -35,7 +34,6 @@ function App() {
       {/*Rotas públicas*/}
       <Route path="/" element={<Layout />}>
         <Route path="/" element={<LoginPage />}/>
-        <Route path="adlogin" element={<AdminLogin />} />
         <Route path="unauthorized" element={<UanuthorizedPage />} />
         <Route path="register" element={<RegisterPage />} />
       </Route>
