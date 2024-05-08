@@ -5,6 +5,7 @@ import LoginPage from './pages/visitants/LoginPage';
 import RegisterPage from './pages/visitants/RegisterPage';
 import UanuthorizedPage from './pages/visitants/UnauthorizedPage';
 import MissingPage from "./pages/MissingPage";
+import RegisterSuccess from './pages/RegisterSuccess';
 
 //graduate pages
 import AcademicHistoryPage from './pages/graduates/AcademicHistoryPage';
@@ -36,6 +37,7 @@ function App() {
         <Route path="/" element={<LoginPage />}/>
         <Route path="unauthorized" element={<UanuthorizedPage />} />
         <Route path="register" element={<RegisterPage />} />
+        <Route path='registerSuccess' element={<RegisterSuccess />} />
       </Route>
 
       <Route element={<PersistLogin />}>

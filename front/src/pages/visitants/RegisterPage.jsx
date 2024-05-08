@@ -2,17 +2,23 @@ import { useRef, useState, useEffect } from "react";
 import axios from "../../api/axios";
 import Dropdown from '../../components/Dropdown';
 import SystemDescription from '../../components/SystemDescription';
-import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useNavigate } from 'react-router-dom';
 
 const PWD_REGEX = /.{8,24}/;
 const YEAR_REGEX = /19[5-9][0-9]|2[0-9]{3}/;
+const REGISTER_URL = '/register';
 
 function RegisterPage() {
-    const emailRef = useRef();
+    const nameRef = useRef();
     const errRef = useRef();
 
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
+
+    //name
+    const [name, setName] = useState('');
 
     //email
     const [email, setEmail] = useState('');
@@ -38,11 +44,14 @@ function RegisterPage() {
     const [gradYear, setGradYear] = useState('');
     const [validGradYear, setValidGradYear] = useState(false);
 
+    //phoneNumber
+    const [phoneNumber, setPhoneNumber] = useState('');
+
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
-        emailRef.current.focus();
+        nameRef.current.focus();
     }, [])
 
     useEffect(() => {
@@ -53,8 +62,8 @@ function RegisterPage() {
     }, [pwd, matchPwd]);
 
     useEffect(() => {
-        const validEntryYear = YEAR_REGEX.test(entryYear);
-        const validGradYear = YEAR_REGEX.test(gradYear);
+        setValidEntryYear(YEAR_REGEX.test(entryYear));
+        setValidGradYear(YEAR_REGEX.test(gradYear));
 
         if ((validEntryYear && validGradYear) && Number(entryYear) < Number(gradYear)) {
             setValidEntryYear(true);
@@ -63,7 +72,7 @@ function RegisterPage() {
             setValidEntryYear(false);
             setValidGradYear(false);
         }
-    }, [entryYear, gradYear]);
+    }, [entryYear, gradYear, validEntryYear, validGradYear]);
 
     useEffect(() => {
         setErrMsg('');
@@ -90,14 +99,36 @@ function RegisterPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("email", email);
-        console.log("senha", pwd);
-        console.log('match', matchPwd);
-        console.log('curso', courseName);
-        console.log('ano ingresso', entryYear);
-        console.log('ano graduação', gradYear);
-        console.log("ano de entrada valido?", validEntryYear);
-        console.log("ano de graducao valido?", validGradYear);
+        try {
+            const response = await axios.post(REGISTER_URL,
+                JSON.stringify({
+                    name,
+                    email: email,
+                    password: pwd,
+                    courseId: courseName.id,
+                    entryYear,
+                    graduationYear: gradYear,
+                    phoneNumber,
+                }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                }
+            );
+            console.log(JSON.stringify(response));
+            navigate('/registerSuccess', { replace: true });
+        } catch (err) {
+            if (!err?.response) {
+                setErrMsg('Sem resposta do servidor.');
+            } else if (err.response?.status === 409) {
+                setErrMsg('Email ja cadastrado.');
+            } else if (err.response?.status === 422) {
+                setErrMsg('Entrada inválida.');
+            } else {
+                setErrMsg('Falha ao solicitar registro.');
+            }
+            errRef.current.focus();
+        }
     }
 
     return (
@@ -108,6 +139,17 @@ function RegisterPage() {
             </p>
             <form onSubmit={handleSubmit} className="Form">
                 <h3 className="FormTitle" style={{ marginBottom: '0.5rem' }}>Solicitar Cadastro</h3>
+                <label htmlFor="name">
+                            Nome completo:
+                        </label>
+                        <input
+                            type="text"
+                            id="name"
+                            autoComplete="off"
+                            ref={nameRef}
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                        />
                 <div className="RegisterForm">
                     <div className="FormColumn">
                         <label htmlFor="email">
@@ -116,7 +158,6 @@ function RegisterPage() {
                         <input
                             type="email"
                             id="email"
-                            ref={emailRef}
                             autoComplete="off"
                             onChange={(e) => setEmail(e.target.value)}
                             required
@@ -211,6 +252,8 @@ function RegisterPage() {
                         <input
                             type="text"
                             id="phone"
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            minLength={8}
                         />
                     </div>
                 </div>
