@@ -1,7 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import axios from "../../api/axios";
 import Dropdown from '../../components/Dropdown';
-import SystemDescription from '../../components/SystemDescription';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
@@ -48,7 +47,6 @@ function RegisterPage() {
     const [phoneNumber, setPhoneNumber] = useState('');
 
     const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         nameRef.current.focus();
@@ -132,24 +130,25 @@ function RegisterPage() {
     }
 
     return (
-        <section className="Content">
-            <SystemDescription />
+        <section className="CenterContent">
             <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live="assertive">
                 {errMsg}
             </p>
             <form onSubmit={handleSubmit} className="Form">
                 <h3 className="FormTitle" style={{ marginBottom: '0.5rem' }}>Solicitar Cadastro</h3>
-                <label htmlFor="name">
-                            Nome completo:
-                        </label>
-                        <input
-                            type="text"
-                            id="name"
-                            autoComplete="off"
-                            ref={nameRef}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                        />
+                <div className="mainInput">
+                    <label htmlFor="name">
+                        Nome completo:
+                    </label>
+                    <input
+                        type="text"
+                        id="name"
+                        autoComplete="off"
+                        ref={nameRef}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                    />
+                </div>
                 <div className="RegisterForm">
                     <div className="FormColumn">
                         <label htmlFor="email">
