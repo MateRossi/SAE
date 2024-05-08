@@ -6,6 +6,7 @@ interface AuthRequest extends Request {
 
 const verifyRoles = (...allowedRoles: Array<String>) => {
     return (req: AuthRequest, res: Response, next: NextFunction) => {
+        console.log("REQUEST ROLE", req.role);
         if (!req.role) {
             return res.sendStatus(403);
         }

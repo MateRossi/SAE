@@ -16,7 +16,7 @@ export class UserService {
                 as: 'course',
                 attributes: ['name', 'acronym'],
             }],
-            attributes: ['id', 'enrollment', 'name', 'email', 'allowEmails', 'graduationYear'],
+            attributes: ['id', 'enrollment', 'name', 'email', 'allowEmails', 'entryYear', 'graduationYear'],
         });
     };
 
@@ -75,11 +75,12 @@ export class UserService {
             name,
             email,
             password,
+            entryYear,
             graduationYear,
             courseId,
         } = userData;
         await CourseService.isExistent(courseId);
-        return User.create({ enrollment, name, email, password, graduationYear, courseId });
+        return User.create({ enrollment, name, email, password, entryYear, graduationYear, courseId });
     };
 
     static async createAdmin(userData: User) {
@@ -97,11 +98,12 @@ export class UserService {
             enrollment,
             name,
             email,
+            entryYear,
             graduationYear,
             courseId
         } = updatedData;
         await CourseService.isExistent(courseId);
-        return user.update({ enrollment, name, email, graduationYear, courseId });
+        return user.update({ enrollment, name, email, entryYear, graduationYear, courseId });
     };
 
     static async updateAdmin(id: number, updatedData: User) {
@@ -181,7 +183,7 @@ export class UserService {
                     id: user.courseId
                 }
             }],
-            attributes: ['id', 'enrollment', 'name', 'email', 'allowEmails', 'graduationYear'],
+            attributes: ['id', 'enrollment', 'name', 'email', 'allowEmails', 'entryYear', 'graduationYear'],
         });
     };
 

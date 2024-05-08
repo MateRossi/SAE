@@ -16,10 +16,12 @@ export  class ErrorResponse {
             const field = error.message.match(/(?:_)[A-Za-z]+(?:_)/);
             res.status(409).json({ error: `O valor ${field} providenciado já existe em ${table}` })
         } else if (error instanceof ValidationError) {
-            res.status(409).json({ error: error.message });
+            console.log(error.message);
+            res.status(422).json({ error: error.message });
         } else if (error instanceof Unauthorized) {
             res.status(401).json({ error: error.message });
         } else {
+            console.error(error.message);
             res.status(500).json({ error: 'Erro interno do servidor', details: err.message });
         };
     };

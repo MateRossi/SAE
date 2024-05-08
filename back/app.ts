@@ -14,6 +14,8 @@ import logout from './src/routes/LogoutRouter';
 import refresh from './src/routes/RefreshRouter';
 import zipCode from './src/routes/ZipCodeRouter';
 import registerGraduate from './src/routes/RegisterRouter';
+import { courseController } from './src/controller/CourseController';
+import courses from './src/routes/PublicRouter';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -33,6 +35,7 @@ app.use('/register', registerGraduate);
 app.use('/refresh', refresh);
 app.use('/logout', logout);
 app.use("/zipcode", zipCode);
+app.use("/courses", courses);
 
 app.use(verifyJwt);
 

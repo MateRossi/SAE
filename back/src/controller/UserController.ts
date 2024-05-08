@@ -150,6 +150,7 @@ export const userController = {
                     "UserInfo": {
                         "username": user.name,
                         "role": role,
+                        "id": user.id,
                     },
                 },
                 process.env.JWT_SECRET || 'SEAG@2024TTCCMR',
@@ -210,6 +211,7 @@ export const userController = {
                         "UserInfo": {
                             "username": foundUser.name,
                             "role": role,
+                            "id": foundUser.id,
                         },
                     },
                     process.env.JWT_SECRET || 'SEAG@2024TTCCMR',

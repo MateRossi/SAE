@@ -30,6 +30,6 @@ userRouter.get('/', verifyRoles('admin'), userController.getAllUsers);
 userRouter.get('/:id', verifyRoles('admin'), userController.getUserById);
 
 //rotas específicas de um unico egresso
-userRouter.get('/:id/same-course', verifyRoles('admin'), userController.getGraduatesSameCourse);
+userRouter.get('/:id/same-course', verifyRoles('graduate'), userController.getGraduatesSameCourse);
 
 export default userRouter;

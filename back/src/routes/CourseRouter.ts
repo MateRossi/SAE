@@ -4,7 +4,7 @@ import verifyRoles from '../middleware/verifyRoles';
 
 const courseRouter = express.Router();
 
-courseRouter.get('/', verifyRoles('graduate', 'admin'),  courseController.getAllCourses);
+//courseRouter.get('/', verifyRoles('graduate', 'admin'),  courseController.getAllCourses);
 courseRouter.get('/:id', verifyRoles('graduate', 'admin'),  courseController.getCourseById);
 courseRouter.post('/', verifyRoles('admin'), courseController.createCourse);
 courseRouter.put('/:id', verifyRoles('admin'), courseController.updateCourse);

@@ -15,6 +15,7 @@ class User extends Model {
     public workedBefore!: boolean;
     public degreeLevel!: string; 
     public commentary!: string;
+    public entryYear!: number;
     public graduationYear!: number;
     
     public courseId!: number;
@@ -91,6 +92,16 @@ User.init(
             type: DataTypes.STRING,
             allowNull: false,
             defaultValue: 'graduate',
+        },
+        entryYear: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            validate: {
+                is: {
+                    args: [/19[5-9][0-9]|2[0-9]{3}/],
+                    msg: 'Ano de ingresso inválido',
+                },
+            },
         },
         graduationYear: {
             type: DataTypes.INTEGER,
