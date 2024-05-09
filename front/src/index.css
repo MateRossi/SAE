@@ -176,6 +176,42 @@ button:focus-visible {
 
 .line {
   display: inline-block;
+  margin-left: 5px;
+}
+
+table {
+  width: calc(100% - 2rem);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.tableOptionButton {
+  background-color: transparent;
+  height: auto;
+  width: auto;
+  padding: 0.5rem;
+}
+
+th {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+thead {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+td {
+  padding-left: 10px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+td:last-of-type {
+  padding: 0;
+  text-align: center;
 }
 
 .instructions {

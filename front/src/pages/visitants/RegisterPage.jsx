@@ -3,7 +3,7 @@ import axios from "../../api/axios";
 import Dropdown from '../../components/Dropdown';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const PWD_REGEX = /.{8,24}/;
 const YEAR_REGEX = /19[5-9][0-9]|2[0-9]{3}/;
@@ -263,7 +263,7 @@ function RegisterPage() {
             <p>
                 Já possui cadastro?
                 <span className="line">
-                    <a href="#"> Entrar</a>
+                    <Link to={"/"}>Entrar</Link>
                 </span>
             </p>
         </section>

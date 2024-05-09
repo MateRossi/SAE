@@ -11,7 +11,7 @@ import profile from '../img/profile.svg';
 function GraduateMenu() {
     return <aside className="menuContainer">
         <header className='menuHeader'>
-            <h2>SEAG</h2>
+            <h2>SAEG</h2>
         </header>
         <nav className='menuOptions'>
             <Link to={'/graduate'}><img className='menuIcon' src={course} alt="ícone curso" />Meu curso</Link>

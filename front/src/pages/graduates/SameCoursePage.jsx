@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import '../page.css';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import Table from '../../components/Table';
 
 function SameCoursePage() {
     const [graduatesSameCourse, setGraduatesSameCourse] = useState([]);
@@ -20,7 +21,7 @@ function SameCoursePage() {
                 isMounted && setGraduatesSameCourse(response.data);
             } catch (err) {
                 console.error(err);
-                navigate('/', { state: {from: location }, replace: true });
+                navigate('/', { state: { from: location }, replace: true });
             }
         }
 
@@ -31,9 +32,9 @@ function SameCoursePage() {
 
     return (
         <div className="page">
+            <h1 className='pageTitle'>Egressos do curso de BSI</h1>
             <main className="pageContent">
-                <h1 className='pageTitle'>Egressos do curso de BSI</h1>
-                {console.log(graduatesSameCourse)}
+                <Table items={graduatesSameCourse} columnLabels={['Matrícula', 'Nome', 'Email', 'Graduação', 'Opções']} />
             </main>
         </div>
     )
