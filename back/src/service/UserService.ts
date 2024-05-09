@@ -178,12 +178,12 @@ export class UserService {
             include: [{
                 model: Course,
                 as: 'course',
-                attributes: ['id'],
+                attributes: [],
                 where: {
                     id: user.courseId
                 }
             }],
-            attributes: ['id', 'enrollment', 'name', 'email', 'allowEmails', 'entryYear', 'graduationYear'],
+            attributes: ['enrollment', 'name', 'email', 'graduationYear', 'allowEmails'],
         });
     };
 
