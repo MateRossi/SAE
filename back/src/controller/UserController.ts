@@ -143,14 +143,15 @@ export const userController = {
         
         try {
             const user = await UserService.login(login, password);
-            const role = user.role;
 
             const accessToken = jwt.sign(
                 {
                     "UserInfo": {
-                        "username": user.name,
-                        "role": role,
                         "id": user.id,
+                        "name": user.name,
+                        "email": user.email,
+                        "allowEmails": user.allowEmails,
+                        "role": user.role,
                     },
                 },
                 process.env.JWT_SECRET || 'SEAG@2024TTCCMR',
@@ -165,8 +166,10 @@ export const userController = {
             user.refreshToken = refreshToken;
             await user.update({ refreshToken });
 
+            user.password = '';
+
             res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'none', secure: true, maxAge: 24 * 60 * 60 * 1000 });
-            res.json({ accessToken });
+            res.json({ accessToken, user: user });
         } catch (error) {
             ErrorResponse.handleErrorResponse(error, res);
         };
@@ -205,13 +208,14 @@ export const userController = {
             process.env.JWT_SECRET || "SEAG@2024TTCCMR",
             (err: any, decoded: any) => {
                 if (err || foundUser.email != decoded.email) return res.sendStatus(403);
-                const role = foundUser.role;
                 const accessToken = jwt.sign(
                     {
                         "UserInfo": {
-                            "username": foundUser.name,
-                            "role": role,
                             "id": foundUser.id,
+                            "name": foundUser.name,
+                            "email": foundUser.email,
+                            "allowEmails": foundUser.allowEmails,
+                            "role": foundUser.role,
                         },
                     },
                     process.env.JWT_SECRET || 'SEAG@2024TTCCMR',

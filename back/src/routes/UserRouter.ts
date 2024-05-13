@@ -11,7 +11,7 @@ const userRouter = express.Router();
 //rotas básicas
 userRouter.patch('/update-password', verifyRoles('graduate', 'admin'), userController.updateUserPassword);
 
-userRouter.get('/graduates/:id', verifyRoles('admin'), userController.getGraduateById);
+userRouter.get('/graduates/:id', verifyRoles('graduate', 'admin'), userController.getGraduateById);
 
 //graduates
 userRouter.post('/admins', verifyRoles('admin'), userController.createAdmin);
