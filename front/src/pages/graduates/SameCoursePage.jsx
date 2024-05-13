@@ -16,7 +16,7 @@ function SameCoursePage() {
         let isMounted = true;
         const getGraduatesSameCourse = async () => {
             try {
-                const response = await axiosPrivate.get(`/users/${auth.userId}/same-course`);
+                const response = await axiosPrivate.get(`/users/${auth.id}/same-course`);
                 console.log(response.data);
                 isMounted && setGraduatesSameCourse(response.data);
             } catch (err) {

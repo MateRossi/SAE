@@ -47,9 +47,9 @@ function LoginPage() {
 
             const decodedToken = jose.decodeJwt(accessToken);
             console.log("Decoded token: ", JSON.stringify(decodedToken));
-            const { role, id } = decodedToken.UserInfo;
+            const { id, name, email, allowEmails, role } = decodedToken.UserInfo;
 
-            setAuth({ user, pwd, role, accessToken, userId: id });
+            setAuth({ id, name, email, allowEmails, role, accessToken });
             resetUser();
             setPwd('');
 

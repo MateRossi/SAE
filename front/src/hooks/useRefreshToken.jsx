@@ -18,7 +18,7 @@ function useRefreshToken() {
         setAuth(prev => {
             return {
                 ...prev,
-                userId: decodedToken.UserInfo.id,
+                id: decodedToken.UserInfo.id,
                 role: decodedToken.UserInfo.role,
                 accessToken: response.data.accessToken,
             }
