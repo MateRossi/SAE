@@ -88,8 +88,6 @@ export const userController = {
         try {
             const userId = Number(req.params.id);
             const userData = req.body;
-            const hashedPassword = await bcrypt.hash(userData.password, 10);
-            userData.password = hashedPassword;
             const updatedUser = await UserService.updateGraduate(userId, userData);
             res.json({ updatedUser, msg: 'Egresso atualizado.' });
         } catch (error) {

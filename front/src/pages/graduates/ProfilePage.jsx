@@ -28,7 +28,7 @@ function ProfilePage() {
 
     const handleAllowEmailsChange = (e) => {
         const newValue = e.target.value === 'sim' ? true : false;
-        setUserData({...userData, allowEmails: newValue});
+        setUserData({ ...userData, allowEmails: newValue });
     }
 
     useEffect(() => {
@@ -51,19 +51,38 @@ function ProfilePage() {
 
     console.log(userData);
 
+    const handleEdit = async (id) => {
+        const updatedUser = {
+            ...userData,
+            id,
+            name: userData.name,
+            email: userData.email,
+            allowEmails: userData.allowEmails,
+            phoneNumber: userData.phoneNumber
+        };
+        try {
+            const response = await axiosPrivate.put(`/users/graduates/${id}`, updatedUser);
+            setUserData(...userData, response.data);
+        } catch (err) {
+            console.error(`Error: ${err.message}`);
+            setErrMsg(err.message);
+            console.log(errMsg);
+        }
+    };
+
     return (
         <div className="page">
             <h1 className="pageTitle">Configurações do Perfil</h1>
             <main className="pageContent">
                 {userData &&
-                    <form className="form">
+                    <form className="form" onSubmit={(e) => e.preventDefault()}>
                         <label htmlFor="name">Nome: </label>
                         <input
                             id="name"
                             type="text"
                             defaultValue={userData.name}
                             required
-                            onChange={(e) => setUserData({...userData, name: e.target.value})}
+                            onChange={(e) => setUserData({ ...userData, name: e.target.value })}
                         />
                         <label htmlFor="email">Email: </label>
                         <input
@@ -71,7 +90,7 @@ function ProfilePage() {
                             type="email"
                             defaultValue={userData.email}
                             required
-                            onChange={(e) => setUserData({...userData, email: e.target.value})}
+                            onChange={(e) => setUserData({ ...userData, email: e.target.value })}
                         />
                         <p>Deseja receber e-mails comunicativos? </p>
                         <label htmlFor="allow-emails-yes">Sim</label>
@@ -97,9 +116,10 @@ function ProfilePage() {
                             type="text"
                             id="phone"
                             defaultValue={userData.phoneNumber}
-                            onChange={(e) => setUserData({...userData, phoneNumber: e.target.value})}
+                            onChange={(e) => setUserData({ ...userData, phoneNumber: e.target.value })}
                             minLength={8}
                         />
+                        <button type="submit" onClick={() => handleEdit(userData.id)}>Salvar</button>
                     </form>
                 }
                 {!userData &&
