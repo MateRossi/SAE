@@ -100,10 +100,13 @@ export class UserService {
             email,
             entryYear,
             graduationYear,
+            allowEmails,
+            tellTrajectory,
+            phoneNumber,
             courseId
         } = updatedData;
         await CourseService.isExistent(courseId);
-        return user.update({ enrollment, name, email, entryYear, graduationYear, courseId });
+        return user.update({ enrollment, name, email, entryYear, graduationYear, allowEmails, tellTrajectory, phoneNumber, courseId });
     };
 
     static async updateAdmin(id: number, updatedData: User) {
