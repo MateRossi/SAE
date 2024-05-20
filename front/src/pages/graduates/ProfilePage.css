@@ -8,11 +8,10 @@
     background-color: white;
     border-radius: 0.625;
     margin-bottom: 1rem;
-    margin-left: 1rem;
-    align-self: flex-start;
+    align-self: center;
 }
 
-.updateForm input {
+.Form input[type='radio'] {
     height: 3rem;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 0.25rem;
@@ -26,9 +25,13 @@
 
 .radioButtonContainer {
     display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 11px;
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 .radioButtonContainer input {
@@ -38,8 +41,4 @@
 
 .radioButtonContainer input:checked {
     background-color: green;
-}
-
-.radioOptions {
-
 }

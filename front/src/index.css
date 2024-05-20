@@ -84,6 +84,22 @@ body {
   box-shadow: 0px 0px 15px white;
 }
 
+.radio-line {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+}
+
+.radio-line input[type='radio'] {
+  height: 1.5rem;
+}
+
+.radio-line input[type='radio']:checked {
+  background-color: green;
+}
+
 .Content {
   display: flex;
   flex-grow: 1;
@@ -134,8 +150,11 @@ body {
 .loginForm input[type="email"],
 .loginForm input[type="password"] {
   width: calc(100% - 10%);
-  height: 2rem;
+  height: 3rem;
   outline: none;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: lighter;
   border: 1px solid rgb(194, 194, 194);
   border-radius: 0.25rem;
   margin-bottom: 1rem;
@@ -226,14 +245,14 @@ td:last-of-type {
 }
 
 .successMsg {
-  padding: 3rem;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  background-color: limegreen;
+  color: white;
+  font-weight: bold;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
   border-radius: 0.25rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: fit-content;
+  align-self: center;
 }
 
 .RegisterForm {
@@ -310,6 +329,8 @@ td:last-of-type {
   padding: 0.5rem;
   margin-bottom: 0.5rem;
   border-radius: 0.25rem;
+  width: fit-content;
+  align-self: center;
 }
 
 .offscreen {
