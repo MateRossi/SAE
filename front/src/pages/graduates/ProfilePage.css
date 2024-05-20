@@ -1,0 +1,45 @@
+.updateForm {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    background-color: white;
+    border-radius: 0.625;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+    align-self: flex-start;
+}
+
+.updateForm input {
+    height: 3rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+    padding-left: 10px;
+}
+
+.updateForm button {
+    align-self: center;
+}
+
+.radioButtonContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+}
+
+.radioButtonContainer input {
+    margin-bottom: 0;
+    width: 1.5rem;
+}
+
+.radioButtonContainer input:checked {
+    background-color: green;
+}
+
+.radioOptions {
+
+}

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import useAuth from '../../hooks/useAuth';
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useLocation, useNavigate } from 'react-router-dom';
+import './ProfilePage.css';
 
 const PWD_REGEX = /.{8,24}/;
 const YEAR_REGEX = /19[5-9][0-9]|2[0-9]{3}/;
@@ -31,6 +32,11 @@ function ProfilePage() {
         setUserData({ ...userData, allowEmails: newValue });
     }
 
+    const handleTellTrajectoryChange = (e) => {
+        const newValue = e.target.value === 'sim' ? true : false;
+        setUserData({ ...userData, tellTrajectory: newValue });
+    }
+
     useEffect(() => {
         let isMounted = true;
         const getGraduateData = async () => {
@@ -58,7 +64,8 @@ function ProfilePage() {
             name: userData.name,
             email: userData.email,
             allowEmails: userData.allowEmails,
-            phoneNumber: userData.phoneNumber
+            phoneNumber: userData.phoneNumber,
+            tellTrajectory: userData.tellTrajectory,
         };
         try {
             const response = await axiosPrivate.put(`/users/graduates/${id}`, updatedUser);
@@ -75,7 +82,7 @@ function ProfilePage() {
             <h1 className="pageTitle">Configurações do Perfil</h1>
             <main className="pageContent">
                 {userData &&
-                    <form className="form" onSubmit={(e) => e.preventDefault()}>
+                    <form className="updateForm" onSubmit={(e) => e.preventDefault()}>
                         <label htmlFor="name">Nome: </label>
                         <input
                             id="name"
@@ -92,6 +99,7 @@ function ProfilePage() {
                             required
                             onChange={(e) => setUserData({ ...userData, email: e.target.value })}
                         />
+                        <div className="radioButtonContainer">
                         <p>Deseja receber e-mails comunicativos? </p>
                         <label htmlFor="allow-emails-yes">Sim</label>
                         <input
@@ -111,6 +119,28 @@ function ProfilePage() {
                             defaultChecked={!userData.allowEmails}
                             onChange={handleAllowEmailsChange}
                         />
+                        </div>
+                        <div className="radioButtonContainer">
+                        <p>Gostaria se disponibilizar para contar sua tragetória? </p>
+                        <label htmlFor="tell-tragectory-yes">Sim</label>
+                        <input
+                            type="radio"
+                            id="tell-tragectory-yes"
+                            name="tell-tragectory"
+                            value="sim"
+                            defaultChecked={userData.tellTrajectory}
+                            onChange={handleTellTrajectoryChange}
+                        />
+                        <label htmlFor="tell-tragectory-no">Não</label>
+                        <input
+                            type="radio"
+                            id="tell-tragectory-no"
+                            name="tell-tragectory"
+                            value="nao"
+                            defaultChecked={!userData.tellTrajectory}
+                            onChange={handleTellTrajectoryChange}
+                        />
+                        </div>
                         <label htmlFor="phone">Contato: </label>
                         <input
                             type="text"
