@@ -103,10 +103,8 @@ export class UserService {
             allowEmails,
             tellTrajectory,
             phoneNumber,
-            courseId
         } = updatedData;
-        await CourseService.isExistent(courseId);
-        return user.update({ enrollment, name, email, entryYear, graduationYear, allowEmails, tellTrajectory, phoneNumber, courseId });
+        return user.update({ enrollment, name, email, entryYear, graduationYear, allowEmails, tellTrajectory, phoneNumber });
     };
 
     static async updateAdmin(id: number, updatedData: User) {
@@ -203,7 +201,7 @@ export class UserService {
 
         const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
         if (!isPasswordValid) {
-            throw new Unauthorized('Senha incorreta.');
+            throw new Error('Senha incorreta.');
         }
 
         try {

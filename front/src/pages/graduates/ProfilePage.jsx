@@ -4,9 +4,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useLocation, useNavigate } from 'react-router-dom';
 import './ProfilePage.css';
 import UserInfoEdit from "../../components/UserInfoEdit";
-
-const PWD_REGEX = /.{8,24}/;
-const YEAR_REGEX = /19[5-9][0-9]|2[0-9]{3}/;
+import EditPassword from "../../components/EditPassword";
 
 function ProfilePage() {
     const { auth } = useAuth();
@@ -50,6 +48,7 @@ function ProfilePage() {
             <h1 className="pageTitle">Configurações do Perfil</h1>
             <main className="pageContent">
                 <UserInfoEdit userData={userData} setUserData={setUserData} axiosPrivate={axiosPrivate} />
+                <EditPassword userData={userData} setUserData={setUserData} axiosPrivate={axiosPrivate} />
             </main>
         </div>
     )
