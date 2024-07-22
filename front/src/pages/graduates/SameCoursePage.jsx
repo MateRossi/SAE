@@ -32,7 +32,7 @@ function SameCoursePage() {
 
     return (
         <div className="page">
-            <h1 className='pageTitle'>Egressos do curso de BSI</h1>
+            <h1 className='pageTitle'>Egressos do mesmo curso</h1>
             <main className="pageContent">
                 <Table items={graduatesSameCourse} columnLabels={['Matrícula', 'Nome', 'Email', 'Graduação', 'Opções']} />
             </main>

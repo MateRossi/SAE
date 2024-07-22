@@ -148,6 +148,7 @@ body {
 
 .loginForm input[type="text"],
 .loginForm input[type="email"],
+.loginForm input[type="number"],
 .loginForm input[type="password"] {
   width: calc(100% - 10%);
   height: 3rem;

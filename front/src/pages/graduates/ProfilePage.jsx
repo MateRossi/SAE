@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import './ProfilePage.css';
 import UserInfoEdit from "../../components/UserInfoEdit";
 import EditPassword from "../../components/EditPassword";
+import EditGraduateInfo from "../../components/EditGraduateInfo";
 
 function ProfilePage() {
     const { auth } = useAuth();
@@ -48,6 +49,7 @@ function ProfilePage() {
             <h1 className="pageTitle">Configurações do Perfil</h1>
             <main className="pageContent">
                 <UserInfoEdit userData={userData} setUserData={setUserData} axiosPrivate={axiosPrivate} />
+                <EditGraduateInfo userData={userData} setUserData={setUserData} axiosPrivate={axiosPrivate} />
                 <EditPassword userData={userData} setUserData={setUserData} axiosPrivate={axiosPrivate} />
             </main>
         </div>

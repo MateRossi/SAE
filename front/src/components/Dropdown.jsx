@@ -48,8 +48,8 @@ function Dropdown({ options, value, onChange }) {
     return (
         <div ref={divEl} className="Dropdown">
             <div className="DropdownPanel" onClick={handleClick} >
-                {value?.name || 'Selecione...'}
-                <GoChevronDown className="ChevronDown" />        
+                {value?.name || value || 'Selecione...'}
+                <GoChevronDown className="ChevronDown" />      
             </div>
             {isOpen && (
                 <div className="DropdownOptions">
