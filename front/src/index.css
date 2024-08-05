@@ -100,6 +100,37 @@ body {
   background-color: green;
 }
 
+.likert-scale-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.likert-scale {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.likert-scale input[type='radio'] {
+  transform: scale(1.5);
+  margin: 2px;
+}
+
+.likert-scale input[type='radio']:checked {
+  background-color: green;
+}
+
+.review-question {
+  width: 80%;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 1rem;
+  box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
 .Content {
   display: flex;
   flex-grow: 1;

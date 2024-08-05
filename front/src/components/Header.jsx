@@ -1,12 +1,13 @@
 import './Header.css';
+import { Link } from 'react-router-dom';
 
 function Header() {
     return (
         <header className="Header">
             <div className="DarkHeader">
                 <ul>
-                    <li>ENTRAR</li>
-                    <li>SOLICITAR CADASTRO</li>
+                    <Link to="/" style={{ color: '#f9f9f9', textDecoration: 'none'}}><li>ENTRAR</li></Link>
+                    <Link to="register" style={{ color: '#f9f9f9', textDecoration: 'none'}}><li>SOLICITAR CADASTRO</li></Link>
                 </ul>
             </div>
             <div className='HeaderTitle'>
