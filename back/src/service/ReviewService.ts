@@ -19,6 +19,18 @@ export class ReviewService {
         return review;
     };
 
+    static async getReviewByUserId(id: number) {
+        const user = await UserService.getUserById(id);
+
+        if (!user) {
+            throw new NotFoundError("Usuário não encontrado");
+        }
+
+        return Review.findOne({
+            where: { userId: id }
+        });
+    };
+
     static async createReview(reviewData: Review) {
         const {
             desireToWorkArea,

@@ -13,7 +13,7 @@ class User extends Model {
     public phoneNumber!: string;
     public tellTrajectory!: boolean;
     public workedBefore!: boolean;
-    public degreeLevel!: string; 
+    public degreeLevel!: string;
     public commentary!: string;
     public entryYear!: number;
     public graduationYear!: number;

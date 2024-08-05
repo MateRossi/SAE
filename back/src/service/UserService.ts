@@ -103,8 +103,11 @@ export class UserService {
             allowEmails,
             tellTrajectory,
             phoneNumber,
+            workedBefore,
+            degreeLevel,
+            commentary,
         } = updatedData;
-        return user.update({ enrollment, name, email, entryYear, graduationYear, allowEmails, tellTrajectory, phoneNumber });
+        return user.update({ enrollment, name, email, entryYear, graduationYear, allowEmails, tellTrajectory, phoneNumber, workedBefore, degreeLevel, commentary });
     };
 
     static async updateAdmin(id: number, updatedData: User) {

@@ -22,6 +22,16 @@ export const reviewController = {
         };
     },
 
+    async getReviewByUserId(req: Request, res: Response) {
+        try {
+            const userId = Number(req.params.id);
+            const review = await ReviewService.getReviewByUserId(userId);
+            res.json(review);
+        } catch (error: any) {
+            ErrorResponse.handleErrorResponse(error, res);
+        };
+    },
+
     async createReview(req: Request, res: Response) {
         try {
             const reviewData = req.body;

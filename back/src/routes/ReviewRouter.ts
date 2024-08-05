@@ -10,5 +10,6 @@ reviewRouter.get('/:id', verifyRoles('graduate', 'admin'), reviewController.getR
 reviewRouter.post('/', verifyRoles('graduate'), reviewController.createReview);
 reviewRouter.put('/:id', verifyRoles('graduate'), reviewController.updateReview);
 reviewRouter.delete('/:id', verifyRoles('admin'), reviewController.deleteReview);
+reviewRouter.get("/graduates/:id", verifyRoles('graduate', 'admin'), reviewController.getReviewByUserId);
 
 export default reviewRouter;
