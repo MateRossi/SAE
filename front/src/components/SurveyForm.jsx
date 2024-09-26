@@ -1,7 +1,8 @@
+import Estudando from "./Estudando";
 import Trabalhando from "./Trabalhando";
 
 /* eslint-disable react/prop-types */
-export default function SurveyForm({ surveyData, setSurveyData }) {
+export default function SurveyForm({ surveyData, setSurveyData, handleSubmit }) {
     const radioOptions = [
         { value: true, label: 'Sim' },
         { value: false, label: 'Não' },
@@ -15,19 +16,21 @@ export default function SurveyForm({ surveyData, setSurveyData }) {
         { value: 5, label: 'Muito alta' },
     ];
 
-    const handleSubmit = async (value) => {
-        console.log(value);
-    }
-
-    const trabalhando = <Trabalhando
-        surveyData={surveyData}
-        setSurveyData={setSurveyData}
-        radioOptions={radioOptions}
-        likertOptions={likertOptions}
-        handleSubmit={handleSubmit}
-    />
-
     if (surveyData?.situation === "Trabalhando") return (
-        trabalhando
+        <Trabalhando
+            surveyData={surveyData}
+            radioOptions={radioOptions}
+            likertOptions={likertOptions}
+            handleSubmit={handleSubmit}
+        />
+    );
+
+    if (surveyData?.situation === "Apenas estudando") return (
+        <Estudando
+            surveyData={surveyData}
+            setSurveyData={setSurveyData}
+            likertOptions={likertOptions}
+            handleSubmit={handleSubmit}
+        />
     );
 }

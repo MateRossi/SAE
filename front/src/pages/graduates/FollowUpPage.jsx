@@ -5,6 +5,7 @@ import surveyOptions from '../../constants/surveyOptions';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Dropdown from "../../components/Dropdown";
 import SurveyForm from "../../components/SurveyForm";
+import './FollowUpPage.css';
 
 function FollowUpPage() {
     const { auth } = useAuth();
@@ -49,11 +50,16 @@ function FollowUpPage() {
 
     const handleSubmit = async (value) => {
         const newSurvey = {
-            ...surveyData,
-            value
+            situation: surveyData?.situation,
+            userId: auth.id,
+            ...value,
         }
+
+        console.log(newSurvey);
+
         try {
             const response = await axiosPrivate.post(`/surveys`, newSurvey);
+            console.log("Response: ", response);
             setSurveyData({ ...surveyData, ...response.data });
             setSuccessMsg('Dados alterados');
             successRef.current.focus();

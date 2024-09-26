@@ -68,9 +68,18 @@ function ReviewPage() {
             const response = await axiosPrivate.post(`/reviews`, { ...reviewData, userId: auth.id });
             console.log("Response data", response.data);
             setSuccessMsg('Review salva com sucesso!');
+            successRef.current.focus();
         } catch (err) {
-            setErrMsg('Erro ao salvar a review.')
-            navigate('/', { state: { from: location }, replace: true });
+            if (!err?.response) {
+                setErrMsg('Sem resposta.');
+            } else if (err.response?.status === 400) {
+                setErrMsg('Dados faltantes');
+            } else if (err.response?.status === 401) {
+                setErrMsg('Não autorizado');
+            } else {
+                setErrMsg('Falha ao alterar dados');
+            }
+            errRef.current.focus();
         }
     }
 

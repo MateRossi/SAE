@@ -35,8 +35,10 @@ export const surveyController = {
     async createSurvey(req: Request, res: Response) {
         try {
             const surveyData = req.body;
+            console.log(surveyData);
             const newSurvey = await SurveyService.createSurvey(surveyData);
-            res.status(201).json({ newSurvey, msg: 'A pesquisa foi salva.' });
+            console.log(newSurvey);
+            res.status(201).json(newSurvey);
         } catch (error: any) {
             ErrorResponse.handleErrorResponse(error, res);
         };

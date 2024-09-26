@@ -16,6 +16,7 @@
     align-items: center;
     min-height: calc(100% - 4rem);
     margin-top: 4rem;
+    margin-left: auto;
 }
 
 .pageTitle {

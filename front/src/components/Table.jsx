@@ -3,7 +3,8 @@ import Row from "./Row";
 
 function Table({ items, columnLabels }) {
     return (
-        <table>
+        <div className="table-container">
+            <table className="table">
             <thead>
                 <tr>
                     {columnLabels.map(label => (
@@ -18,6 +19,7 @@ function Table({ items, columnLabels }) {
                 ))}
             </tbody>
         </table>
+        </div>
     )
 }
 

@@ -12,6 +12,7 @@ export default function Trabalhando({
     handleSubmit
 }) {
     const [changed, setChanged] = useState(false);
+    const [companyName, setCompanyName] = useState(surveyData?.companyName);
     const [positionName, setPositionName] = useState(surveyData?.positionName);
     const [employmentType, setEmploymentType] = useState(surveyData?.employmentType);
     const [worksInArea, setWorksInArea] = useState(surveyData?.worksInArea);
@@ -25,7 +26,7 @@ export default function Trabalhando({
         setChanged(true);
     }, [positionName, employmentType, worksInArea, positionEducationRequirement])
 
-    const handleSubmitClick = async (e) => {
+    const handleSubmitClick = (e) => {
         e.preventDefault();
 
         const value = {
@@ -33,13 +34,22 @@ export default function Trabalhando({
             employmentType: employmentType?.name,
             worksInArea,
             positionEducationRequirement,
+            companyName,
         }
         handleSubmit(value);
     }
 
     return (
         <form className="loginForm">
-            <label htmlFor="name" style={{ marginBottom: "10px", marginTop: "16px" }}>Nome do cargo: </label>
+            <label htmlFor="companyName" style={{ marginBottom: "10px", marginTop: "16px" }}>Nome da empresa: </label>
+            <input
+                id="companyName"
+                type="text"
+                defaultValue={companyName}
+                required
+                onChange={(e) => setCompanyName(e.target.value)}
+            />
+            <label htmlFor="name" style={{ marginBottom: "10px" }}>Nome do cargo: </label>
             <input
                 id="positionName"
                 type="text"

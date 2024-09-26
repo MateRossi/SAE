@@ -212,9 +212,21 @@ export class UserService {
 
     //rotas personalizadas
     static async getGraduatesSameCourse(id: number) {
-        const user = await this.isExistent(id);
+        const user = await User.findByPk(id, {
+            include: [
+                {
+                    model: Course,
+                    as: 'course',
+                    attributes: ['name', 'acronym'],
+                }
+            ]
+        })
 
-        return User.findAll({
+        if (!user) {
+            throw new NotFoundError('Usuário não encontrado');
+        }
+
+        const users = await User.findAll({
             where: {
                 role: 'graduate'
             },
@@ -228,6 +240,8 @@ export class UserService {
             }],
             attributes: ['enrollment', 'name', 'email', 'graduationYear', 'allowEmails'],
         });
+
+        return { users, course: (user as any).course.name }
     };
 
     static async updateUserPassword(id: number, oldPassword: string, newPassword: string) {

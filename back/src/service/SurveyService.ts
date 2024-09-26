@@ -1,6 +1,7 @@
 import Survey from "../model/Survey";
 import { UserService } from "./UserService";
 import { NotFoundError } from "../errors/NotFoundError";
+import User from "../model/User";
 
 export class SurveyService {
     static async getAllSurveys() {
@@ -19,12 +20,12 @@ export class SurveyService {
             throw new NotFoundError("Usuário não encontrado");
         }
 
-        return Survey.findOne({
+        return await Survey.findOne({
             where: { userId: id }
         });
     };
 
-    static async createSurvey(surveyData: Survey) {       
+    static async createSurvey(surveyData: Survey) {
         const {
             situation,
             positionName,
@@ -36,8 +37,13 @@ export class SurveyService {
             companyName,
             userId,
         } = surveyData;
-        await UserService.isExistent(userId);
-        return Survey.create({
+        const user = User.findByPk(userId);
+
+        if (!user) {
+            throw new NotFoundError('Usuário não encontrado')
+        }
+
+        return await Survey.create({
             situation,
             positionName,
             employmentType,
@@ -64,7 +70,7 @@ export class SurveyService {
             userId,
         } = updatedData;
         await UserService.isExistent(userId);
-        return survey.update({
+        return await survey.update({
             situation,
             positionName,
             employmentType,
