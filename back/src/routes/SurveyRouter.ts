@@ -10,5 +10,6 @@ surveyRouter.get('/:id', verifyRoles('graduate', 'admin'), surveyController.getS
 surveyRouter.post('/', verifyRoles('graduate'), surveyController.createSurvey);
 surveyRouter.put('/:id', verifyRoles('graduate'), surveyController.updateSurvey);
 surveyRouter.delete('/:id', verifyRoles('admin'), surveyController.deleteSurvey);
+surveyRouter.get("/graduates/:id", verifyRoles('graduate', 'admin'), surveyController.getSurveyByUserId);
 
 export default surveyRouter;

@@ -1,5 +1,5 @@
 //import ReviewItem from "../../components/ReviewItem";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import useAuth from '../../hooks/useAuth';
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -24,17 +24,15 @@ function ReviewPage() {
         { value: "Não sabe / prefere não opinar", label: "Não sabe / prefere não opinar" }
     ]
 
-    const [reviewData, setReviewData] = useState({
-        desireToWorkArea: null,
-        learningLevelRating: null,
-        courseRating: null,
-        campusRating: null,
-        infraRating: null,
-        theoKnowledgeRating: null,
-        practKnowledgeRating: null,
-        teachersRating: null,
-        courseExpectation: null,
-    });
+    const [reviewData, setReviewData] = useState(null);
+
+    const [changed, setChanged] = useState(false);
+
+    const errRef = useRef();
+    const [errMsg, setErrMsg] = useState('');
+
+    const successRef = useRef();
+    const [successMsg, setSuccessMsg] = useState('');
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -62,18 +60,40 @@ function ReviewPage() {
             ...prevState,
             [field]: value,
         }));
+        setChanged(true);
     };
+
+    const handleSave = async () => {
+        try {
+            const response = await axiosPrivate.post(`/reviews`, { ...reviewData, userId: auth.id });
+            console.log("Response data", response.data);
+            setSuccessMsg('Review salva com sucesso!');
+        } catch (err) {
+            setErrMsg('Erro ao salvar a review.')
+            navigate('/', { state: { from: location }, replace: true });
+        }
+    }
 
     return (
         <div className="page">
             <h1 className="pageTitle">Minhas Reviews</h1>
             <main className="pageContent">
+                <p ref={successRef} className={successMsg ? 'successMsg' : 'offscreen'} aria-live='assertive'>
+                    {successMsg}
+                </p>
+                <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live='assertive'>
+                    {errMsg}
+                </p>
+                <p className="page-subtitle">Informe-nos quais as suas avaliações nas questões abaixo,
+                    para que possamos melhorar a qualidade de ensino e entender melhor
+                    as nessecidades de nossos alunos!
+                </p>
                 <div className="review-question">
                     <p>O seu desejo de trabalhar na área quando se formou era: </p>
                     <ReviewItem
                         name='desireToWorkArea'
                         items={likertOptions}
-                        value={reviewData.desireToWorkArea}
+                        value={reviewData?.desireToWorkArea}
                         onChange={updateField}
                     />
                 </div>
@@ -82,7 +102,7 @@ function ReviewPage() {
                     <ReviewItem
                         name='learningLevelRating'
                         items={likertOptions}
-                        value={reviewData.learningLevelRating}
+                        value={reviewData?.learningLevelRating}
                         onChange={updateField}
                     />
                 </div>
@@ -91,7 +111,7 @@ function ReviewPage() {
                     <ReviewItem
                         name='courseRating'
                         items={likertOptions}
-                        value={reviewData.courseRating}
+                        value={reviewData?.courseRating}
                         onChange={updateField}
                     />
                 </div>
@@ -100,7 +120,7 @@ function ReviewPage() {
                     <ReviewItem
                         name='campusRating'
                         items={likertOptions}
-                        value={reviewData.campusRating}
+                        value={reviewData?.campusRating}
                         onChange={updateField}
                     />
                 </div>
@@ -109,7 +129,7 @@ function ReviewPage() {
                     <ReviewItem
                         name='infraRating'
                         items={likertOptions}
-                        value={reviewData.infraRating}
+                        value={reviewData?.infraRating}
                         onChange={updateField}
                     />
                 </div>
@@ -118,7 +138,7 @@ function ReviewPage() {
                     <ReviewItem
                         name='theoKnowledgeRating'
                         items={likertOptions}
-                        value={reviewData.theoKnowledgeRating}
+                        value={reviewData?.theoKnowledgeRating}
                         onChange={updateField}
                     />
                 </div>
@@ -127,7 +147,7 @@ function ReviewPage() {
                     <ReviewItem
                         name='practKnowledgeRating'
                         items={likertOptions}
-                        value={reviewData.practKnowledgeRating}
+                        value={reviewData?.practKnowledgeRating}
                         onChange={updateField}
                     />
                 </div>
@@ -136,7 +156,7 @@ function ReviewPage() {
                     <ReviewItem
                         name='teachersRating'
                         items={likertOptions}
-                        value={reviewData.teachersRating}
+                        value={reviewData?.teachersRating}
                         onChange={updateField}
                     />
                 </div>
@@ -145,10 +165,21 @@ function ReviewPage() {
                     <ReviewItem
                         name='courseExpectation'
                         items={courseExpectationOptions}
-                        value={reviewData.courseExpectation}
+                        value={reviewData?.courseExpectation}
                         onChange={updateField}
                     />
                 </div>
+                <button
+                    disabled={!changed}
+                    className={
+                        changed ?
+                            "save-changes-button"
+                            : "save-changes-button-disabled"
+                    }
+                    onClick={handleSave}
+                >
+                    Salvar
+                </button>
             </main>
         </div>
     )

@@ -4,6 +4,8 @@ import Dropdown from '../../components/Dropdown';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate, Link } from 'react-router-dom';
+import * as jose from 'jose';
+import useAuth from "../../hooks/useAuth";
 
 const PWD_REGEX = /.{8,24}/;
 const YEAR_REGEX = /19[5-9][0-9]|2[0-9]{3}/;
@@ -14,13 +16,15 @@ function RegisterPage() {
     const errRef = useRef();
 
     const navigate = useNavigate();
+    const { setAuth } = useAuth();
+
     const [isLoading, setIsLoading] = useState(true);
 
     //name
-    const [name, setName] = useState('');
+    const [userName, setName] = useState('');
 
     //email
-    const [email, setEmail] = useState('');
+    const [userEmail, setEmail] = useState('');
     const [emailFocus, setEmailFocus] = useState(false);
 
     //senha
@@ -74,7 +78,7 @@ function RegisterPage() {
 
     useEffect(() => {
         setErrMsg('');
-    }, [email, pwd, matchPwd, courseName, entryYear, gradYear]);
+    }, [userEmail, pwd, matchPwd, courseName, entryYear, gradYear]);
 
     useEffect(() => {
         let isMounted = true;
@@ -100,9 +104,10 @@ function RegisterPage() {
         try {
             const response = await axios.post(REGISTER_URL,
                 JSON.stringify({
-                    name,
-                    email: email,
+                    name: userName,
+                    email: userEmail,
                     password: pwd,
+                    matchPassword: matchPwd,
                     courseId: courseName.id,
                     entryYear,
                     graduationYear: gradYear,
@@ -113,17 +118,29 @@ function RegisterPage() {
                     withCredentials: true
                 }
             );
-            console.log(JSON.stringify(response));
-            navigate('/registerSuccess', { replace: true });
+
+            const accessToken = response?.data?.accessToken;
+
+            const decodedToken = jose.decodeJwt(accessToken);
+
+            const { id, name, email, allowEmails, role } = decodedToken.UserInfo;
+
+            setAuth({ id, name, email, allowEmails, role, accessToken });
+            setPwd('');
+            navigate('/graduate', { replace: true });
         } catch (err) {
             if (!err?.response) {
+                console.log(err)
                 setErrMsg('Sem resposta do servidor.');
             } else if (err.response?.status === 409) {
                 setErrMsg('Email ja cadastrado.');
             } else if (err.response?.status === 422) {
                 setErrMsg('Entrada inválida.');
+            } else if (err.response?.status === 404) {
+                setErrMsg(err.response.data.error);
             } else {
-                setErrMsg('Falha ao solicitar registro.');
+                console.log(err);
+                setErrMsg(err.response.data.details);
             }
             errRef.current.focus();
         }
@@ -164,7 +181,7 @@ function RegisterPage() {
                             onFocus={() => setEmailFocus(true)}
                             onBlur={() => setEmailFocus(false)}
                         />
-                        <p id="eidnote" className={emailFocus && !email ? "instructions" : "offscreen"}>
+                        <p id="eidnote" className={emailFocus && !userEmail ? "instructions" : "offscreen"}>
                             O email será seu login e também a principal forma de comunicação.
                         </p>
                         <label htmlFor="password">
@@ -256,7 +273,7 @@ function RegisterPage() {
                         />
                     </div>
                 </div>
-                <button type="submit" disabled={!email || !validPwd || !validMatchPwd ? true : false}>
+                <button type="submit" disabled={!userEmail || !validPwd || !validMatchPwd ? true : false}>
                     Confirmar
                 </button>
             </form>

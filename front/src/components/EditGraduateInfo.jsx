@@ -78,7 +78,7 @@ function UserInfoEdit({ userData, setUserData, axiosPrivate }) {
     return (
         <>
             {userData &&
-                <form className="loginForm" style={{ width: '97%', marginTop: '1rem' }} onSubmit={(e) => e.preventDefault()} >
+                <form className="loginForm" style={{ width: '40%', marginTop: '1rem' }} onSubmit={(e) => e.preventDefault()} >
                     <h3 className="FormTitle" style={{ marginBottom: '0.5rem' }}>Dados Gerais da Formação</h3>
                     <p ref={successRef} className={successMsg ? 'successMsg' : 'offscreen'} aria-live='assertive'>
                         {successMsg}

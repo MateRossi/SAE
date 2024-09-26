@@ -22,6 +22,16 @@ export const surveyController = {
         };
     },
 
+    async getSurveyByUserId(req: Request, res: Response) {
+        try {
+            const userId = Number(req.params.id);
+            const survey = await SurveyService.getSurveyByUserId(userId);
+            res.json(survey);
+        } catch (error: any) {
+            ErrorResponse.handleErrorResponse(error, res);
+        };
+    },
+
     async createSurvey(req: Request, res: Response) {
         try {
             const surveyData = req.body;

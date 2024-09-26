@@ -1,6 +1,5 @@
 import Survey from "../model/Survey";
 import { UserService } from "./UserService";
-import { CompanyService } from "./CompanyService";
 import { NotFoundError } from "../errors/NotFoundError";
 
 export class SurveyService {
@@ -13,6 +12,18 @@ export class SurveyService {
         return survey;
     };
 
+    static async getSurveyByUserId(id: number) {
+        const user = await UserService.getUserById(id);
+
+        if (!user) {
+            throw new NotFoundError("Usuário não encontrado");
+        }
+
+        return Survey.findOne({
+            where: { userId: id }
+        });
+    };
+
     static async createSurvey(surveyData: Survey) {       
         const {
             situation,
@@ -22,11 +33,10 @@ export class SurveyService {
             positionEducationRequirement,
             externalCourseName,
             courseRelationLevel,
-            companyId,
+            companyName,
             userId,
         } = surveyData;
         await UserService.isExistent(userId);
-        await CompanyService.isExistent(companyId);
         return Survey.create({
             situation,
             positionName,
@@ -35,7 +45,7 @@ export class SurveyService {
             positionEducationRequirement,
             externalCourseName,
             courseRelationLevel,
-            companyId,
+            companyName,
             userId,
         });
     };
@@ -50,11 +60,10 @@ export class SurveyService {
             positionEducationRequirement,
             externalCourseName,
             courseRelationLevel,
-            companyId,
+            companyName,
             userId,
         } = updatedData;
         await UserService.isExistent(userId);
-        await CompanyService.isExistent(companyId);
         return survey.update({
             situation,
             positionName,
@@ -63,7 +72,7 @@ export class SurveyService {
             positionEducationRequirement,
             externalCourseName,
             courseRelationLevel,
-            companyId,
+            companyName,
             userId,
         });
     };

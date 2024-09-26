@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from "react";
 import { GoChevronDown } from "react-icons/go";
 import './dropdown.css'
 
-
 // eslint-disable-next-line react/prop-types
 function Dropdown({ options, value, onChange }) {
     const [isOpen, setIsOpen] = useState(false);

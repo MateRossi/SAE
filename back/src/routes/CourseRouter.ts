@@ -6,7 +6,7 @@ const courseRouter = express.Router();
 
 //courseRouter.get('/', verifyRoles('graduate', 'admin'),  courseController.getAllCourses);
 courseRouter.get('/:id', verifyRoles('graduate', 'admin'),  courseController.getCourseById);
-courseRouter.post('/', verifyRoles('admin'), courseController.createCourse);
+courseRouter.post('/', courseController.createCourse);
 courseRouter.put('/:id', verifyRoles('admin'), courseController.updateCourse);
 courseRouter.delete('/:id', verifyRoles('admin'), courseController.deleteCourse);
 

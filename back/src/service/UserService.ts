@@ -59,13 +59,13 @@ export class UserService {
 
     static async getUserByRefreshToken(refreshToken: string) {
         if (!refreshToken) {
-            throw new Error ('Token inválido');
+            throw new Error('Token inválido');
         }
 
         const user = await User.findOne({
             where: { refreshToken },
         });
-        
+
         return user;
     };
 
@@ -129,12 +129,51 @@ export class UserService {
         await user.destroy();
     };
 
+    static async register(
+        enrollment: string,
+        name: string,
+        email: string,
+        password: string,
+        matchPassword: string,
+        entryYear: number,
+        graduationYear: number,
+        courseId?: number,
+    ) {
+        console.log(password, matchPassword);
+
+        if (password !== matchPassword) {
+            throw new Unauthorized('As senhas devem coincidir');
+        }
+
+        const [course, hashedPassword] = await Promise.all([
+            Course.findByPk(courseId),
+            bcrypt.hash(password, 10)
+        ])
+
+        if (!course) {
+            throw new NotFoundError('Curso não encontrado');
+        }
+
+        if (!hashedPassword) {
+            throw new Error('Falha ao encriptar senha');
+        }
+
+        return await User.create({
+            enrollment,
+            name,
+            email,
+            password: hashedPassword,
+            entryYear,
+            graduationYear,
+            courseId
+        });
+    }
+
     static async login(login: string, password: string) {
         const user = await User.findOne({ where: { email: login } });
-        console.log('User' + user?.name)
 
         if (!user) {
-            throw new NotFoundError('Usuário não encontrado.');
+            throw new Unauthorized('Acesso não autorizado. Verifique seu login ou senha.');
         };
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -193,9 +232,9 @@ export class UserService {
 
     static async updateUserPassword(id: number, oldPassword: string, newPassword: string) {
         const user = await this.isExistent(id);
-        
+
         if (!newPassword || !oldPassword) {
-            throw new Error('As senhas não podem ser nulas.'); 
+            throw new Error('As senhas não podem ser nulas.');
         }
 
         if (newPassword === user.password) {
@@ -213,7 +252,7 @@ export class UserService {
         } catch (err: any) {
             throw new Error(`Erro ao encriptar senha ${err.message}`);
         }
-        
+
         return user.save({ fields: ['password'] });
     };
 };

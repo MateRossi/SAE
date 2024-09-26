@@ -111,11 +111,15 @@ body {
   flex-direction: column;
   align-items: center;
   margin-top: 1.5rem;
+  gap: 10px;
+  cursor: pointer;
+  text-align: center;
 }
 
 .likert-scale input[type='radio'] {
   transform: scale(1.5);
   margin: 2px;
+  cursor: pointer;
 }
 
 .likert-scale input[type='radio']:checked {
@@ -197,6 +201,10 @@ button[type="submit"] {
   background-color: green;
   color: white;
   width: calc(100% - 10%)
+}
+
+button[type="submit"]:disabled {
+  opacity: 0.3;
 }
 
 h1 {
@@ -368,6 +376,66 @@ td:last-of-type {
 .offscreen {
   position: absolute;
   left: -9999px;
+}
+
+.save-changes-button,
+.save-changes-button-disabled {
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  background-color: rgb(46, 214, 60);
+  padding: 20px;
+  border-radius: 50px;
+}
+
+.save-changes-button-disabled {
+  opacity: 0.3;
+  cursor: auto;
+}
+
+.page-subtitle {
+  padding: 20px;
+  text-align: center;
+  max-width: 500px;
+}
+
+.sutiation-select-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 16px;
+}
+
+.sutiation-select-container .Dropdown {
+  max-width: 25%;
+  padding: 0;
+}
+
+.sutiation-select-container .Dropdown .DropdownPanel {
+  padding: 10px;
+  height: auto;
+}
+
+.survey-likert {
+  width: calc(100% - 10%);
+  margin-bottom: 16px;
+}
+
+.survey-likert .likert-scale-options {
+  justify-content: space-evenly;
+}
+
+.survey-likert .likert-scale {
+  width: 20%;
+  align-items: center;
+}
+
+.survey-likert .likert-scale label {
+  margin: 0;
+  text-align: center;
+  width: 100%;
 }
 
 @media (prefers-color-scheme: light) {

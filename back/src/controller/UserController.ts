@@ -131,14 +131,74 @@ export const userController = {
         };
     },
 
+    async register(req: Request, res: Response) {
+        const {
+            enrollment,
+            name,
+            email,
+            password,
+            matchPassword,
+            entryYear,
+            graduationYear,
+            courseId,
+        } = req.body;
+
+        try {
+            const user = await UserService.register(
+                enrollment,
+                name,
+                email,
+                password,
+                matchPassword,
+                entryYear,
+                graduationYear,
+                courseId,
+            );
+
+            console.log(user);
+
+            const accessToken = jwt.sign(
+                {
+                    "UserInfo": {
+                        "id": user.id,
+                        "name": user.name,
+                        "email": user.email,
+                        "allowEmails": user.allowEmails,
+                        "role": user.role,
+                    },
+                },
+                process.env.JWT_SECRET || 'SEAG@2024TTCCMR',
+                { expiresIn: '1h' }
+            );
+            const refreshToken = jwt.sign(
+                {
+                    "email": user.email,
+                    "id": user.id,
+                },
+                process.env.JWT_SECRET || 'SEAG@2024TTCCMR',
+                { expiresIn: '1d' }
+            );
+
+            user.refreshToken = refreshToken;
+            await user.save({ fields: ['refreshToken'] });
+
+            user.password = '';
+
+            res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'none', secure: true, maxAge: 24 * 60 * 60 * 1000 });
+            res.json({ accessToken, user: user });
+        } catch (error) {
+            ErrorResponse.handleErrorResponse(error, res);
+        };
+    },
+
     async login(req: Request, res: Response) {
         console.log('login')
         const { login, password } = req.body;
-        
+
         if (!login || !password) return res
-        .status(400)
-        .json({ 'message': 'Login e senha são necessários' });
-        
+            .status(400)
+            .json({ 'message': 'Login e senha são necessários' });
+
         try {
             const user = await UserService.login(login, password);
 

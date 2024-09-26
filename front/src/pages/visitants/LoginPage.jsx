@@ -61,11 +61,11 @@ function LoginPage() {
 
         } catch (err) {
             if (!err?.response) {
-                setErrMsg('No server response.');
+                setErrMsg('Sem resposta do servidor');
             } else if (err.response?.status === 400) {
-                setErrMsg('Missing username or password');
+                setErrMsg('Email e senha são necessários');
             } else if (err.response?.status === 401) {
-                setErrMsg('Unauthorized');
+                setErrMsg('Login falhou. Verifique seu email ou senha.');
             } else {
                 setErrMsg('Login failed', err.message);
             }

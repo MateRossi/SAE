@@ -18,14 +18,14 @@ class Survey extends Model {
     public courseRelationLevel!: number;
 
     //foreign keys
-    public companyId!: number;
+    public companyName!: string;
     public userId!: number;
 
     static validatePosition(value: string|boolean, situation: string) {
         if ((situation === 'Trabalhando' || situation === 'Trabalhando e estudando') && !value) {
             throw new Error('Se você está trabalhando, por favor preencha as informações referentes ao cargo!');
         };
-    }; 
+    };
     
     static validateExternalCourse(value: string, situation: string) {
         if ((situation === 'Apenas estudando' || situation === 'Trabalhando e estudando') && !value) {
@@ -34,7 +34,6 @@ class Survey extends Model {
     };
 
     static associate() {
-        this.belongsTo(Company, { as: 'surveyCompany', foreignKey: 'companyId' });
         this.belongsTo(User, { as: 'surveyUser', foreignKey: 'userId' });
     };
 };
@@ -116,8 +115,8 @@ Survey.init(
             },
             allowNull: true,
         },
-        companyId: {
-            type: DataTypes.INTEGER,
+        companyName: {
+            type: DataTypes.STRING,
             validate: {
                 validateCompanyId(value: string, situation: string) {
                     Survey.validatePosition(value, situation);

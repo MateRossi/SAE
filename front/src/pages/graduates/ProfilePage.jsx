@@ -16,14 +16,6 @@ function ProfilePage() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    //const [pwd, setPwd] = useState('');
-    //const [validPwd, setValidPwd] = useState('');
-    //const [pwdFocus, setPwdFocus] = useState('');
-
-    //const [matchPwd, setMatchPwd] = useState('');
-    //const [validMatchPwd, setValidMatchPwd] = useState(false);
-    //const [matchPwdFocus, setMatchPwdFocus] = useState(false);
-
     useEffect(() => {
         let isMounted = true;
         const getGraduateData = async () => {

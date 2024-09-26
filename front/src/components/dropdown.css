@@ -29,6 +29,8 @@
     width: 100%;
     position: absolute;
     top: 0;
+    max-height: 200px;
+    overflow-y: auto;
 }
 
 .ChevronDown {

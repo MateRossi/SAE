@@ -3,6 +3,6 @@ import { userController } from '../controller/UserController';
 
 const registerGraduate = express.Router();
 
-registerGraduate.post('/', userController.createGraduate);
+registerGraduate.post('/', userController.register);
 
 export default registerGraduate;
