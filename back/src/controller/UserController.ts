@@ -141,6 +141,7 @@ export const userController = {
             entryYear,
             graduationYear,
             courseId,
+            phoneNumber,
         } = req.body;
 
         try {
@@ -152,6 +153,7 @@ export const userController = {
                 matchPassword,
                 entryYear,
                 graduationYear,
+                phoneNumber,
                 courseId,
             );
 
@@ -220,6 +222,8 @@ export const userController = {
                 process.env.JWT_SECRET || 'SEAG@2024TTCCMR',
                 { expiresIn: '1d' }
             );
+
+            console.log('refresh token: ', refreshToken);
 
             user.refreshToken = refreshToken;
             await user.update({ refreshToken });

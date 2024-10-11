@@ -137,6 +137,7 @@ export class UserService {
         matchPassword: string,
         entryYear: number,
         graduationYear: number,
+        phoneNumber: string,
         courseId?: number,
     ) {
         console.log(password, matchPassword);
@@ -165,6 +166,7 @@ export class UserService {
             password: hashedPassword,
             entryYear,
             graduationYear,
+            phoneNumber,
             courseId
         });
     }

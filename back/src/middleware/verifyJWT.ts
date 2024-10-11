@@ -19,6 +19,7 @@ const verifyJWT = (req: AuthRequest, res: Response, next: NextFunction) => {
         token,
         process.env.JWT_SECRET as string,
         (err: any, decoded: any) => {
+            console.error(err);
             if (err) return res.sendStatus(403);
             if (decoded?.UserInfo) {
                 req.email = decoded.UserInfo.email;

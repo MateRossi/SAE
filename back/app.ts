@@ -16,6 +16,7 @@ import zipCode from './src/routes/ZipCodeRouter';
 import registerGraduate from './src/routes/RegisterRouter';
 import { courseController } from './src/controller/CourseController';
 import courses from './src/routes/PublicRouter';
+import admin from './src/routes/AdminRouter';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -30,6 +31,7 @@ app.use(cookieParser());
 
 associateModels();
 
+app.use('/admin', admin);
 app.use('/auth', auth);
 app.use('/register', registerGraduate);
 app.use('/refresh', refresh);

@@ -13,7 +13,6 @@ userRouter.patch('/update-password', verifyRoles('graduate', 'admin'), userContr
 
 userRouter.get('/graduates/:id', verifyRoles('graduate', 'admin'), userController.getGraduateById);
 
-//graduates
 userRouter.post('/admins', verifyRoles('admin'), userController.createAdmin);
 
 userRouter.get('/graduates', verifyRoles('admin'), userController.getAllGraduates);
