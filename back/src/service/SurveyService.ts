@@ -37,10 +37,25 @@ export class SurveyService {
             companyName,
             userId,
         } = surveyData;
-        const user = User.findByPk(userId);
+        const user = await User.findByPk(userId);
 
         if (!user) {
             throw new NotFoundError('Usuário não encontrado')
+        }
+
+        const survey = await Survey.findOne({ where: { userId: user.id } });
+
+        if (survey) {
+            return await survey.update({
+                situation,
+                positionName,
+                employmentType,
+                worksInArea,
+                positionEducationRequirement,
+                externalCourseName,
+                courseRelationLevel,
+                companyName,
+            });
         }
 
         return await Survey.create({

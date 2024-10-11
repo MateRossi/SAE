@@ -55,8 +55,6 @@ function FollowUpPage() {
             ...value,
         }
 
-        console.log(newSurvey);
-
         try {
             const response = await axiosPrivate.post(`/surveys`, newSurvey);
             console.log("Response: ", response);
@@ -76,8 +74,6 @@ function FollowUpPage() {
             errRef.current.focus();
         }
     }
-
-    console.log("Survey data", surveyData);
 
     return (
         <div className="page">

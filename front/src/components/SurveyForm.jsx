@@ -1,5 +1,6 @@
 import Estudando from "./Estudando";
 import Trabalhando from "./Trabalhando";
+import TrabalhandoEstudando from "./TrabalhandoEstudando";
 
 /* eslint-disable react/prop-types */
 export default function SurveyForm({ surveyData, setSurveyData, handleSubmit }) {
@@ -33,4 +34,16 @@ export default function SurveyForm({ surveyData, setSurveyData, handleSubmit }) 
             handleSubmit={handleSubmit}
         />
     );
+
+    console.log(surveyData?.situation);
+
+    if (surveyData?.situation === "Trabalhando e estudando") return (
+        <TrabalhandoEstudando 
+            surveyData={surveyData}
+            setSurveyData={setSurveyData}
+            radioOptions={radioOptions}
+            likertOptions={likertOptions}
+            handleSubmit={handleSubmit}
+        />
+    )
 }
