@@ -1,7 +1,7 @@
 import Survey from "../model/Survey";
-import { GraduateService } from "./GraduateService";
-import { CompanyService } from "./CompanyService";
+import { UserService } from "./UserService";
 import { NotFoundError } from "../errors/NotFoundError";
+import User from "../model/User";
 
 export class SurveyService {
     static async getAllSurveys() {
@@ -13,7 +13,19 @@ export class SurveyService {
         return survey;
     };
 
-    static async createSurvey(surveyData: Survey) {       
+    static async getSurveyByUserId(id: number) {
+        const user = await UserService.getUserById(id);
+
+        if (!user) {
+            throw new NotFoundError("Usuário não encontrado");
+        }
+
+        return await Survey.findOne({
+            where: { userId: id }
+        });
+    };
+
+    static async createSurvey(surveyData: Survey) {
         const {
             situation,
             positionName,
@@ -22,12 +34,16 @@ export class SurveyService {
             positionEducationRequirement,
             externalCourseName,
             courseRelationLevel,
-            companyId,
-            graduateId,
+            companyName,
+            userId,
         } = surveyData;
-        await GraduateService.isExistent(graduateId);
-        await CompanyService.isExistent(companyId);
-        return Survey.create({
+        const user = User.findByPk(userId);
+
+        if (!user) {
+            throw new NotFoundError('Usuário não encontrado')
+        }
+
+        return await Survey.create({
             situation,
             positionName,
             employmentType,
@@ -35,8 +51,8 @@ export class SurveyService {
             positionEducationRequirement,
             externalCourseName,
             courseRelationLevel,
-            companyId,
-            graduateId,
+            companyName,
+            userId,
         });
     };
 
@@ -50,12 +66,11 @@ export class SurveyService {
             positionEducationRequirement,
             externalCourseName,
             courseRelationLevel,
-            companyId,
-            graduateId,
+            companyName,
+            userId,
         } = updatedData;
-        await GraduateService.isExistent(graduateId);
-        await CompanyService.isExistent(companyId);
-        return survey.update({
+        await UserService.isExistent(userId);
+        return await survey.update({
             situation,
             positionName,
             employmentType,
@@ -63,8 +78,8 @@ export class SurveyService {
             positionEducationRequirement,
             externalCourseName,
             courseRelationLevel,
-            companyId,
-            graduateId,
+            companyName,
+            userId,
         });
     };
 
@@ -76,7 +91,7 @@ export class SurveyService {
     //verifica se o elemento existe. Se existir, retorna o elemento. Se não, retorna um erro.
     static async isExistent(id: number) {
         if (!id) {
-            throw new Error('Identificador inválido');
+            throw new Error('Identificador inválido de pesquisa inválido ou não informado');
         }
         const survey = await Survey.findByPk(id);
         if (!survey) {

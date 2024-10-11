@@ -5,8 +5,9 @@ import SystemDescription from "../../components/SystemDescription";
 import useInput from "../../hooks/useInput";
 import useToggle from "../../hooks/useToggle";
 
+import * as jose from 'jose';
 import axios from '../../api/axios';
-const LOGIN_URL = '/graduates/login';
+const LOGIN_URL = '/auth';
 
 function LoginPage() {
     const { setAuth } = useAuth();
@@ -29,35 +30,42 @@ function LoginPage() {
         setErrMsg('');
     }, [user, pwd])
 
-    const handleGSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.post(LOGIN_URL,
                 JSON.stringify({ login: user, password: pwd }),
                 {
-                    headers: {'Content-Type': 'application/json'},
+                    headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
                 }
             );
-            console.log(JSON.stringify(response?.data));
-            const accessToken = response?.data?.token;
-            const role = response?.data?.role;
-            const id = response?.data?.id;
-            setAuth({ user, pwd, role, accessToken, id });
+
+            //console.log("Resposta do login: ", JSON.stringify(response?.data));
+
+            const accessToken = response?.data?.accessToken;
+
+            const decodedToken = jose.decodeJwt(accessToken);
+            console.log("Decoded token: ", JSON.stringify(decodedToken));
+            const { id, name, email, allowEmails, role } = decodedToken.UserInfo;
+
+            setAuth({ id, name, email, allowEmails, role, accessToken });
             resetUser();
             setPwd('');
+
             if (role === 'admin') {
-                navigate('/admin', {replace: true});
+                navigate('/admin', { replace: true });
             } else {
-                navigate('/graduate', {replace: true});
-            } 
+                navigate('/graduate', { replace: true });
+            }
+
         } catch (err) {
             if (!err?.response) {
-                setErrMsg('No server response.');
+                setErrMsg('Sem resposta do servidor');
             } else if (err.response?.status === 400) {
-                setErrMsg('Missing username or password');
+                setErrMsg('Email e senha são necessários');
             } else if (err.response?.status === 401) {
-                setErrMsg('Unauthorized');
+                setErrMsg('Login falhou. Verifique seu email ou senha.');
             } else {
                 setErrMsg('Login failed', err.message);
             }
@@ -71,7 +79,7 @@ function LoginPage() {
             <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live="assertive">
                 {errMsg}
             </p>
-            <form onSubmit={handleGSubmit} className="loginForm">
+            <form onSubmit={handleSubmit} className="loginForm">
                 <h3>Faça seu login</h3>
                 <label htmlFor="email">Email:</label>
                 <input
@@ -92,8 +100,8 @@ function LoginPage() {
                 />
                 <button type="submit">Entrar</button>
                 <div className="persistCheck">
-                    <input 
-                        type="checkbox" 
+                    <input
+                        type="checkbox"
                         id="persist"
                         onChange={toggleCheck}
                         checked={check}

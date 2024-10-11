@@ -1,0 +1,48 @@
+.Dropdown {
+    min-width: 150px;
+    position: relative;
+    z-index: 78;
+}
+
+.DropdownPanel {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    background-color: #ffffff;
+    height: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.DropdownOptions {
+    border-width: 1px;
+    border-radius: 0.25rem;
+    padding: 1rem;
+    box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.ChevronDown {
+    font-size: 1.125rem;
+}
+
+.SelectOption {
+    border-radius: 0.25rem;
+    cursor: pointer;
+    padding: 0.25rem;
+}
+
+.SelectOption:hover {
+    background-color: #e0f7fd;
+}

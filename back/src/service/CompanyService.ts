@@ -30,7 +30,7 @@ export class CompanyService {
     //verifica se o elemento existe. Se existir, retorna o elemento. Se não, retorna um erro.
     static async isExistent(id: number) {
         if (!id) {
-            throw new Error('Identificador inválido');
+            throw new Error('Identificador de empresa inválido ou não informado');
         }
         const company = await Company.findByPk(id);
         if (!company) {

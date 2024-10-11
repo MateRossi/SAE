@@ -1,13 +1,13 @@
 import express from 'express';
 import { courseController } from '../controller/CourseController';
-import adminToken from '../middleware/AdminMiddleware';
+import verifyRoles from '../middleware/verifyRoles';
 
 const courseRouter = express.Router();
 
-courseRouter.get('/', courseController.getAllCourses);
-courseRouter.get('/:id', courseController.getCourseById);
+//courseRouter.get('/', verifyRoles('graduate', 'admin'),  courseController.getAllCourses);
+courseRouter.get('/:id', verifyRoles('graduate', 'admin'),  courseController.getCourseById);
 courseRouter.post('/', courseController.createCourse);
-courseRouter.put('/:id', courseController.updateCourse);
-courseRouter.delete('/:id', courseController.deleteCourse);
+courseRouter.put('/:id', verifyRoles('admin'), courseController.updateCourse);
+courseRouter.delete('/:id', verifyRoles('admin'), courseController.deleteCourse);
 
 export default courseRouter;

@@ -1,0 +1,12 @@
+.loginForm .Dropdown {
+    width: 90%;
+}
+
+.loginForm .Dropdown .SelectOption {
+    padding: 5px;
+}
+
+.loginForm .Dropdown>.DropdownPanel {
+    padding: 10px;
+    height: auto;
+}
