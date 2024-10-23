@@ -14,7 +14,7 @@ function GraduateMenu() {
 
     const signOut = async () => {
         await logout();
-        navigate('/auth');
+        navigate('/');
     }
 
     return <aside className="menuContainer">

@@ -34,7 +34,7 @@ function App() {
     <Routes>
       {/*Rotas públicas*/}
       <Route path="/" element={<Layout />}>
-        <Route path="/" element={<LoginPage />}/>
+        <Route path="/" element={<LoginPage />} />
         <Route path="unauthorized" element={<UanuthorizedPage />} />
         <Route path="register" element={<RegisterPage />} />
         <Route path='registerSuccess' element={<RegisterSuccess />} />
@@ -54,10 +54,10 @@ function App() {
 
         {/* Rotas que o admin tem acesso. Colocar várias talbes juntas ao invés de modalidade, etc?*/}
         <Route path="/admin" element={<AdminLayout />}>
+          <Route path="/admin" element={<GraduatesPage />} />
           <Route path="companies" element={<CompaniesPage />} />
           <Route path="confirmRegister" element={<ConfirmRegisterPage />} />
           <Route path="courses" element={<CoursesPage />} />
-          <Route path="graduates" element={<GraduatesPage />} />
           <Route path="modalities" element={<ModalitiesPage />} />
           <Route path="preRegister" element={<PreRegisterPage />} />
           <Route path="statistics" element={<StatisticsPage />} />

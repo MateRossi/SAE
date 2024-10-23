@@ -21,6 +21,7 @@ function useRefreshToken() {
                 id: decodedToken.UserInfo.id,
                 role: decodedToken.UserInfo.role,
                 accessToken: response.data.accessToken,
+                name: decodedToken.UserInfo.name,
             }
         });
         return response.data.accessToken;
