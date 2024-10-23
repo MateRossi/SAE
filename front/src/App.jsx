@@ -61,7 +61,7 @@ function App() {
           <Route path="modalities" element={<ModalitiesPage />} />
           <Route path="preRegister" element={<PreRegisterPage />} />
           <Route path="statistics" element={<StatisticsPage />} />
-          <Route path='profile' element={<AdminProfile />} />
+          {/*<Route path='profile' element={<AdminProfile />} />*/}
         </Route>
       </Route>
 
