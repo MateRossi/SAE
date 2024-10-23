@@ -27,6 +27,15 @@
     text-decoration: underline;
 }
 
+.logout-link {
+    color: rgb(20, 65, 191);
+    cursor: pointer;
+}
+
+.logout-link:hover {
+    text-decoration: underline;
+}
+
 .menuHeader {
     text-align: center;
     position: fixed;
