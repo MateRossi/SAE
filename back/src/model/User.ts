@@ -2,6 +2,7 @@ import { Model, DataTypes } from "sequelize";
 import { sequelize } from "../db/sequelize";
 import Course from "./Course";
 import Review from "./Review";
+import Survey from './Survey';
 
 class User extends Model {
     public id!: number;
@@ -27,6 +28,7 @@ class User extends Model {
     static associate() {
         this.belongsTo(Course, { as: "course", foreignKey: {allowNull: false} });
         this.hasOne(Review, { as: "review", foreignKey: 'userId' });
+        this.hasOne(Survey, { as: "survey", foreignKey: 'userId' });
     };
 
     static validateRole(value: number | null, role: string) {

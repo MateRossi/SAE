@@ -5,18 +5,30 @@ import bcrypt from 'bcrypt';
 import Course from "../model/Course";
 import Review from "../model/Review";
 import { Unauthorized } from "../errors/Unauthorized";
+import Survey from "../model/Survey";
 
 export class UserService {
     static async getAllGraduates() {
-        console.log('get all graduates service')
         return User.findAll({
             where: { role: 'graduate' },
-            include: [{
-                model: Course,
-                as: 'course',
-                attributes: ['name', 'acronym'],
-            }],
-            attributes: ['id', 'enrollment', 'name', 'email', 'allowEmails', 'entryYear', 'graduationYear'],
+            include: [
+                {
+                    model: Course,
+                    as: 'course',
+                    attributes: ['name', 'acronym'],
+                },
+                {
+                    model: Survey,
+                    as: 'survey',
+                    attributes: { exclude: ['createdAt'] }
+                },
+                {
+                    model: Review,
+                    as: 'review',
+                    attributes: { exclude: ['createdAt'] }
+                }
+            ],
+            attributes: { exclude: ['refreshToken', 'role', 'password', 'courseId'] },
         });
     };
 
