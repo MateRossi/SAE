@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
 import { FaCaretDown, FaCaretUp } from 'react-icons/fa6';
-import useSort from "../hooks/use-sort";
-import Table from './Table';
+import useSort from "../../hooks/useSort";
+import Table from '../Table';
 
 function SortableTable(props) {
     const { config, data } = props;
+    console.log('COnfig => ', config);
     const { sortOrder, sortBy, sortedData, setSortColumn } = useSort(data, config);
 
     const updatedConfig = config.map((column) => {

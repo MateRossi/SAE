@@ -9,7 +9,7 @@ import Survey from "../model/Survey";
 
 export class UserService {
     static async getAllGraduates() {
-        return User.findAll({
+        const graduates = await User.findAll({
             where: { role: 'graduate' },
             include: [
                 {
@@ -30,7 +30,46 @@ export class UserService {
             ],
             attributes: { exclude: ['refreshToken', 'role', 'password', 'courseId'] },
         });
+
+        return graduates.map(graduate => ({
+            id: graduate.id,
+            matricula: graduate.enrollment,
+            nome: graduate.name,
+            email: graduate.enrollment,
+            anoIngresso: graduate.entryYear,
+            anoFormatura: graduate.graduationYear,
+            numeroContato: graduate.phoneNumber,
+            contarTrajetoria: graduate.tellTrajectory,
+            trabalhavaAntes: graduate.workedBefore,
+            nivelAcademico: graduate.degreeLevel,
+            comentarios: graduate.commentary,
+            atualizadoEm: (graduate as any).updatedAt,
+            curso: (graduate as any)?.course?.name,
+            siglaCurso: (graduate as any)?.course?.acronym,
+            situacaoAtual: (graduate as any)?.survey?.situation,
+            cargoAtual: (graduate as any)?.survey?.positionName,
+            nomeEmpresa: (graduate as any)?.survey?.companyName,
+            tipoContrato: (graduate as any)?.survey?.employmentType,
+            trabalhaArea: (graduate as any)?.survey?.worksInArea,
+            requerimentoFormacaoNoCargo: (graduate as any)?.survey?.positionEducationRequirement,
+            cursoExternoAtual: (graduate as any)?.survey?.externalCourseName,
+            relacaoCursoExternoEFormacao: (graduate as any)?.survey?.courseRelationLevel,
+            desejoTrabalharArea: (graduate as any)?.review?.desireToWorkArea,
+            nivelAprendizado: (graduate as any)?.review?.learningLevelRating,
+            avaliacaoCurso: (graduate as any)?.review?.courseRating,
+            avalicaoCampus: (graduate as any)?.review?.campusRating,
+            avalicaoInfraestrutura: (graduate as any)?.review?.infraRating,
+            avaliacaoConhecimentosTeoricos: (graduate as any)?.review?.theoKnowledgeRating,
+            avaliacaoConhecimentosPraticos: (graduate as any)?.review?.practKnowledgeRating,
+            avaliacaoDocentes: (graduate as any)?.review?.teachersRating,
+            expectativaCurso: (graduate as any)?.review?.courseExpectation,
+        }));
     };
+
+    /*
+    desireToWorkArea":4,"learningLevelRating":3,"courseRating":3,"campusRating":2,"infraRating":3,"theoKnowledgeRating":4,"practKnowledgeRating":4,"teachersRating":3,
+    "courseExpectation":"Não sabe / prefere não opinar","updatedAt":"2024-10-25T18:54:43.020Z","userId":2}
+    */
 
     static async getAllAdmins() {
         return User.findAll({

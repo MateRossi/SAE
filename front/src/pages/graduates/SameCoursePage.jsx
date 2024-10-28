@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import '../page.css';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
-import Table from '../../components/Table';
+import EgresTable from '../../components/EgresTable';
 
 function SameCoursePage() {
     const [graduatesSameCourse, setGraduatesSameCourse] = useState([]);
@@ -42,7 +42,7 @@ function SameCoursePage() {
                     Abaixo estão listados os alunos que também se cadastraram como egressos do curso
                     <b> {courseName}</b>
                 </p>
-                <Table items={graduatesSameCourse} columnLabels={['Matrícula', 'Nome', 'Email', 'Graduação', 'Opções']} />
+                <EgresTable items={graduatesSameCourse} columnLabels={['Matrícula', 'Nome', 'Email', 'Graduação', 'Opções']} />
             </main>
         </div>
     )

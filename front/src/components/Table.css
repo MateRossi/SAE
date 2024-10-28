@@ -1,0 +1,31 @@
+.sortable-table .column-label  {
+    display: flex;
+    flex-wrap: nowrap;
+    text-wrap: nowrap;
+}
+
+.sortable-table th {
+    text-wrap: nowrap;
+    padding: 10px 10px;
+}
+
+.sortable-table td {
+    text-align: center;
+    padding: 5px;
+}
+
+.true-sim, .false-nao {
+    padding: 5px;
+    border-radius: 4px;
+    display: inline-block;
+    width: fit-content;
+    align-self: center;
+}
+
+.true-sim {
+    background-color: rgb(115, 202, 27);
+}
+
+.false-nao {
+    background-color: rgb(242, 137, 111);
+}
