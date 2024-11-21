@@ -10,7 +10,7 @@
 
 .table-overflow-container {
     position: fixed;
-    top: 20%;
+    top: calc(20% + 28px);
     width: calc(100% - 338px);
     overflow-x: scroll;
     margin: 0 20px;

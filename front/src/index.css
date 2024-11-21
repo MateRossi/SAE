@@ -19,6 +19,47 @@ body {
   color: #242424;
 }
 
+.table-options-icon {
+  height: 32px;
+}
+
+.table-options {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  padding: 2px;
+}
+
+.table-options>button {
+  background-color: transparent;
+  padding: 5px;
+}
+
+.table-options>button:hover  {
+  border-color: transparent;
+  background-color: #bfbfbf;
+}
+
+.search-bar {
+  width: 100%;
+  padding: 10px 20px;
+  gap: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.search-bar>input {
+  width: 40%;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 15px;
+}
+
+.search-bar>button {
+  background-color: #2970f3;
+}
+
 .hide {
   display: none;
 }
