@@ -1,15 +1,31 @@
 import Course from "../model/Course";
 import { NotFoundError } from "../errors/NotFoundError";
 import Modality from "../model/Modality";
+import User from "../model/User";
+import { col, fn } from "sequelize";
 
 export class CourseService {
     static async getAllCourses() {
-        return Course.findAll({ 
-            include: [{ 
-                model: Modality, 
-                as: 'modality',
-                attributes: ['description'], 
-            }],
+        return Course.findAll({
+            attributes: {
+                include: [
+                    [fn('COUNT', col('users.id')), 'usersCount']
+                ]
+            },
+            include: [
+                {
+                    model: Modality,
+                    as: 'modality',
+                    attributes: ['description'],
+                },
+                {
+                    model: User,
+                    as: 'users',
+                    attributes: [],
+                    required: false,
+                }
+            ],
+            group: ['Course.id', 'modality.id'],
         });
     };
 
@@ -36,23 +52,23 @@ export class CourseService {
         }
         return course.update({ name, acronym, modalityId });
     };
-    
+
     static async deleteCourse(id: number) {
         const course = await this.isExistent(id);
         await course.destroy();
     };
-    
+
     //verifica se o elemento existe. Se existir, retorna o elemento. Se não, retorna um erro.
     static async isExistent(id: number) {
         if (!id) {
             throw new Error('Identificador de curso inválido ou não informado');
         }
-        const course = await Course.findOne({ 
-            where: {id},
-            include: [{ 
-                model: Modality, 
+        const course = await Course.findOne({
+            where: { id },
+            include: [{
+                model: Modality,
                 as: 'modality',
-                attributes: ['description'] 
+                attributes: ['description']
             }]
         });
         if (!course) {

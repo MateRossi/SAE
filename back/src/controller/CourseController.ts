@@ -26,7 +26,7 @@ export const courseController = {
         try {
             const courseData = req.body;
             const newCourse = await CourseService.createCourse(courseData);
-            res.status(201).json({ newCourse, msg: 'Curso criado.' });
+            res.status(201).json(newCourse);
         } catch (error: any) {
             ErrorResponse.handleErrorResponse(error, res);
         };

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useLocation, useNavigate } from "react-router-dom";
 import '../page.css';
@@ -13,6 +13,12 @@ function CoursesPage() {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const errRef = useRef();
+    const [errMsg, setErrMsg] = useState('');
+
+    const successRef = useRef();
+    const [successMsg, setSuccessMsg] = useState('');
+
     useEffect(() => {
         let isMounted = true;
         const getCourses = async () => {
@@ -21,6 +27,7 @@ function CoursesPage() {
                 if (isMounted) {
                     setCourses(response.data);
                     setLoading(false);
+                    console.log(response.data);
                 }
             } catch (err) {
                 console.error(err);
@@ -63,19 +70,43 @@ function CoursesPage() {
             render: (course) => course.modality.description
         },
         {
+            label: 'Egressos Cadastrados',
+            render: (course) => course.usersCount,
+            sortValue: (course) => course.usersCount,
+        },
+        {
             label: 'Opções',
             render: (course) => {
                 return <div className='table-options'>
                     <button className='info-button' onClick={() => console.log(course.id)}>
                         <img className="table-options-icon" src={editIcon} alt="icone de editar" />
                     </button>
-                    <button className='msg-button' onClick={() => console.log(course.id)}>
-                        <img className="table-options-icon" src={deleteIcon} alt='iconde de excluir' />
+                    <button className='msg-button' onClick={() => handleDelete(course.id)}>
+                        <img className="table-options-icon" src={deleteIcon} alt='icone de de excluir' />
                     </button>
                 </div>
             }
         },
     ]
+
+    const handleClick = () => {
+        navigate('/admin/add-course');
+    }
+
+    const handleDelete = async (courseId) => {
+        const isConfirmed = window.confirm('Tem certeza que deseja deletar este curso?');
+
+        if (isConfirmed) {
+            try {
+                await axiosPrivate.delete(`/courses/${courseId}`);
+                //remover o curso excluído do estado 'courses' usando 'setCourses'.
+                setSuccessMsg('Curso excluído com sucesso.');
+                setCourses((prevCourses) => prevCourses.filter(course => course.id !== courseId));
+            } catch (error) {
+                setErrMsg('Erro ao deletar curso.');
+            }
+        }
+    }
 
     return (
         <div className="page">
@@ -84,12 +115,18 @@ function CoursesPage() {
                 <p className='page-subtitle'>
                     Abaixo estão listados os cursos ofertados pelo IF Sudeste MG - Campus Juiz de Fora
                 </p>
+                <p ref={successRef} className={successMsg ? 'successMsg' : 'offscreen'} aria-live='assertive'>
+                    {successMsg}
+                </p>
+                <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live='assertive'>
+                    {errMsg}
+                </p>
                 <div className="search-bar">
-                    <input 
+                    <input
                         type="text"
                         placeholder="Pesquisar por curso, modalidade ou sigla."
                     />
-                    <button className="add-button">
+                    <button className="add-button" onClick={handleClick}>
                         Adicionar Curso
                     </button>
                 </div>

@@ -27,6 +27,7 @@ import StatisticsPage from "./pages/admins/StatisticsPage";
 
 import { Routes, Route } from "react-router-dom"
 import PersistLogin from "./components/PersistLogin";
+import AddCoursePage from './pages/admins/AddCoursePage';
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
           <Route path="companies" element={<CompaniesPage />} />
           <Route path="confirmRegister" element={<ConfirmRegisterPage />} />
           <Route path="courses" element={<CoursesPage />} />
+          <Route path="add-course" element={<AddCoursePage />} />
           <Route path="modalities" element={<ModalitiesPage />} />
           <Route path="preRegister" element={<PreRegisterPage />} />
           <Route path="statistics" element={<StatisticsPage />} />

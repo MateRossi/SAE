@@ -38,8 +38,8 @@ function Dropdown({ options, value, onChange }) {
     // eslint-disable-next-line react/prop-types
     const renderedOptions = options.map((option) => {
         return (
-            <div className="SelectOption" onClick={() => handleOptionClick(option)} key={option.name}>
-                {option.name}
+            <div className="SelectOption" onClick={() => handleOptionClick(option)} key={option.name || option.id}>
+                {option.name || option.description}
             </div>
         );
     });
@@ -47,7 +47,7 @@ function Dropdown({ options, value, onChange }) {
     return (
         <div ref={divEl} className="Dropdown">
             <div className="DropdownPanel" onClick={handleClick} >
-                {value?.name || value || 'Selecione...'}
+                {value?.name || value?.description || value || 'Selecione...'}
                 <GoChevronDown className="ChevronDown" />      
             </div>
             {isOpen && (

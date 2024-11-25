@@ -57,7 +57,8 @@ body {
 }
 
 .search-bar>button {
-  background-color: #2970f3;
+  background-color: #41f329ec;
+  padding: 8px;
 }
 
 .hide {
