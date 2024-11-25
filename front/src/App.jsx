@@ -24,10 +24,12 @@ import GraduatesPage from './pages/admins/GraduatesPage';
 import ModalitiesPage from './pages/admins/ModalitiesPage';
 import PreRegisterPage from './pages/admins/PreRegisterPage';
 import StatisticsPage from "./pages/admins/StatisticsPage";
+import AddCoursePage from './pages/admins/AddCoursePage';
+import EditCoursePage from './pages/admins/EditCoursePage';
 
 import { Routes, Route } from "react-router-dom"
 import PersistLogin from "./components/PersistLogin";
-import AddCoursePage from './pages/admins/AddCoursePage';
+
 
 
 function App() {
@@ -60,6 +62,7 @@ function App() {
           <Route path="confirmRegister" element={<ConfirmRegisterPage />} />
           <Route path="courses" element={<CoursesPage />} />
           <Route path="add-course" element={<AddCoursePage />} />
+          <Route path='courses/:courseId/edit-course' element={<EditCoursePage />} />
           <Route path="modalities" element={<ModalitiesPage />} />
           <Route path="preRegister" element={<PreRegisterPage />} />
           <Route path="statistics" element={<StatisticsPage />} />

@@ -16,7 +16,6 @@ export class CourseService {
                 {
                     model: Modality,
                     as: 'modality',
-                    attributes: ['description'],
                 },
                 {
                     model: User,

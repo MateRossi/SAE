@@ -9,8 +9,6 @@
 }
 
 .table-overflow-container {
-    position: fixed;
-    top: calc(20% + 28px);
     width: calc(100% - 338px);
     overflow-x: scroll;
     margin: 0 20px;

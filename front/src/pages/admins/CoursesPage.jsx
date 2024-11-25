@@ -9,6 +9,7 @@ import editIcon from '../../img/editIcon.svg';
 function CoursesPage() {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [search, setSearch] = useState('');
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
     const location = useLocation();
@@ -56,6 +57,26 @@ function CoursesPage() {
         </div>
     }
 
+    const handleDelete = async (courseId) => {
+        const isConfirmed = window.confirm('Tem certeza que deseja deletar este curso?');
+
+        if (isConfirmed) {
+            try {
+                await axiosPrivate.delete(`/courses/${courseId}`);
+                setSuccessMsg('Curso excluído com sucesso.');
+                successRef.current.focus();
+                setCourses((prevCourses) => prevCourses.filter(course => course.id !== courseId));
+            } catch (error) {
+                setErrMsg('Erro ao deletar curso.');
+                errRef.current.focus();
+            }
+        }
+    }
+
+    const handleEdit = (course) => {
+        navigate(`/admin/courses/${course.id}/edit-course`, { state: { course } });
+    }
+
     const config = [
         {
             label: 'Curso',
@@ -78,7 +99,7 @@ function CoursesPage() {
             label: 'Opções',
             render: (course) => {
                 return <div className='table-options'>
-                    <button className='info-button' onClick={() => console.log(course.id)}>
+                    <button className='info-button' onClick={() => handleEdit(course)}>
                         <img className="table-options-icon" src={editIcon} alt="icone de editar" />
                     </button>
                     <button className='msg-button' onClick={() => handleDelete(course.id)}>
@@ -93,20 +114,12 @@ function CoursesPage() {
         navigate('/admin/add-course');
     }
 
-    const handleDelete = async (courseId) => {
-        const isConfirmed = window.confirm('Tem certeza que deseja deletar este curso?');
-
-        if (isConfirmed) {
-            try {
-                await axiosPrivate.delete(`/courses/${courseId}`);
-                //remover o curso excluído do estado 'courses' usando 'setCourses'.
-                setSuccessMsg('Curso excluído com sucesso.');
-                setCourses((prevCourses) => prevCourses.filter(course => course.id !== courseId));
-            } catch (error) {
-                setErrMsg('Erro ao deletar curso.');
-            }
-        }
-    }
+    const filteredCourses = courses.filter(course =>
+        course.name.toLowerCase().includes(search.toLowerCase()) ||
+        course.acronym.toLowerCase().includes(search.toLocaleLowerCase()) ||
+        course.usersCount.toLowerCase().includes(search.toLocaleLowerCase()) ||
+        course.modality.description.toLowerCase().includes(search.toLowerCase())
+    );
 
     return (
         <div className="page">
@@ -125,13 +138,14 @@ function CoursesPage() {
                     <input
                         type="text"
                         placeholder="Pesquisar por curso, modalidade ou sigla."
+                        onChange={(e) => setSearch(e.target.value)}
                     />
                     <button className="add-button" onClick={handleClick}>
                         Adicionar Curso
                     </button>
                 </div>
                 <div className='table-overflow-container'>
-                    <SortableTable data={courses} keyFn={keyFn} config={config} />
+                    <SortableTable data={!search ? courses : filteredCourses} keyFn={keyFn} config={config} />
                 </div>
             </main>
         </div>
