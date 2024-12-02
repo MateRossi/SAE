@@ -28,7 +28,7 @@ function CoursesPage() {
                 if (isMounted) {
                     setCourses(response.data);
                     setLoading(false);
-                    console.log(response.data);
+                    //console.log(response.data);
                 }
             } catch (err) {
                 console.error(err);

@@ -1,15 +1,24 @@
 import Course from "../model/Course";
 import Modality from "../model/Modality";
 import { NotFoundError } from "../errors/NotFoundError";
+import { Sequelize } from "sequelize";
 
 export class ModalityService {
     static async getAllModalities() {
-        return Modality.findAll({ 
-            include: [{ 
-                model: Course, 
-                as: 'courses',
-                attributes: ['id', 'name', 'acronym'],
-            }]
+        return await Modality.findAll({
+            attributes: [
+                'id',
+                'description',
+                [Sequelize.fn('COUNT', Sequelize.col('courses.id')), 'courseCount']
+            ],
+            include: [
+                {
+                    model: Course,
+                    as: 'courses',
+                    attributes: [], 
+                }
+            ],
+            group: ['Modality.id'], 
         });
     };
 

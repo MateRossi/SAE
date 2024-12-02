@@ -57,8 +57,9 @@ body {
 }
 
 .search-bar>button {
-  background-color: #41f329ec;
+  background-color: #238636;
   padding: 8px;
+  color: #fff;
 }
 
 .button-back {
@@ -247,7 +248,7 @@ body {
 }
 
 button[type="submit"] {
-  background-color: green;
+  background-color: #238636;
   color: white;
   width: calc(100% - 10%)
 }

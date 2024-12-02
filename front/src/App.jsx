@@ -29,6 +29,8 @@ import EditCoursePage from './pages/admins/EditCoursePage';
 
 import { Routes, Route } from "react-router-dom"
 import PersistLogin from "./components/PersistLogin";
+import AddModalityPage from './pages/admins/AddModalityPage';
+import EditModalityPage from './pages/admins/EditModalityPage';
 
 
 
@@ -64,6 +66,8 @@ function App() {
           <Route path="add-course" element={<AddCoursePage />} />
           <Route path='courses/:courseId/edit-course' element={<EditCoursePage />} />
           <Route path="modalities" element={<ModalitiesPage />} />
+          <Route path='add-modality' element={<AddModalityPage />} />
+          <Route path='modalities/:modalityId/edit-modality' element={<EditModalityPage />} />
           <Route path="preRegister" element={<PreRegisterPage />} />
           <Route path="statistics" element={<StatisticsPage />} />
           {/*<Route path='profile' element={<AdminProfile />} />*/}
