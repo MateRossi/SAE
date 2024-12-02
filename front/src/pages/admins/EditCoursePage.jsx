@@ -89,6 +89,10 @@ function EditCoursePage() {
         );
     }
 
+    const handleCancel = () => {
+        navigate(-1);
+    }
+
     return (
         <div className="page">
             <h1 className="pageTitle">Cursos ofertados - Editar Curso</h1>
@@ -134,6 +138,12 @@ function EditCoursePage() {
                         type="submit"
                         disabled={!course?.name || !course?.acronym || !selected ? true : false}>
                         Salvar Mudanças
+                    </button>
+                    <button
+                        className="button-back"
+                        onClick={handleCancel}
+                    >
+                        Voltar
                     </button>
                 </form>
             </main>

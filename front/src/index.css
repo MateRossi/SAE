@@ -61,6 +61,13 @@ body {
   padding: 8px;
 }
 
+.button-back {
+  width: calc(100% - 10%);
+  background-color: firebrick;
+  margin-top: 5px;
+  color: #fff;
+}
+
 .hide {
   display: none;
 }

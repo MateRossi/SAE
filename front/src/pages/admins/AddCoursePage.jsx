@@ -74,6 +74,10 @@ function AddCoursePage() {
         }
     }
 
+    const handleCancel = () => {
+        navigate(-1);
+    }
+
     return (
         <div className="page">
             <h1 className="pageTitle">Cursos ofertados - Adicionar Curso</h1>
@@ -119,6 +123,12 @@ function AddCoursePage() {
                         type="submit"
                         disabled={!course?.courseName || !course?.courseAcronym || !selected ? true : false}>
                         Confirmar
+                    </button>
+                    <button
+                        className="button-back"
+                        onClick={handleCancel}
+                    >
+                        Voltar
                     </button>
                 </form>
             </main>
