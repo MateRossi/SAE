@@ -44,7 +44,24 @@ export class ReviewService {
             courseExpectation,
             userId,
         } = reviewData;
-        await UserService.isExistent(userId);
+        const user = await UserService.isExistent(userId);
+
+        const review = await (user as any).getReview();
+
+        if (review) {
+            return await review.update({
+                desireToWorkArea,
+                learningLevelRating,
+                courseRating,
+                campusRating,
+                infraRating,
+                theoKnowledgeRating,
+                practKnowledgeRating,
+                teachersRating,
+                courseExpectation,    
+            });
+        }
+
         return Review.create({
             desireToWorkArea,
             learningLevelRating,
