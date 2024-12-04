@@ -5,6 +5,7 @@ import '../page.css';
 import SortableTable from "../../components/sortableTable/SortableTable";
 import deleteIcon from '../../img/deleteIcon.svg';
 import editIcon from '../../img/editIcon.svg';
+import PageTemplate from "../PageTemplate";
 
 function CoursesPage() {
     const [courses, setCourses] = useState([]);
@@ -46,15 +47,15 @@ function CoursesPage() {
     }
 
     if (loading) {
-        return <div className="page">
-            <h2>Carregando...</h2>
-        </div>
+        return <PageTemplate pageTitle={'Cursos ofertados'} subtitle={'Abaixo estão listados os cursos ofertados pelo IF Sudeste MG - Campus Juiz de Fora'}>
+            <h3>Carregando...</h3>
+        </PageTemplate>
     }
 
     if (courses.length === 0) {
-        return <div className="page">
+        return <PageTemplate pageTitle={'Cursos ofertados'} subtitle={'Abaixo estão listados os cursos ofertados pelo IF Sudeste MG - Campus Juiz de Fora'}>
             <h3>Sem dados para mostrar.</h3>
-        </div>
+        </PageTemplate>
     }
 
     const handleDelete = async (courseId) => {

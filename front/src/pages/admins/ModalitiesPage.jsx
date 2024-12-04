@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import SortableTable from '../../components/sortableTable/SortableTable';
 import deleteIcon from '../../img/deleteIcon.svg';
 import editIcon from '../../img/editIcon.svg';
+import PageTemplate from "../PageTemplate";
 
 function ModalitiesPage() {
     const [modalities, setModalities] = useState([]);
@@ -45,15 +46,15 @@ function ModalitiesPage() {
     }
 
     if (loading) {
-        return <div className="page">
-            <h2>Carregando...</h2>
-        </div>
+        return <PageTemplate pageTitle={'Modalidades dos cursos ofertados'} subtitle={'Abaixo estão listados as modalidades dos cursos ofertados pelo IF Sudeste MG - Campus Juiz de Fora'}>
+            <h3>Carregando...</h3>
+        </PageTemplate>
     }
 
     if (modalities.length === 0) {
-        return <div className="page">
+        return <PageTemplate pageTitle={'Modalidades dos cursos ofertados'} subtitle={'Abaixo estão listados as modalidades dos cursos ofertados pelo IF Sudeste MG - Campus Juiz de Fora'}>
             <h3>Sem dados para mostrar.</h3>
-        </div>
+        </PageTemplate>
     }
 
     const handleDelete = async (modalityId) => {

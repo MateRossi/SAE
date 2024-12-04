@@ -3,6 +3,7 @@ import '../page.css';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SortableTable from '../../components/sortableTable/SortableTable';
+import PageTemplate from '../PageTemplate';
 
 function GraduatesPage() {
     const [graduates, setGraduates] = useState([]);
@@ -36,19 +37,15 @@ function GraduatesPage() {
     }
 
     if (loading) {
-        return (
-            <div className='page'>
-                <h2>Carregando...</h2>
-            </div>
-        )
+        return <PageTemplate pageTitle={'Egressos cadastrados'} subtitle={'Abaixo estão listados os alunos que se declaram egressos do IF Sudeste MG - Campus Juiz de Fora'}>
+            <h3>Carregando...</h3>
+        </PageTemplate>
     }
 
     if (graduates.length === 0) {
-        return (
-            <div className='page'>
-                <h3>Sem dados para mostrar.</h3>
-            </div>
-        );
+        return <PageTemplate pageTitle={'Egressos cadastrados'} subtitle={'Abaixo estão listados os alunos que se declaram egressos do IF Sudeste MG - Campus Juiz de Fora'}>
+            <h3>Sem dados para mostrar.</h3>
+        </PageTemplate>
     }
 
     const handleNullValue = (value) => {
