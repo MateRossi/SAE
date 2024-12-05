@@ -35,7 +35,7 @@ export class UserService {
             id: graduate.id,
             matricula: graduate.enrollment,
             nome: graduate.name,
-            email: graduate.enrollment,
+            email: graduate.email,
             anoIngresso: graduate.entryYear,
             anoFormatura: graduate.graduationYear,
             numeroContato: graduate.phoneNumber,

@@ -11,7 +11,7 @@ class Course extends Model {
 
     static associate() {
         this.belongsTo(Modality, { as: 'modality', foreignKey: {allowNull: false} });
-        this.hasMany(User, {as: 'users', foreignKey: 'courseId' });
+        this.hasMany(User, {as: 'users', foreignKey: 'courseId', onDelete: 'RESTRICT' });
     };
 };
 

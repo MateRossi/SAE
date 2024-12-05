@@ -42,6 +42,10 @@ function CoursesPage() {
         return () => isMounted = false;
     }, [axiosPrivate, location, navigate]);
 
+    const handleClick = () => {
+        navigate('/admin/add-course');
+    }
+
     const keyFn = (course) => {
         return course.id;
     }
@@ -54,6 +58,9 @@ function CoursesPage() {
 
     if (courses.length === 0) {
         return <PageTemplate pageTitle={'Cursos ofertados'} subtitle={'Abaixo estão listados os cursos ofertados pelo IF Sudeste MG - Campus Juiz de Fora'}>
+            <button className="add-button" onClick={handleClick}>
+                Adicionar Curso
+            </button>
             <h3>Sem dados para mostrar.</h3>
         </PageTemplate>
     }
@@ -68,7 +75,17 @@ function CoursesPage() {
                 successRef.current.focus();
                 setCourses((prevCourses) => prevCourses.filter(course => course.id !== courseId));
             } catch (error) {
-                setErrMsg('Erro ao deletar curso.');
+                if (!error?.response) {
+                    setErrMsg('Sem resposta.');
+                } else if (error.response?.status === 400) {
+                    setErrMsg('Dados faltantes.');
+                } else if (error.response?.status === 401) {
+                    setErrMsg('Não autorizado.');
+                } else if (error.response?.status === 409) {
+                    setErrMsg('Conflito. Um curso não pode ser excluído caso possua egressos cadastrados.')
+                } else {
+                    setErrMsg('Falha ao excluir curso.');
+                }
                 errRef.current.focus();
             }
         }
@@ -110,10 +127,6 @@ function CoursesPage() {
             }
         },
     ]
-
-    const handleClick = () => {
-        navigate('/admin/add-course');
-    }
 
     const filteredCourses = courses.filter(course =>
         course.name.toLowerCase().includes(search.toLowerCase()) ||

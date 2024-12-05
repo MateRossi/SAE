@@ -53,10 +53,10 @@ function GraduatesPage() {
         
         if (value === false) return <div className='false-nao'>Não</div>
 
-        
-
         return value || '-';
     }
+
+    console.log(graduates);
 
     const config = [
         {

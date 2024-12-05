@@ -41,6 +41,10 @@ function ModalitiesPage() {
         return () => isMounted = false;
     }, [axiosPrivate, location, navigate]);
 
+    const handleClick = () => {
+        navigate('/admin/add-modality');
+    }
+
     const keyFn = (course) => {
         return course.id;
     }
@@ -53,12 +57,15 @@ function ModalitiesPage() {
 
     if (modalities.length === 0) {
         return <PageTemplate pageTitle={'Modalidades dos cursos ofertados'} subtitle={'Abaixo estão listados as modalidades dos cursos ofertados pelo IF Sudeste MG - Campus Juiz de Fora'}>
+            <button className="add-button" onClick={handleClick}>
+                Adicionar Modalidade
+            </button>
             <h3>Sem dados para mostrar.</h3>
         </PageTemplate>
     }
 
     const handleDelete = async (modalityId) => {
-        const isConfirmed = window.confirm('Tem certeza que deseja deletar esta modalidade? TODOS os cursos relacionados serão removidos.');
+        const isConfirmed = window.confirm('Tem certeza que deseja deletar esta modalidade? Certifique-se de que ela não possui cursos associados.');
 
         if (isConfirmed) {
             try {
@@ -67,7 +74,17 @@ function ModalitiesPage() {
                 successRef.current.focus();
                 setModalities((prevModalities) => prevModalities.filter(modality => modality.id !== modalityId));
             } catch (error) {
-                setErrMsg('Erro ao deletar modalidade.');
+                if (!error?.response) {
+                    setErrMsg('Sem resposta.');
+                } else if (error.response?.status === 400) {
+                    setErrMsg('Dados faltantes.');
+                } else if (error.response?.status === 401) {
+                    setErrMsg('Não autorizado.');
+                } else if (error.response?.status === 409) {
+                    setErrMsg('Conflito. Uma modalidade não pode ser excluída caso possua cursos cadastrados.')
+                } else {
+                    setErrMsg('Falha ao excluir modalidade.');
+                }
                 errRef.current.focus();
             }
         }
@@ -102,10 +119,6 @@ function ModalitiesPage() {
         },
     ]
 
-    const handleClick = () => {
-        navigate('/admin/add-modality');
-    }
-
     const filteredModalities = modalities.filter(modality =>
         modality.description.toLowerCase().includes(search.toLowerCase()) ||
         modality.coursesCount.toLowerCase().includes(search.toLocaleLowerCase())
@@ -118,7 +131,7 @@ function ModalitiesPage() {
                 <p className='page-subtitle'>
                     Abaixo estão listados as modalidades dos cursos ofertados pelo IF Sudeste MG - Campus Juiz de Fora
                 </p>
-                <p ref={successRef} className={successMsg ? 'successMsg' : 'offscreen'} aria-live='assertive'>
+                <p ref={successRef} className={successMsg && successRef.current.focus ? 'successMsg' : 'offscreen'} aria-live='assertive'>
                     {successMsg}
                 </p>
                 <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live='assertive'>

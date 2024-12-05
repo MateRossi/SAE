@@ -26,7 +26,7 @@ class User extends Model {
     public refreshToken!: string;
     
     static associate() {
-        this.belongsTo(Course, { as: "course", foreignKey: {allowNull: false} });
+        this.belongsTo(Course, { as: "course", foreignKey: {allowNull: false}, onDelete: 'RESTRICT' });
         this.hasOne(Review, { as: "review", foreignKey: 'userId' });
         this.hasOne(Survey, { as: "survey", foreignKey: 'userId' });
     };

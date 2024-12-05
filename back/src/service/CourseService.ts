@@ -64,11 +64,18 @@ export class CourseService {
         }
         const course = await Course.findOne({
             where: { id },
-            include: [{
-                model: Modality,
-                as: 'modality',
-                attributes: ['description']
-            }]
+            include: [
+                {
+                    model: Modality,
+                    as: 'modality',
+                    attributes: ['description']
+                },
+                {
+                    model: User,
+                    as: 'users',
+                    attributes: ['enrollment', 'name']
+                }
+            ]
         });
         if (!course) {
             throw new NotFoundError('Curso não encontrado.');
