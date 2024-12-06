@@ -16,7 +16,6 @@ import surveyRouter from './src/routes/SurveyRouter';
 
 //Reviews
 import reviewRouter from './src/routes/ReviewRouter';
-import mailRouter from './src/routes/MailRouter';
 
 //###################################### - - #############
 
@@ -35,8 +34,5 @@ router.use('/surveys', surveyRouter);
 
 //REVIEWS
 router.use('/reviews', reviewRouter);
-
-//EMAILS
-router.use('/mail', mailRouter);
 
 export default router;

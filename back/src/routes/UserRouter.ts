@@ -1,6 +1,7 @@
 import express from 'express';
 import { userController } from '../controller/UserController';
 import verifyRoles from '../middleware/verifyRoles';
+import { mailController } from '../controller/MailController';
 //import userToken from '../middleware/userMiddleware';
 //import auth token
 
@@ -10,6 +11,9 @@ const userRouter = express.Router();
 
 //rotas básicas
 userRouter.patch('/update-password', verifyRoles('graduate', 'admin'), userController.updateUserPassword);
+
+//envio de email: egresso para egresso e admin para egresso.  
+userRouter.post('/:id/send-message', verifyRoles('graudate', 'admin'), mailController.sendEmail);
 
 userRouter.get('/graduates/:id', verifyRoles('graduate', 'admin'), userController.getGraduateById);
 
