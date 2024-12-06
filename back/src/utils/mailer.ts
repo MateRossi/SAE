@@ -1,5 +1,11 @@
 import nodemailer from 'nodemailer';
 
+const { SYS_MAIL, SYS_PASS, CLIENT_ID, SECRET, REFRESH_TOKEN } = process.env;
+
+if (!SYS_MAIL || !SYS_PASS || !CLIENT_ID || !SECRET || !REFRESH_TOKEN) {
+    throw new Error('Missing required environment variables for sending emails.')
+}
+
 let transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,               
@@ -8,9 +14,9 @@ let transporter = nodemailer.createTransport({
         type: 'OAuth2',
         user: SYS_MAIL,
         pass: SYS_PASS,
-        clientId: clientId,
-        clientSecret: secret,
-        refreshToken: refreshToken,
+        clientId: CLIENT_ID,
+        clientSecret: SECRET,
+        refreshToken: REFRESH_TOKEN,
     },
 } as nodemailer.TransportOptions);
 
