@@ -13,7 +13,7 @@ const userRouter = express.Router();
 userRouter.patch('/update-password', verifyRoles('graduate', 'admin'), userController.updateUserPassword);
 
 //envio de email: egresso para egresso e admin para egresso.  
-userRouter.post('/:id/send-message', verifyRoles('graudate', 'admin'), mailController.sendEmail);
+userRouter.post('/:id/send-message', verifyRoles('graduate', 'admin'), mailController.sendEmail);
 
 userRouter.get('/graduates/:id', verifyRoles('graduate', 'admin'), userController.getGraduateById);
 

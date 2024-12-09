@@ -291,7 +291,7 @@ export class UserService {
                     id: user.courseId
                 }
             }],
-            attributes: ['enrollment', 'name', 'email', 'graduationYear', 'allowEmails'],
+            attributes: ['id', 'enrollment', 'name', 'email', 'graduationYear', 'allowEmails'],
         });
 
         return { users, course: (user as any).course.name }

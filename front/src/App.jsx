@@ -31,6 +31,7 @@ import { Routes, Route } from "react-router-dom"
 import PersistLogin from "./components/PersistLogin";
 import AddModalityPage from './pages/admins/AddModalityPage';
 import EditModalityPage from './pages/admins/EditModalityPage';
+import SendGraduateMessage from './pages/graduates/SendGraduateMessage';
 
 
 
@@ -55,6 +56,7 @@ function App() {
           <Route path="profile" element={<ProfilePage />} />
           <Route path="review" element={<ReviewPage />} />
           <Route path="class" element={<SameClassPage />} />
+          <Route path='/graduate/:graduateId/send-message' element={<SendGraduateMessage />} />
         </Route>
 
         {/* Rotas que o admin tem acesso. Colocar várias talbes juntas ao invés de modalidade, etc?*/}

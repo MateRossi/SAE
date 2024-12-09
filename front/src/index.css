@@ -8,6 +8,25 @@ html {
   font-size: 1vw;
 }
 
+.mail-text-area {
+  margin-bottom: 0.5rem;
+  border-radius: 0.625rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 90%;
+  height: 200px;
+  padding: 1rem;
+  font-size: 1rem;
+}
+
+.mail-text-area::first-letter {
+  text-transform: uppercase;
+}
+
+.mail-text-area:focus {
+  outline: #238636;
+}
+
 body {
   min-height: 100vh;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
