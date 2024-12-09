@@ -311,4 +311,28 @@ export const userController = {
             ErrorResponse.handleErrorResponse(error, res);
         };
     },
+
+    async deleteMyAccount(req: Request, res: Response) {
+        const cookies = req.cookies;
+        if (!cookies.jwt) return res.sendStatus(204);
+
+        const refreshToken = cookies.jwt;
+
+        const user = await UserService.getUserByRefreshToken(refreshToken);
+
+        if (!user) {
+            return res.status(400).json('É necessário estar autenticado(a) para realizar esta ação.')
+        }
+
+        const userId = Number(req.params.id);
+
+        if (user.id !== userId) return res.status(401).json('Acesso não permitido para esta ação.') 
+
+        try {
+            await UserService.deleteGraduate(userId);
+            res.status(200).end();
+        } catch (error) {
+            ErrorResponse.handleErrorResponse(error, res);
+        };
+    }
 };

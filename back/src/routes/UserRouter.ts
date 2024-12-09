@@ -15,6 +15,9 @@ userRouter.patch('/update-password', verifyRoles('graduate', 'admin'), userContr
 //envio de email: egresso para egresso e admin para egresso.  
 userRouter.post('/:id/send-message', verifyRoles('graduate', 'admin'), mailController.sendEmail);
 
+//envio de emails: admin para vários egressos
+userRouter.post('/:id/send-bulk-emails', verifyRoles('admin'), mailController.sendBulkEmails);
+
 userRouter.get('/graduates/:id', verifyRoles('graduate', 'admin'), userController.getGraduateById);
 
 userRouter.post('/admins', verifyRoles('admin'), userController.createAdmin);
@@ -34,5 +37,6 @@ userRouter.get('/:id', verifyRoles('admin'), userController.getUserById);
 
 //rotas específicas de um unico egresso
 userRouter.get('/:id/same-course', verifyRoles('graduate'), userController.getGraduatesSameCourse);
+userRouter.delete('/:id/delete-account', verifyRoles('graduate'), userController.deleteMyAccount);
 
 export default userRouter;

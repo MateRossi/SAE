@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { transporter } from "../utils/mailer";
 import { SYS_MAIL } from "../utils/mailer";
 import createGraduateEmailHtml from "../utils/graduateEmailTemplate";
+import updateInfoEmailTemplate from "../utils/updateInfoEmailTemplate";
 
 export const mailController = {
     async sendEmail(req: Request, res: Response) {
@@ -23,6 +24,29 @@ export const mailController = {
                 return res.status(500).json({ msg: 'Erro ao enviar email.', err: error })
             } else {
                 return res.status(200).json({ msg: 'Email enviado.', info });
+            }
+        });
+    },
+
+    async sendBulkEmails(req: Request, res: Response) {
+        const { subject, bcc, text } = req.body;
+
+        if (!bcc || !text || !subject) {
+            return res.status(400).json('Erro ao enviar emails. Dados insuficientes.');
+        }
+
+        const mailOptions = {
+            from: SYS_MAIL,
+            bcc: bcc,
+            subject: `[SAEG] - ${subject}`,
+            html: updateInfoEmailTemplate(text),
+        };
+
+        transporter.sendMail(mailOptions, function (error: any, info: any) {
+            if (error) {
+                return res.status(500).json({ msg: 'Erro ao enviar emails.', err: error })
+            } else {
+                return res.status(200).json({ msg: 'Emails enviados.', info });
             }
         });
     }
