@@ -4,19 +4,50 @@ import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SortableTable from '../../components/sortableTable/SortableTable';
 import PageTemplate from '../PageTemplate';
+import Dropdown from '../../components/Dropdown';
+import FilterOptions from '../../components/filterOptions/filterOptions';
 
 function GraduatesPage() {
     const [graduates, setGraduates] = useState([]);
+
+    const [courses, setCourses] = useState([]);
+
     const [loading, setLoading] = useState(true);
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
     const location = useLocation();
 
+    const [filter, setFilter] = useState({
+        confirmed: true,
+        notConfirmed: true,
+        outdated: false,
+        course: null
+    });
+
+    useEffect(() => {
+        let isMounted = true;
+        const getCourses = async () => {
+            try {
+                const response = await axiosPrivate.get(`/courses`);
+                console.log(response.data);
+                isMounted && setCourses(response.data);
+                setLoading(false);
+            } catch (err) {
+                console.error(err);
+                setLoading(false);
+            }
+        }
+
+        getCourses()
+
+        return () => isMounted = false;
+    }, [axiosPrivate]);
+
     useEffect(() => {
         let isMounted = true;
         const getGraduates = async () => {
             try {
-                const response = await axiosPrivate.get(`/users/graduates`);
+                const response = await axiosPrivate.get(`/users/graduates?confirmed=${filter?.confirmed}&notConfirmed=${filter?.notConfirmed}&outdated=${filter?.outdated}&course=${filter?.course}`);
                 if (isMounted) {
                     setGraduates(response.data);
                     setLoading(false);
@@ -30,7 +61,11 @@ function GraduatesPage() {
         getGraduates();
 
         return () => isMounted = false;
-    }, [axiosPrivate, location, navigate]);
+    }, [axiosPrivate, filter?.confirmed, filter?.course, filter?.notConfirmed, filter?.outdated, location, navigate]);
+
+    useEffect(() => {
+        console.log(filter);
+    }, [filter])
 
     const keyFn = (graduate) => {
         return graduate.id;
@@ -42,21 +77,13 @@ function GraduatesPage() {
         </PageTemplate>
     }
 
-    if (graduates.length === 0) {
-        return <PageTemplate pageTitle={'Egressos cadastrados'} subtitle={'Abaixo estão listados os alunos que se declaram egressos do IF Sudeste MG - Campus Juiz de Fora'}>
-            <h3>Sem dados para mostrar.</h3>
-        </PageTemplate>
-    }
-
     const handleNullValue = (value) => {
         if (value === true) return <div className='true-sim'>Sim</div>
-        
+
         if (value === false) return <div className='false-nao'>Não</div>
 
         return value || '-';
     }
-
-    console.log(graduates);
 
     const config = [
         {
@@ -212,16 +239,40 @@ function GraduatesPage() {
         }
     ];
 
+    const handleCourseChange = (value) => {
+        console.log('select value', value);
+        setFilter((prev) => ({
+            ...prev,
+            course: value,
+        }));
+    };
+
     return (
         <div className="page">
             <h1 className='pageTitle'>Egressos cadastrados</h1>
             <main className="pageContent">
-                <p className='page-subtitle'>
+                {/*<p className='page-subtitle'>
                     Abaixo estão listados os alunos que se declaram egressos do IF Sudeste MG - Campus Juiz de Fora
-                </p>
-                <div className='table-overflow-container'>
-                    <SortableTable data={graduates} keyFn={keyFn} config={config} />
+                </p>*/}
+                <div className='filtros'>
+                    Filtros aplicados:
+                    <FilterOptions filter={filter} setFilter={setFilter} />
+                    <div className='select-course-filter'>
+                        <label htmlFor="select_course">
+                            Filtrar por curso:
+                        </label>
+                        {!loading && <Dropdown options={courses} value={filter?.course} onChange={handleCourseChange} />}
+                    </div>
                 </div>
+                <div className='send-mails-container'>
+                    Enviar emails para o filtro selecionado? ({graduates?.length} egressos)
+                    <button onClick={() => alert(`Enviar emails para ${graduates.length} egressos?`)}>Enviar</button>
+                </div>
+                {
+                    graduates?.length ? <div className='table-overflow-container'>
+                        <SortableTable data={graduates} keyFn={keyFn} config={config} />
+                    </div> : <p>Sem dados para mostrar.</p>
+                }
             </main>
         </div>
     );

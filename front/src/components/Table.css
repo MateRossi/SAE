@@ -12,6 +12,7 @@
 .sortable-table td {
     text-align: center;
     padding: 5px;
+    text-wrap: nowrap;
 }
 
 .true-sim, .false-nao {

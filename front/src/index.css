@@ -519,6 +519,60 @@ td:last-of-type {
   width: 100%;
 }
 
+.send-mails-container {
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  gap: 10px;
+}
+
+.send-mails-container>button {
+  background-color: #238636;
+  color: #fff;
+  padding: 6px;
+  font-size: 0.8rem;
+}
+
+.filtros {
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  margin-bottom: 10px;
+}
+
+.filtros>.select-course-filter {
+  width: 60%;
+  margin-bottom: -10px;
+}
+
+.filtros button{
+  margin-top: 10px;
+  color: #fff;
+}
+
+.filtros .add-filter {
+  background-color: #238636;
+}
+
+.filtros .remove-filter {
+  background-color: firebrick;
+}
+
+.filter-buttons-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 10px;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

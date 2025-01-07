@@ -5,7 +5,6 @@ import Table from '../Table';
 
 function SortableTable(props) {
     const { config, data } = props;
-    console.log('COnfig => ', config);
     const { sortOrder, sortBy, sortedData, setSortColumn } = useSort(data, config);
 
     const updatedConfig = config.map((column) => {

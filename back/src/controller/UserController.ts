@@ -6,9 +6,17 @@ import jwt from 'jsonwebtoken';
 
 export const userController = {
     async getAllGraduates(req: Request, res: Response) {
-        console.log('getallgra');
+        const { confirmed, notConfirmed, outdated, course } = req.query;
+
+        const filters = {
+            confirmed: confirmed === 'true',
+            notConfirmed: notConfirmed === 'true',
+            outdated: outdated === 'true',
+            course: course,
+        };
+
         try {
-            const users = await UserService.getAllGraduates();
+            const users = await UserService.getAllGraduates(filters);
             res.json(users);
         } catch (error) {
             ErrorResponse.handleErrorResponse(error, res);
