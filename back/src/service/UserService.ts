@@ -10,69 +10,30 @@ import { Op } from "sequelize";
 
 export class UserService {
     static async getAllGraduates(filters: any) {
-        const whereConditions = { role: 'graduate' } as any;
+        const sixMonthsAgo = new Date();
+        sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
 
-        // Lista para armazenar combinações de condições
-        const combinedConditions = [] as any;
-
-        // Condição: graduates confirmados
-        if (filters.confirmed && !filters.outdated && !filters.notConfirmed) {
-            combinedConditions.push({ enrollment: { [Op.not]: null } });
-        }
-
-        // Condição: graduates não-confirmados
-        if (filters.notConfirmed && !filters.outdated && !filters.confirmed) {
-            combinedConditions.push({ enrollment: { [Op.is]: null } });
-        }
-
-        // Condição: graduates desatualizados
-        if (filters.outdated) {
-            const sixMonthsAgo = new Date();
-            sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
-
-            // Combinações específicas
-            if (filters.confirmed) {
-                combinedConditions.push({
-                    [Op.and]: [
-                        { enrollment: { [Op.not]: null } },
-                        { updatedAt: { [Op.lte]: sixMonthsAgo } }
-                    ]
-                });
-            }
-
-            if (filters.notConfirmed) {
-                combinedConditions.push({
-                    [Op.and]: [
-                        { enrollment: { [Op.is]: null } },
-                        { updatedAt: { [Op.lte]: sixMonthsAgo } }
-                    ]
-                });
-            }
-
-            // Apenas "outdated"
-            if (!filters.confirmed && !filters.notConfirmed) {
-                combinedConditions.push({ updatedAt: { [Op.lte]: sixMonthsAgo } });
-            }
-        }
-
-        // Aplica todas as condições combinadas
-        if (combinedConditions.length > 0) {
-            whereConditions[Op.or] = combinedConditions;
-        }
+        const whereConditions: any = {
+            role: 'graduate',
+            ...(filters.confirmed && !filters.notConfirmed && {
+                enrollment: { [Op.not]: null },
+            }),
+            ...(filters.notConfirmed && !filters.confirmed && {
+                enrollment: { [Op.is]: null },
+            }),
+            ...(filters.outdated && {
+                updatedAt: { [Op.lte]: sixMonthsAgo },
+            }),
+        };
 
         const graduates = await User.findAll({
-            where: {
-                role: 'graduate',
-                
-            },
+            where: whereConditions,
             include: [
                 {
                     model: Course,
                     as: 'course',
                     attributes: ['name', 'acronym'],
-                    ...(filters.course && {
-                        where: { name: { [Op.iLike]: `%${filters.course}%` } },
-                    }),
+                    ...(filters.course ? { where: { name: { [Op.iLike]: `%${filters.course}%` } } } : {})
                 },
                 {
                     model: Survey,

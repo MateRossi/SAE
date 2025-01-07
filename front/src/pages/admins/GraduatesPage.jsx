@@ -21,7 +21,7 @@ function GraduatesPage() {
         confirmed: true,
         notConfirmed: true,
         outdated: false,
-        course: null
+        course: ''
     });
 
     useEffect(() => {
@@ -47,7 +47,7 @@ function GraduatesPage() {
         let isMounted = true;
         const getGraduates = async () => {
             try {
-                const response = await axiosPrivate.get(`/users/graduates?confirmed=${filter?.confirmed}&notConfirmed=${filter?.notConfirmed}&outdated=${filter?.outdated}&course=${filter?.course}`);
+                const response = await axiosPrivate.get(`/users/graduates?confirmed=${filter?.confirmed}&notConfirmed=${filter?.notConfirmed}&outdated=${filter?.outdated}&course=${filter.course}`);
                 if (isMounted) {
                     setGraduates(response.data);
                     setLoading(false);
@@ -243,7 +243,7 @@ function GraduatesPage() {
         console.log('select value', value);
         setFilter((prev) => ({
             ...prev,
-            course: value,
+            course: value.name,
         }));
     };
 
