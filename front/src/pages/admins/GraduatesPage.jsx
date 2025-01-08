@@ -1,16 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../page.css';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SortableTable from '../../components/sortableTable/SortableTable';
-import PageTemplate from '../PageTemplate';
 import Dropdown from '../../components/Dropdown';
 import FilterOptions from '../../components/filterOptions/filterOptions';
+import useAuth from '../../hooks/useAuth';
 
 function GraduatesPage() {
     const [graduates, setGraduates] = useState([]);
 
     const [courses, setCourses] = useState([]);
+
+    const { auth } = useAuth();
+
+    const [successMsg, setSuccessMsg] = useState('');
+    const successRef = useRef();
+
+    const [errMsg, setErrMsg] = useState('');
+    const errRef = useRef();
 
     const [loading, setLoading] = useState(true);
     const axiosPrivate = useAxiosPrivate();
@@ -30,7 +38,7 @@ function GraduatesPage() {
             try {
                 const response = await axiosPrivate.get(`/courses`);
                 console.log(response.data);
-                isMounted && setCourses(response.data);
+                isMounted && setCourses([{ id: '734857390mdlamdaçç42', name: 'Todos os cursos' }, ...response.data]);
                 setLoading(false);
             } catch (err) {
                 console.error(err);
@@ -71,18 +79,35 @@ function GraduatesPage() {
         return graduate.id;
     }
 
-    if (loading) {
-        return <PageTemplate pageTitle={'Egressos cadastrados'} subtitle={'Abaixo estão listados os alunos que se declaram egressos do IF Sudeste MG - Campus Juiz de Fora'}>
-            <h3>Carregando...</h3>
-        </PageTemplate>
-    }
-
     const handleNullValue = (value) => {
         if (value === true) return <div className='true-sim'>Sim</div>
 
         if (value === false) return <div className='false-nao'>Não</div>
 
         return value || '-';
+    }
+
+    const handleSendClick = async (graduates) => {
+        const emails = graduates.map(graduate => graduate.email);
+        const mailData = {
+            subject: 'Atualização de Informações Cadastrais',
+            bcc: emails,
+            text: 'Atualize seus dados no sistema através do link www.saeg.com'
+        }
+        setLoading(true);
+        try {
+            const response = await axiosPrivate.post(`/users/${auth.id}/send-bulk-emails`, mailData);
+            setLoading(false);
+            setSuccessMsg(`
+                Emails enviados. 
+                Aceitos: ${response.data.info.accepted?.length} 
+                Rejeitados: ${response.data.info.rejected?.length}
+            `);
+        } catch (err) {
+            console.log(err);
+            setLoading(false);
+            setErrMsg('Falha ao enviar emails.');
+        }
     }
 
     const config = [
@@ -243,7 +268,7 @@ function GraduatesPage() {
         console.log('select value', value);
         setFilter((prev) => ({
             ...prev,
-            course: value.name,
+            course: value.name === 'Todos os cursos' ? '' : value.name,
         }));
     };
 
@@ -264,9 +289,16 @@ function GraduatesPage() {
                         {!loading && <Dropdown options={courses} value={filter?.course} onChange={handleCourseChange} />}
                     </div>
                 </div>
+                <p ref={successRef} className={successMsg ? 'successMsg' : 'offscreen'} aria-live='assertive'>
+                    {successMsg}
+                </p>
+                <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live='assertive'>
+                    {errMsg}
+                </p>
+                {loading && <p>Enviando emails...</p>}
                 <div className='send-mails-container'>
                     Enviar emails para o filtro selecionado? ({graduates?.length} egressos)
-                    <button onClick={() => alert(`Enviar emails para ${graduates.length} egressos?`)}>Enviar</button>
+                    <button onClick={() => handleSendClick(graduates)}>Enviar</button>
                 </div>
                 {
                     graduates?.length ? <div className='table-overflow-container'>
