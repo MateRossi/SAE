@@ -88,10 +88,9 @@ function GraduatesPage() {
     }
 
     const handleSendClick = async (graduates) => {
-        const emails = graduates.map(graduate => graduate.email);
         const mailData = {
             subject: 'Atualização de Informações Cadastrais',
-            bcc: emails,
+            bcc: graduates,
             text: 'Atualize seus dados no sistema através do link www.saeg.com'
         }
         setLoading(true);
@@ -131,6 +130,11 @@ function GraduatesPage() {
         {
             label: 'E-mail',
             render: (graduate) => handleNullValue(graduate.email),
+        },
+        {
+            label: 'Recebe Emails',
+            render: (graduate) => handleNullValue(graduate.recebeEmails),
+            sortValue: (graduate) => handleNullValue(graduate.recebeEmails)
         },
         {
             label: 'Ano de Ingresso',

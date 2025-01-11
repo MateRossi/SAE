@@ -35,9 +35,15 @@ export const mailController = {
             return res.status(400).json('Erro ao enviar emails. Dados insuficientes.');
         }
 
+        console.log(bcc);
+
+        const bccEmails = bcc
+            .filter((graduate: { email: string; recebeEmails: boolean }) => graduate.recebeEmails)
+            .map((graduate: { email: string }) => graduate.email);  
+
         const mailOptions = {
             from: SYS_MAIL,
-            bcc: bcc,
+            bcc: bccEmails,
             subject: `[SAEG] - ${subject}`,
             html: updateInfoEmailTemplate(text),
         };
