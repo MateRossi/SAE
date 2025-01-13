@@ -553,7 +553,7 @@ td:last-of-type {
   margin-bottom: -10px;
 }
 
-.filtros button{
+.filtros button {
   margin-top: 10px;
   color: #fff;
 }
@@ -571,6 +571,88 @@ td:last-of-type {
   width: 100%;
   justify-content: center;
   gap: 10px;
+}
+
+.dottedList {
+  list-style: none;
+  padding: 0 20px;
+  margin: 0;
+  max-width: 800px;
+  width: 95%;
+  margin-bottom: 20px;
+}
+
+.dottedList li {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dotted #ccc;
+  padding: 5px 0;
+}
+
+.dottedList span {
+  display: inline-block;
+}
+
+.dottedList li span:first-of-type {
+  margin-right: 10px;
+  white-space: nowrap;
+}
+
+.dottedList li span:last-of-type {
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+/* Botão Flutuante */
+.backButton {
+  padding: 5px;
+  background-color: #238636;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.dottedList h4 {
+  margin-top: 1rem;
+  margin-bottom: 0.3rem;
+  text-align: center;
+}
+
+.answers {
+  border: 1px solid rgba(0, 0, 0, 0.1)
+}
+
+.question {
+  margin-left: 5px;
+  margin-bottom: 1rem;
+  border-bottom: 1px dotted rgba(0, 0, 0, 0.1);
+}
+
+.commentary {
+  padding: 10px;
+  margin-bottom: 1rem;
+  font-weight: 100;
+  text-align: justify;
+  border: 1px solid rgba(0, 0, 0, 0.1)
+}
+
+.question:first-of-type {
+  margin-top: 1rem;
+}
+
+.question p {
+  font-weight: 600;
+}
+
+.question span {
+  margin-left: 0.3rem;
+  font-weight: 100;
 }
 
 @media (prefers-color-scheme: light) {

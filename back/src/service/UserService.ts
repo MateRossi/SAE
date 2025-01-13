@@ -127,6 +127,37 @@ export class UserService {
         return graduate;
     };
 
+    static async getGraduateDetailsById(id: number) {
+        const graduate = await User.findOne({
+            where: {
+                id,
+                role: 'graduate',
+            },
+            include: [
+                {
+                    model: Course,
+                    as: 'course',
+                    attributes: ['name', 'acronym'],
+                },
+                {
+                    model: Survey,
+                    as: 'survey',
+                    attributes: { exclude: ['createdAt'] }
+                },
+                {
+                    model: Review,
+                    as: 'review',
+                    attributes: { exclude: ['createdAt'] }
+                }
+            ],
+            attributes: { exclude: ['password'] }
+        });
+        if (!graduate) {
+            throw new NotFoundError('Egresso não encontrado.');
+        }
+        return graduate;
+    };
+
     static async getUserByRefreshToken(refreshToken: string) {
         if (!refreshToken) {
             throw new Error('Token inválido');

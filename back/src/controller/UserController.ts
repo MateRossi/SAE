@@ -65,6 +65,16 @@ export const userController = {
         };
     },
 
+    async getGraduateDetailsById(req: Request, res: Response) {
+        try {
+            const userId = Number(req.params.id);
+            const user = await UserService.getGraduateDetailsById(userId);
+            res.json(user);
+        } catch (error) {
+            ErrorResponse.handleErrorResponse(error, res);
+        };
+    },
+
     async createGraduate(req: Request, res: Response) {
         console.log('creategrad');
         try {

@@ -114,7 +114,7 @@ function GraduatesPage() {
             label: 'Opções',
             render: (graduate) => {
                 return <div className='table-buttons'>
-                    <button className='info-button' onClick={() => console.log(graduate.id)}>Info</button>
+                    <button className='info-button' onClick={() => navigate(`/admin/graduates/${graduate.id}`)}>Info</button>
                     <button className='msg-button' onClick={() => console.log(graduate.id)}>Msg</button>
                 </div>
             }

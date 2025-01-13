@@ -20,6 +20,9 @@ userRouter.post('/:id/send-bulk-emails', verifyRoles('admin'), mailController.se
 
 userRouter.get('/graduates/:id', verifyRoles('graduate', 'admin'), userController.getGraduateById);
 
+//busca todas as informações relevantes de um egresso, para que o admin possa confirmar
+userRouter.get('/admin/graduates/:id', verifyRoles('admin'), userController.getGraduateDetailsById);
+
 userRouter.post('/admins', verifyRoles('admin'), userController.createAdmin);
 
 userRouter.get('/graduates', verifyRoles('admin'), userController.getAllGraduates);

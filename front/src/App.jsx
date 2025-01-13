@@ -32,6 +32,7 @@ import PersistLogin from "./components/PersistLogin";
 import AddModalityPage from './pages/admins/AddModalityPage';
 import EditModalityPage from './pages/admins/EditModalityPage';
 import SendGraduateMessage from './pages/graduates/SendGraduateMessage';
+import GraduateDetailsPage from './pages/admins/GraduateDetailsPage';
 
 
 
@@ -62,6 +63,7 @@ function App() {
         {/* Rotas que o admin tem acesso. Colocar várias talbes juntas ao invés de modalidade, etc?*/}
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="/admin" element={<GraduatesPage />} />
+          <Route path='/admin/graduates/:graduateId' element={<GraduateDetailsPage />} />
           <Route path="companies" element={<CompaniesPage />} />
           <Route path="confirmRegister" element={<ConfirmRegisterPage />} />
           <Route path="courses" element={<CoursesPage />} />
