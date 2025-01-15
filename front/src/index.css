@@ -629,7 +629,7 @@ td:last-of-type {
 }
 
 .question {
-  margin-left: 5px;
+  margin: 0 5px;
   margin-bottom: 1rem;
   border-bottom: 1px dotted rgba(0, 0, 0, 0.1);
 }
@@ -653,6 +653,23 @@ td:last-of-type {
 .question span {
   margin-left: 0.3rem;
   font-weight: 100;
+}
+
+.backButton:disabled {
+  opacity: 0.5;
+}
+
+.backButton:disabled:hover {
+  border-color: #fff;
+}
+
+.detailsOptions {
+  display: flex;
+  flex-direction: row;
+}
+
+.detailsOptions .backButton:last-of-type {
+  background-color: firebrick;
 }
 
 @media (prefers-color-scheme: light) {

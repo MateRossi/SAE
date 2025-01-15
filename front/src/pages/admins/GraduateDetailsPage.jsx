@@ -1,10 +1,16 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import '../page.css';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 export default function GraduateDetailsPage() {
     const { graduateId } = useParams();
+
+    const errRef = useRef();
+    const [errMsg, setErrMsg] = useState('');
+
+    const successRef = useRef();
+    const [successMsg, setSuccessMsg] = useState('');
 
     const [graduateInfo, setGraduateInfo] = useState({
         id: null,
@@ -74,7 +80,7 @@ export default function GraduateDetailsPage() {
                 setLoading(false);
             } catch (err) {
                 console.error(err);
-                navigate('/', { state: { from: location }, replace: true });
+                setErrMsg('Erro ao obter os dados do egresso.');
             }
         }
 
@@ -116,6 +122,42 @@ export default function GraduateDetailsPage() {
         return options[value];
     }
 
+    const handleConfirm = async (graduateId) => {
+        const userInput = window.prompt("Digite a matrícula para confirmar este egresso:");
+
+        if (userInput === null) {
+            console.log("Ação cancelada pelo usuário.");
+            return;
+        }
+
+        const isConfirmed = window.confirm(`Deseja confirmar este egresso usando a matrícula "${userInput}"?`);
+
+        if (isConfirmed) {
+            const data = {
+                enrollment: userInput
+            }
+
+            setLoading(true);
+            try {
+                const response = await axiosPrivate.patch(`/users/graduates/${graduateId}/confirm-graduate`, data);
+                console.log(response.data)
+                setGraduateInfo(response.data);
+                setLoading(false);
+                setSuccessMsg('Egresso confirmado.')
+            } catch (err) {
+                console.error(err);
+                setLoading(false);
+                setErrMsg('Erro ao confirmar egresso.')
+            }
+        } else {
+            return;
+        }
+    }
+
+    const handleDelete = (graduateId) => {
+        console.log(graduateId);
+    }
+
     if (loading) {
         return (
             <div className="page">
@@ -131,9 +173,23 @@ export default function GraduateDetailsPage() {
         <div className="page">
             <h1 className="pageTitle">Informações detalhadas</h1>
             <main className="pageContent">
+                <p ref={successRef} className={successMsg ? 'successMsg' : 'offscreen'} aria-live='assertive'>
+                    {successMsg}
+                </p>
+                <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live='assertive'>
+                    {errMsg}
+                </p>
                 <h2>{graduateInfo.name}</h2>
                 <a href={graduateInfo.email}>{graduateInfo.email}</a>
                 <p>{graduateInfo.enrollment ? 'Confirmado(a)' : 'Não confirmado(a)'}</p>
+                <div className="detailsOptions">
+                    <button className="backButton" disabled={graduateInfo.enrollment} onClick={() => handleConfirm(graduateId)}>
+                        Confirmar Egresso
+                    </button>
+                    <button className="backButton" onClick={() => handleDelete(graduateId)}>
+                        Excluir Cadastro
+                    </button>
+                </div>
                 <button className="backButton" onClick={() => navigate(-1)}>Voltar</button>
                 <div className="dottedList">
                     <h4>Dados gerais</h4>
@@ -245,7 +301,7 @@ export default function GraduateDetailsPage() {
                     </div>
                     <h4>Comentários Adicionais</h4>
                     <div className="commentary">
-                         {graduateInfo.commentary || 'Não cadastrado'}     
+                        {graduateInfo.commentary || 'Não cadastrado'}
                     </div>
                 </div>
             </main>

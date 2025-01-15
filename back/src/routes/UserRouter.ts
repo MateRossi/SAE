@@ -12,6 +12,9 @@ const userRouter = express.Router();
 //rotas básicas
 userRouter.patch('/update-password', verifyRoles('graduate', 'admin'), userController.updateUserPassword);
 
+//admin confirma egresso passando a matrícula
+userRouter.patch('/graduates/:id/confirm-graduate', verifyRoles('admin'), userController.confirmGraduate);
+
 //envio de email: egresso para egresso e admin para egresso.  
 userRouter.post('/:id/send-message', verifyRoles('graduate', 'admin'), mailController.sendEmail);
 

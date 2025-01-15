@@ -330,6 +330,17 @@ export const userController = {
         };
     },
 
+    async confirmGraduate(req: Request, res: Response) {
+        try {
+            const userId = Number(req.params.id);
+            const enrollment = req.body.enrollment;
+            const updatedUser = await UserService.confirmGraduate(userId, enrollment);
+            res.json(updatedUser);
+        } catch (error) {
+            ErrorResponse.handleErrorResponse(error, res);
+        };
+    },
+
     async deleteMyAccount(req: Request, res: Response) {
         const cookies = req.cookies;
         if (!cookies.jwt) return res.sendStatus(204);
