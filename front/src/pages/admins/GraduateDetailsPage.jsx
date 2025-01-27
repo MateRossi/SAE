@@ -154,8 +154,22 @@ export default function GraduateDetailsPage() {
         }
     }
 
-    const handleDelete = (graduateId) => {
-        console.log(graduateId);
+    const handleDelete = async (graduateId) => {
+        const isConfirmed = window.confirm(`Deseja realmente excluir este cadastro? `);
+        setLoading(true);
+        if (isConfirmed) {
+            try {
+                await axiosPrivate.delete(`/users/graduates/${graduateId}`);
+                setLoading(false);
+                navigate('/admin');
+            } catch (err) {
+                setLoading(false);
+                console.error(err);
+                setErrMsg('Erro ao excluir egresso.')
+            }
+        } else {
+            return;
+        }
     }
 
     if (loading) {
