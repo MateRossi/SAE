@@ -407,4 +407,37 @@ export class UserService {
 
         return user.save({ fields: ['password'] });
     };
+
+    private static gerarSenhaAleatoria(tamanho: number) {
+        const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&.';
+        let senha = '';
+        for (let i = 0; i < tamanho; i++) {
+            const indexAleatorio = Math.floor(Math.random() * caracteres.length);
+            senha += caracteres[indexAleatorio];
+        }
+        return senha;
+    }
+
+    static async passwordChangeMail(mail: string) {
+        const user = await User.findOne({
+            where: { email: mail }
+        });
+
+        if (!user) {
+            throw new NotFoundError('Este email não está cadastrado no sistema.');
+        }
+
+        const novaSenha = this.gerarSenhaAleatoria(8);
+
+        try {
+            const hashedPassword = await bcrypt.hash(novaSenha, 10);
+            user.password = hashedPassword;
+        } catch (err: any) {
+            throw new Error(`Erro ao encriptar senha ${err.message}`);
+        }
+
+        await user.save({ fields: ["password"] });
+
+        return { userName: user.name, newPwd: novaSenha }; 
+    }
 };

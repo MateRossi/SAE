@@ -33,6 +33,7 @@ import AddModalityPage from './pages/admins/AddModalityPage';
 import EditModalityPage from './pages/admins/EditModalityPage';
 import SendGraduateMessage from './pages/graduates/SendGraduateMessage';
 import GraduateDetailsPage from './pages/admins/GraduateDetailsPage';
+import ForgotPassword from './pages/visitants/ForgotPassword';
 
 
 
@@ -45,6 +46,7 @@ function App() {
         <Route path="unauthorized" element={<UanuthorizedPage />} />
         <Route path="register" element={<RegisterPage />} />
         <Route path='registerSuccess' element={<RegisterSuccess />} />
+        <Route path='forgotPassword' element={<ForgotPassword />} />
       </Route>
 
       <Route element={<PersistLogin />}>
