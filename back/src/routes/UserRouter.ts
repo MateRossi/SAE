@@ -2,6 +2,10 @@ import express from 'express';
 import { userController } from '../controller/UserController';
 import verifyRoles from '../middleware/verifyRoles';
 import { mailController } from '../controller/MailController';
+import multer from 'multer';
+
+const upload = multer({ dest: 'uploads/' });
+
 //import userToken from '../middleware/userMiddleware';
 //import auth token
 
@@ -14,6 +18,14 @@ userRouter.patch('/update-password', verifyRoles('graduate', 'admin'), userContr
 
 //admin confirma egresso passando a matrícula
 userRouter.patch('/graduates/:id/confirm-graduate', verifyRoles('admin'), userController.confirmGraduate);
+
+//cria vários egressos de uma mesma modalidade:
+userRouter.post(
+    '/graduates/upload-graduates/:modalityId', 
+    verifyRoles('admin'),
+    upload.single("file"),
+    userController.createBulkGraduatesOfSingleModality
+);
 
 //envio de email: egresso para egresso e admin para egresso.  
 userRouter.post('/:id/send-message', verifyRoles('graduate', 'admin'), mailController.sendEmail);

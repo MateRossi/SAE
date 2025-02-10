@@ -7,6 +7,9 @@ import Review from "../model/Review";
 import { Unauthorized } from "../errors/Unauthorized";
 import Survey from "../model/Survey";
 import { Op } from "sequelize";
+import Modality from "../model/Modality";
+
+const BATCH_SIZE = 50;
 
 export class UserService {
     static async getAllGraduates(filters: any) {
@@ -438,6 +441,91 @@ export class UserService {
 
         await user.save({ fields: ["password"] });
 
-        return { userName: user.name, newPwd: novaSenha }; 
+        return { userName: user.name, newPwd: novaSenha };
+    };
+
+    static async createBulkGraduatesOfSingleModality(graduates: Array<{
+        matricula: string,
+        nome: string,
+        email: string,
+        curso: string
+    }>, modalityId: number) {
+        try {
+            const modality = await Modality.findOne({
+                where: { id: modalityId }
+            });
+
+            if (!modality) {
+                throw new NotFoundError('Modalidade não encontrada.')
+            }
+
+            //agrupa os egressos pelo nome do curso
+            const graduatesByCourse = graduates.reduce((map, graduate) => {
+                if (!map.has(graduate.curso)) {
+                    map.set(graduate.curso, []);
+                }
+                map.get(graduate.curso)!.push(graduate);
+                return map;
+            }, new Map<string, typeof graduates>());
+
+            //procura no banco todos os cursos que estão no array
+            const courseNames = Array.from(graduatesByCourse.keys());
+            const existingCourses = await Course.findAll({
+                where: { name: { [Op.in]: courseNames } },
+            });
+
+            //cria um map de cursos existentes
+            const courseMap = new Map<string, number>();
+            for (const course of existingCourses) {
+                courseMap.set(course.name, course.id);
+            }
+
+            //cria os cursos que ainda não existem
+            const newCourses: { name: string; modalityId: number }[] = [];
+            for (const courseName of courseNames) {
+                if (!courseMap.has(courseName)) {
+                    newCourses.push({
+                        name: courseName,
+                        modalityId: modality.id,
+                    });
+                }
+            }
+
+            //se houver cursos que não existiam, cria-os no banco de dados de uma vez
+            if (newCourses.length > 0) {
+                const createdCourses = await Course.bulkCreate(newCourses);
+                for (const course of createdCourses) {
+                    courseMap.set(course.name, course.id);
+                }
+            }
+
+            //Prepara os egressos para inserção no banco
+            const treatedGraduates: {
+                enrollment: string,
+                name: string,
+                email: string,
+                courseId: number | undefined,
+                password: string,
+            }[] = [];
+            for (const [courseName, students] of graduatesByCourse.entries()) {
+                const courseId = courseMap.get(courseName);
+                for (const graduate of students) {
+                    treatedGraduates.push({
+                        enrollment: graduate.matricula,
+                        name: graduate.nome,
+                        email: graduate.email,
+                        courseId,
+                        password: await bcrypt.hash(graduate.email, 10),
+                    });
+                }
+            }
+
+            const createdGraduates = await User.bulkCreate(treatedGraduates, {
+                ignoreDuplicates: true,
+            });
+            return createdGraduates;
+        } catch (err) {
+            throw err;
+        }
     }
 };

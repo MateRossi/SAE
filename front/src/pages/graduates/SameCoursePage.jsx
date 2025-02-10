@@ -60,7 +60,7 @@ function SameCoursePage() {
         },
         {
             label: 'Ano de Graduação',
-            render: (graduate) => graduate.graduationYear,
+            render: (graduate) => graduate.graduationYear || 'Não informado',
             sortValue: (graduate) => graduate.graduationYear,
         },
         {

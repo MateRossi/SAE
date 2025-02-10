@@ -3,6 +3,28 @@ import { Request, Response } from 'express';
 import { ErrorResponse } from '../errors/ErrorResponse';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import fs from 'fs';
+import csv from 'csv-parser';
+import iconv from 'iconv-lite';
+
+const parseCSV = async (filePath: string): Promise<any[]> => {
+    return new Promise((resolve, reject) => {
+        const graduates: { matricula: string; nome: string; email: string; curso: string }[] = [];
+        fs.createReadStream(filePath)
+        .pipe(iconv.decodeStream("win1252"))
+        .pipe(csv({ separator: ';' }))
+            .on("data", (row) => {
+                graduates.push({
+                    matricula: row.matricula.trim(),
+                    nome: row.nome.trim(),
+                    email: row.email.trim().toLowerCase(),
+                    curso: row.curso.trim(),
+                });
+            })
+            .on("end", () => resolve(graduates))
+            .on("error", (err) => reject(err));
+    });
+};
 
 export const userController = {
     async getAllGraduates(req: Request, res: Response) {
@@ -355,7 +377,7 @@ export const userController = {
 
         const userId = Number(req.params.id);
 
-        if (user.id !== userId) return res.status(401).json('Acesso não permitido para esta ação.') 
+        if (user.id !== userId) return res.status(401).json('Acesso não permitido para esta ação.')
 
         try {
             await UserService.deleteGraduate(userId);
@@ -363,5 +385,26 @@ export const userController = {
         } catch (error) {
             ErrorResponse.handleErrorResponse(error, res);
         };
-    }
+    },
+
+    async createBulkGraduatesOfSingleModality(req: Request, res: Response) {
+        const modalityId = Number(req.params.modalityId);
+
+        try {
+            let graduates: { matricula: string; nome: string; email: string; curso: string }[] = [];
+
+            if (req.file) {
+                const filePath = req.file.path;
+                graduates = await parseCSV(filePath);
+                fs.unlinkSync(filePath);
+            } else {
+                graduates = req.body;
+            }
+
+            const creationData = await UserService.createBulkGraduatesOfSingleModality(graduates, modalityId);
+            return res.json(creationData);
+        } catch (err) {
+            ErrorResponse.handleErrorResponse(err, res);
+        }
+    },
 };
