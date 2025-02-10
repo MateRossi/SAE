@@ -6,6 +6,7 @@ import SortableTable from '../../components/sortableTable/SortableTable';
 import Dropdown from '../../components/Dropdown';
 import FilterOptions from '../../components/filterOptions/filterOptions';
 import useAuth from '../../hooks/useAuth';
+import Pagination from '../../components/pagination/Pagination';
 
 function GraduatesPage() {
     const [graduates, setGraduates] = useState([]);
@@ -31,6 +32,16 @@ function GraduatesPage() {
         outdated: false,
         course: ''
     });
+
+    const [pagination, setPagination] = useState({
+        page: 1,
+        pageSize: 10,
+    });
+
+    const getPaginatedGraduates = (graduates, page, pageSize) => {
+        const offset = (page - 1) * pageSize;
+        return graduates.slice(offset, offset + pageSize);
+    };
 
     useEffect(() => {
         let isMounted = true;
@@ -276,6 +287,13 @@ function GraduatesPage() {
         }));
     };
 
+    useEffect(() => {
+        setPagination({
+            page: 1,
+            pageSize: 10,
+        })
+    }, [filter])
+
     return (
         <div className="page">
             <h1 className='pageTitle'>Egressos cadastrados</h1>
@@ -306,9 +324,18 @@ function GraduatesPage() {
                 </div>
                 {
                     graduates?.length ? <div className='table-overflow-container'>
-                        <SortableTable data={graduates} keyFn={keyFn} config={config} />
+                        <SortableTable
+                            data={getPaginatedGraduates(graduates, pagination.page, pagination.pageSize)}
+                            keyFn={keyFn}
+                            config={config}
+                        />
                     </div> : <p>Sem dados para mostrar.</p>
                 }
+                <Pagination
+                    pagination={pagination}
+                    setPagination={setPagination}
+                    listLength={graduates.length}
+                />
             </main>
         </div>
     );

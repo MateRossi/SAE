@@ -387,7 +387,7 @@ export const userController = {
         };
     },
 
-    async createBulkGraduatesOfSingleModality(req: Request, res: Response) {
+    async createBulkGraduatesOfSingleModality(req: any, res: Response) {
         const modalityId = Number(req.params.modalityId);
 
         try {

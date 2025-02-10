@@ -1,0 +1,35 @@
+.pagination {
+    display: flex;
+    padding: 16px;
+    gap: 1rem;
+}
+
+.pagination>button {
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 5px;
+}
+
+.pagination>button:focus {
+    outline: none;
+}
+
+.pagination>button:hover {
+    background-color: rgb(176, 251, 251);
+}
+
+.pagination>button:disabled:hover {
+    background-color: #fff;
+}
+
+.pagination label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pagination label input {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 5px;
+    border-radius: 8px;
+}

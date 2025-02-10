@@ -52,7 +52,7 @@ export class UserService {
             attributes: { exclude: ['refreshToken', 'role', 'password', 'courseId'] },
         });
 
-        return graduates.map(graduate => ({
+        const parsedGraduates = graduates.map(graduate => ({
             id: graduate.id,
             matricula: graduate.enrollment,
             nome: graduate.name,
@@ -86,12 +86,9 @@ export class UserService {
             avaliacaoDocentes: (graduate as any)?.review?.teachersRating,
             expectativaCurso: (graduate as any)?.review?.courseExpectation,
         }));
-    };
 
-    /*
-    desireToWorkArea":4,"learningLevelRating":3,"courseRating":3,"campusRating":2,"infraRating":3,"theoKnowledgeRating":4,"practKnowledgeRating":4,"teachersRating":3,
-    "courseExpectation":"Não sabe / prefere não opinar","updatedAt":"2024-10-25T18:54:43.020Z","userId":2}
-    */
+        return parsedGraduates;
+    };
 
     static async getAllAdmins() {
         return User.findAll({
