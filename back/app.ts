@@ -17,6 +17,14 @@ import registerGraduate from './src/routes/RegisterRouter';
 import courses from './src/routes/PublicRouter';
 import admin from './src/routes/AdminRouter';
 import changeMail from './src/routes/ChangePwdRouter';
+import path from 'path';
+import fs from 'fs';
+
+// Garante que a pasta "uploads/" existe
+export const uploadDir = path.join(__dirname, "uploads");
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 const app = express();
 const port = process.env.PORT || 3000;

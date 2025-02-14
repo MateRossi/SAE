@@ -536,8 +536,24 @@ export class UserService {
 
             const createdGraduates = await User.bulkCreate(treatedGraduates, {
                 ignoreDuplicates: true,
+                fields: ["enrollment", "name", "email", "password", "courseId"],
+                returning: ["id", "enrollment", "name", "email"],
             });
-            return createdGraduates;
+
+            const attGrad = createdGraduates.map((graduate) => {
+                return {
+                    id: graduate.id,
+                    enrollment: graduate.enrollment,
+                    name: graduate.name,
+                    email: graduate.email,
+                };
+            });
+
+            const newGraduates = attGrad.filter(graduate => graduate.id);
+            return {
+                newGraduates,
+                existingGraduatesLength: createdGraduates.length,
+            };
         } catch (err) {
             throw err;
         }

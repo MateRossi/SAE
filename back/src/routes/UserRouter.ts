@@ -3,8 +3,20 @@ import { userController } from '../controller/UserController';
 import verifyRoles from '../middleware/verifyRoles';
 import { mailController } from '../controller/MailController';
 import multer from 'multer';
+import { uploadDir } from '../../app';
+import path from 'path';
 
-const upload = multer({ dest: 'uploads/' });
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1E9);
+        cb(null, file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage });
 
 //import userToken from '../middleware/userMiddleware';
 //import auth token

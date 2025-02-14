@@ -100,6 +100,7 @@ function AddGraduatesPage() {
     const handleSubmit = async (e) => {
         if (!courseName) {
             alert("Por favor, insira o nome do curso!");
+            return;
         }
 
         e.preventDefault();
@@ -236,7 +237,16 @@ function AddGraduatesPage() {
                             </div>
                         </div>
                     </div>
-                    <button type="submit" disabled={!userEmail ? true : false}>
+                    <button type="submit" disabled={
+                        !userEmail ||
+                        !courseName ||
+                        !userName ||
+                        !entryYear ||
+                        !gradYear ||
+                        !phoneNumber ||
+                        !matricula
+                        ? true : false
+                    }>
                         Confirmar
                     </button>
                 </form>

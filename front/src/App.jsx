@@ -27,6 +27,7 @@ import StatisticsPage from "./pages/admins/StatisticsPage";
 import AddCoursePage from './pages/admins/AddCoursePage';
 import EditCoursePage from './pages/admins/EditCoursePage';
 import AddGraduatesPage from './pages/admins/AddGraduatesPages';
+import AddByFilePage from './pages/admins/AddByFilePage';
 
 import { Routes, Route } from "react-router-dom"
 import PersistLogin from "./components/PersistLogin";
@@ -67,6 +68,7 @@ function App() {
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="/admin" element={<GraduatesPage />} />
           <Route path='/admin/add-graduates' element={<AddGraduatesPage />} />
+          <Route path='/admin/add-graduates/csv' element={<AddByFilePage />} />
           <Route path='/admin/graduates/:graduateId' element={<GraduateDetailsPage />} />
           <Route path="companies" element={<CompaniesPage />} />
           <Route path="confirmRegister" element={<ConfirmRegisterPage />} />
