@@ -26,6 +26,7 @@ import PreRegisterPage from './pages/admins/PreRegisterPage';
 import StatisticsPage from "./pages/admins/StatisticsPage";
 import AddCoursePage from './pages/admins/AddCoursePage';
 import EditCoursePage from './pages/admins/EditCoursePage';
+import AddGraduatesPage from './pages/admins/AddGraduatesPages';
 
 import { Routes, Route } from "react-router-dom"
 import PersistLogin from "./components/PersistLogin";
@@ -65,6 +66,7 @@ function App() {
         {/* Rotas que o admin tem acesso. Colocar várias talbes juntas ao invés de modalidade, etc?*/}
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="/admin" element={<GraduatesPage />} />
+          <Route path='/admin/add-graduates' element={<AddGraduatesPage />} />
           <Route path='/admin/graduates/:graduateId' element={<GraduateDetailsPage />} />
           <Route path="companies" element={<CompaniesPage />} />
           <Route path="confirmRegister" element={<ConfirmRegisterPage />} />

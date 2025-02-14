@@ -39,6 +39,7 @@ userRouter.get('/graduates/:id', verifyRoles('graduate', 'admin'), userControlle
 userRouter.get('/admin/graduates/:id', verifyRoles('admin'), userController.getGraduateDetailsById);
 
 userRouter.post('/admins', verifyRoles('admin'), userController.createAdmin);
+userRouter.post('/admins/add-graduate', verifyRoles('admin'), userController.createGraduateByAdmin);
 
 userRouter.get('/graduates', verifyRoles('admin'), userController.getAllGraduates);
 userRouter.get('/admins', verifyRoles('admin'), userController.getAllAdmins);

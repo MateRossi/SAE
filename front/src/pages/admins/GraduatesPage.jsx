@@ -120,6 +120,10 @@ function GraduatesPage() {
         }
     }
 
+    const handleAddGraduate = () => {
+        navigate("/admin/add-graduates");
+    }
+
     const config = [
         {
             label: 'Opções',
@@ -318,6 +322,7 @@ function GraduatesPage() {
                     {errMsg}
                 </p>
                 {loading && <p>Enviando emails...</p>}
+                <button className='add-button' onClick={() => handleAddGraduate()}>Adicionar Egresso(s)</button>
                 <div className='send-mails-container'>
                     Enviar emails para o filtro selecionado? ({graduates?.length} egressos)
                     <button onClick={() => handleSendClick(graduates)}>Enviar</button>

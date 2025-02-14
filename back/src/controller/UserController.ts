@@ -98,12 +98,21 @@ export const userController = {
     },
 
     async createGraduate(req: Request, res: Response) {
-        console.log('creategrad');
         try {
             const userData = req.body;
             const hashedPassword = await bcrypt.hash(userData.password, 10);
             userData.password = hashedPassword;
             const newUser = await UserService.createGraduate(userData);
+            res.status(201).json({ newUser, msg: 'Egresso criado.' });
+        } catch (error) {
+            ErrorResponse.handleErrorResponse(error, res);
+        };
+    },
+
+    async createGraduateByAdmin(req: Request, res: Response) {
+        try {
+            const userData = req.body;
+            const newUser = await UserService.createGraduateByAdmin(userData);
             res.status(201).json({ newUser, msg: 'Egresso criado.' });
         } catch (error) {
             ErrorResponse.handleErrorResponse(error, res);

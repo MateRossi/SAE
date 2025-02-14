@@ -219,6 +219,23 @@ export class UserService {
         return User.create({ enrollment, name, email, password, entryYear, graduationYear, courseId });
     };
 
+    static async createGraduateByAdmin(userData: User) {
+        const {
+            name,
+            enrollment,
+            email,
+            courseId,
+            entryYear,
+            graduationYear,
+            phoneNumber,
+        } = userData;
+
+        const password = await bcrypt.hash(userData.email, 10);
+
+        await CourseService.isExistent(courseId);
+        return User.create({ enrollment, name, password, email, entryYear, graduationYear, courseId, phoneNumber });
+    }
+
     static async createAdmin(userData: User) {
         const {
             name,
