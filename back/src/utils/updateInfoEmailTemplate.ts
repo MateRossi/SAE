@@ -41,10 +41,18 @@ const updateInfoEmailTemplate = (message: string) => {
 
         .update-info {
             text-align: center;
-            padding: 10px;
-            background-color: green;
-            border-radius: 10px;
+            padding: 8px;
+            background-color: LawnGreen;
+            border-radius: 8px;
             color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            margin: auto;
+        }
+
+        a {
+            text-decoration: none;
+            color: green;
         }
     </style>
 </head>
@@ -58,7 +66,7 @@ const updateInfoEmailTemplate = (message: string) => {
         <p>Caso seja sua primeira vez entrando no sistema, a senha padrão é igual ao seu e-mail. Recomendamos alterar isso na sessão "Perfil".</p>
         <a target="_blank" class="update-info" href="http://localhost:5173/">Atualizar minhas informações!</a>
         <p>Se não deseja receber estes e-mails, acesse o link abaixo e desmarque a opção de receber emails.</p>
-        <a target="_blank" href="#">Não quero receber e-mails informativos.</a>
+        <a target="_blank" href="http://localhost:5173/profile">Não quero receber e-mails informativos.</a>
         <p>Este e-mail foi enviado para você por estar cadastrado(a) no SAEG - Sistema de Acompanhamento de Egressos do IF Sudeste MG Campus Juiz de Fora.</p>
         <div class="footer">
             <p>© 2024 Sistema de Egressos. Todos os direitos reservados.</p>

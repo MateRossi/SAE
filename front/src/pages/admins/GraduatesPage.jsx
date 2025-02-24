@@ -102,7 +102,7 @@ function GraduatesPage() {
         const mailData = {
             subject: 'Atualização de Informações Cadastrais',
             bcc: graduates,
-            text: 'Atualize seus dados no sistema através do link www.saeg.com'
+            text: "Que tal dar uma atualizada nos seus dados? É rapidinho! 😊"
         }
         setLoading(true);
         try {
@@ -336,11 +336,14 @@ function GraduatesPage() {
                         />
                     </div> : <p>Sem dados para mostrar.</p>
                 }
-                <Pagination
+                {
+                    graduates.length > 0 ?
+                    <Pagination
                     pagination={pagination}
                     setPagination={setPagination}
                     listLength={graduates.length}
-                />
+                /> : null
+                }
             </main>
         </div>
     );

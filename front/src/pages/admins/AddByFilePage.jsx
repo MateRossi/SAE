@@ -4,6 +4,7 @@ import Dropdown from "../../components/Dropdown";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../../components/spinner/Spinner";
 import Report from "../../components/reportComp/Report";
+import csvModel from '../../img/csvModel.png';
 
 function AddByFilePage() {
     const errRef = useRef();
@@ -123,6 +124,22 @@ function AddByFilePage() {
                 </form>
                 <div className="flex-buttons">
                     <button onClick={() => navigate("/admin/add-graduates")} className="back-button">Voltar</button>
+                </div>
+                <div>
+                    <h2>Instruções</h2>
+                    <ol>
+                        <li>
+                        Selecione dentre as modalidades disponíveis aquela a qual os egressos a serem adicionados pertencem.
+                        </li>
+                        <li>Escolha um arquivo .csv (com valores separados por ponto e vírgula)</li>
+                        <li>
+                            Certifique-se de que o arquivo escolhido tenha os seguinte formato:<br />
+                            <img src={csvModel} alt="Modelo do arquivo .csv a ser enviado." width="100%" height="230px"/>
+                        </li>
+                        <li>Envie o arquivo.</li>
+                        <li>Os cursos que não existiam serão criados automaticamente, não se preocupe!</li>
+                        <li>A resposta da requisição serão os novos egresos adicionados juntamente com o número de egressos que já existiam no banco de dados.</li>
+                    </ol>
                 </div>
             </>
         )
