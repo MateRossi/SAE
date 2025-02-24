@@ -4,9 +4,9 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 export default function DownloadPage() {
     const radioOptions = [
-        { value: "followUp", label: "Egressos que responderam ao acompanhamento de carreira." },
-        { value: "ratings", label: "Egressos que responderam às avaliações da instituição." },
-        { value: "both", label: "Egressos que responderam a ambos." },
+        { value: "followUp", label: "Egressos que responderam SOMENTE ao acompanhamento de carreira." },
+        { value: "ratings", label: "Egressos que responderam SOMENTE às avaliações da instituição." },
+        { value: "both", label: "Egressos que responderam à duas pesquisas." },
         { value: "none", label: "Todos os egressos (pode conter muitos dados nulos)." }
     ];
 
@@ -37,7 +37,7 @@ export default function DownloadPage() {
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `ecressos_${graduateFilter}.csv`
+            a.download = `egressos_${graduateFilter}.csv`
             document.body.appendChild(a);
             a.click();
             a.remove();
