@@ -707,6 +707,51 @@ input[type="file"] {
   border: 8px solid linear-gradient(90deg, #238636, #1a1a1a);
 }
 
+.radio-filter-container {
+  margin-top: 2rem;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 16px;
+}
+
+.radio-filter-container div {
+  background-color: #bfbfbf;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.radio-filter-container div:hover {
+  background-color: #b6ceac;
+}
+
+.radio-filter-container div input {
+  width: 20px;
+}
+
+.radio-filter-container div label {
+  cursor: pointer;
+  width: 100%;
+}
+
+.sb-button {
+  width: 100% !important;
+  margin-top: 10px;
+}
+
+.alert-msgs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

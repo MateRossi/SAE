@@ -6,6 +6,7 @@ import course from '../img/course.svg';
 import profile from '../img/profile.svg';
 import student from '../img/student.svg';
 import modalities from '../img/modalities.svg';
+import download from '../img/download.svg';
 
 export default function AdminMenu() {
     const { auth } = useAuth()
@@ -27,6 +28,7 @@ export default function AdminMenu() {
                 <Link to={'courses'}><img className='menuIcon' src={course} alt="ícone curso" />Cursos</Link>
                 <Link to={'modalities'}><img className='menuIcon' src={modalities} alt="ícone modalidades" />Modalidades</Link>
                 <Link to={'profile'}><img className='menuIcon' src={profile} alt="ícone perfil" />Perfil</Link>
+                <Link to={'downloads'}><img className='menuIcon' src={download} alt="ícone downloads" />Downloads</Link>
             </nav>
             <div className='logout-container'>
                 <h3>Olá, {auth?.name?.split(' ')[0]}</h3>

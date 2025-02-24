@@ -50,6 +50,9 @@ userRouter.get('/graduates/:id', verifyRoles('graduate', 'admin'), userControlle
 //busca todas as informações relevantes de um egresso, para que o admin possa confirmar
 userRouter.get('/admin/graduates/:id', verifyRoles('admin'), userController.getGraduateDetailsById);
 
+//donwload das informações em formato de arquivo .csv
+userRouter.get('/admin/download-csv', verifyRoles('admin'), userController.downloadGraduatesInfo);
+
 userRouter.post('/admins', verifyRoles('admin'), userController.createAdmin);
 userRouter.post('/admins/add-graduate', verifyRoles('admin'), userController.createGraduateByAdmin);
 

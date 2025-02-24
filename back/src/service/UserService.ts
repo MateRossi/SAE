@@ -8,8 +8,11 @@ import { Unauthorized } from "../errors/Unauthorized";
 import Survey from "../model/Survey";
 import { Op } from "sequelize";
 import Modality from "../model/Modality";
+import { Parser } from 'json2csv';
+import { followUpFields } from "../utils/csvParserFields";
 
 const BATCH_SIZE = 50;
+const BOM = '\uFEFF';
 
 export class UserService {
     static async getAllGraduates(filters: any) {
@@ -89,6 +92,43 @@ export class UserService {
 
         return parsedGraduates;
     };
+
+    static async downloadGraduatesInfo(filter: unknown) {
+        if (filter === "followUp") {
+            const graduates = await User.findAll({
+                where: { role: 'graduate' },
+                attributes: { exclude: ["password", "refreshToken", "courseId", "createdAt", "role"] },
+                include: [
+                    {
+                        model: Survey,
+                        as: 'survey',
+                        required: true,
+                        attributes: { exclude: ["userId", "createdAt", "updatedAt", "id"] }
+                    },
+                    {
+                        model: Course,
+                        as: 'course',
+                        attributes: ["name"]
+                    }
+                ],
+                raw: true,
+                nest: false
+            });
+
+            const json2csvParser = new Parser({ fields: followUpFields, delimiter: ';' });
+            const csv = json2csvParser.parse(graduates);
+            
+            const csvWithBOM = BOM + csv;
+
+            return csvWithBOM;
+        }
+        
+        const graduates = await User.findAll({
+            where: {role: 'graduate'},
+        });
+
+        return graduates;
+    }
 
     static async getAllAdmins() {
         return User.findAll({

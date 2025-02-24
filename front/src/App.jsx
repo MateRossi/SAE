@@ -36,6 +36,7 @@ import EditModalityPage from './pages/admins/EditModalityPage';
 import SendGraduateMessage from './pages/graduates/SendGraduateMessage';
 import GraduateDetailsPage from './pages/admins/GraduateDetailsPage';
 import ForgotPassword from './pages/visitants/ForgotPassword';
+import DownloadPage from './pages/admins/DownloadPage';
 
 
 
@@ -69,6 +70,7 @@ function App() {
           <Route path="/admin" element={<GraduatesPage />} />
           <Route path='/admin/add-graduates' element={<AddGraduatesPage />} />
           <Route path='/admin/add-graduates/csv' element={<AddByFilePage />} />
+          <Route path='/admin/downloads' element={<DownloadPage />} />
           <Route path='/admin/graduates/:graduateId' element={<GraduateDetailsPage />} />
           <Route path="companies" element={<CompaniesPage />} />
           <Route path="confirmRegister" element={<ConfirmRegisterPage />} />

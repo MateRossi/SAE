@@ -11,8 +11,8 @@ const parseCSV = async (filePath: string): Promise<any[]> => {
     return new Promise((resolve, reject) => {
         const graduates: { matricula: string; nome: string; email: string; curso: string }[] = [];
         fs.createReadStream(filePath)
-        .pipe(iconv.decodeStream("win1252"))
-        .pipe(csv({ separator: ';' }))
+            .pipe(iconv.decodeStream("win1252"))
+            .pipe(csv({ separator: ';' }))
             .on("data", (row) => {
                 graduates.push({
                     matricula: row.matricula.trim(),
@@ -178,6 +178,21 @@ export const userController = {
         } catch (error) {
             ErrorResponse.handleErrorResponse(error, res);
         };
+    },
+
+    async downloadGraduatesInfo(req: Request, res: Response) {
+        console.log('download de infos dos egressos');
+        try {
+            const filter = req.query.filter;
+            console.log(filter);
+            if (!filter) throw new Error("Escolha um dos filtros disponíveis.");
+            const csv = await UserService.downloadGraduatesInfo(filter);
+            res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+            res.setHeader('Content-Disposition', 'attachment; filename=egressos.csv');
+            res.status(200).send(csv);  
+        } catch (error) {
+            ErrorResponse.handleErrorResponse(error, res);
+        }
     },
 
     async register(req: Request, res: Response) {
