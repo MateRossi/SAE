@@ -1,22 +1,72 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../page.css';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SortableTable from '../../components/sortableTable/SortableTable';
-import PageTemplate from '../PageTemplate';
+import Dropdown from '../../components/Dropdown';
+import FilterOptions from '../../components/filterOptions/filterOptions';
+import useAuth from '../../hooks/useAuth';
+import Pagination from '../../components/pagination/Pagination';
 
 function GraduatesPage() {
     const [graduates, setGraduates] = useState([]);
+
+    const [courses, setCourses] = useState([]);
+
+    const { auth } = useAuth();
+
+    const [successMsg, setSuccessMsg] = useState('');
+    const successRef = useRef();
+
+    const [errMsg, setErrMsg] = useState('');
+    const errRef = useRef();
+
     const [loading, setLoading] = useState(true);
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
     const location = useLocation();
 
+    const [filter, setFilter] = useState({
+        confirmed: true,
+        notConfirmed: true,
+        outdated: false,
+        course: ''
+    });
+
+    const [pagination, setPagination] = useState({
+        page: 1,
+        pageSize: 10,
+    });
+
+    const getPaginatedGraduates = (graduates, page, pageSize) => {
+        const offset = (page - 1) * pageSize;
+        return graduates.slice(offset, offset + pageSize);
+    };
+
+    useEffect(() => {
+        let isMounted = true;
+        const getCourses = async () => {
+            try {
+                const response = await axiosPrivate.get(`/courses`);
+                console.log(response.data);
+                isMounted && setCourses([{ id: '734857390mdlamdaçç42', name: 'Todos os cursos' }, ...response.data]);
+                setLoading(false);
+            } catch (err) {
+                console.error(err);
+                setLoading(false);
+            }
+        }
+
+        getCourses()
+
+        return () => isMounted = false;
+    }, [axiosPrivate]);
+
     useEffect(() => {
         let isMounted = true;
         const getGraduates = async () => {
             try {
-                const response = await axiosPrivate.get(`/users/graduates`);
+                const response = await axiosPrivate.get(`/users/graduates?confirmed=${filter?.confirmed}&notConfirmed=${filter?.notConfirmed}&outdated=${filter?.outdated}&course=${filter.course}`);
                 if (isMounted) {
                     setGraduates(response.data);
                     setLoading(false);
@@ -30,40 +80,56 @@ function GraduatesPage() {
         getGraduates();
 
         return () => isMounted = false;
-    }, [axiosPrivate, location, navigate]);
+    }, [axiosPrivate, filter?.confirmed, filter?.course, filter?.notConfirmed, filter?.outdated, location, navigate]);
+
+    useEffect(() => {
+        console.log(filter);
+    }, [filter])
 
     const keyFn = (graduate) => {
         return graduate.id;
     }
 
-    if (loading) {
-        return <PageTemplate pageTitle={'Egressos cadastrados'} subtitle={'Abaixo estão listados os alunos que se declaram egressos do IF Sudeste MG - Campus Juiz de Fora'}>
-            <h3>Carregando...</h3>
-        </PageTemplate>
-    }
-
-    if (graduates.length === 0) {
-        return <PageTemplate pageTitle={'Egressos cadastrados'} subtitle={'Abaixo estão listados os alunos que se declaram egressos do IF Sudeste MG - Campus Juiz de Fora'}>
-            <h3>Sem dados para mostrar.</h3>
-        </PageTemplate>
-    }
-
     const handleNullValue = (value) => {
         if (value === true) return <div className='true-sim'>Sim</div>
-        
+
         if (value === false) return <div className='false-nao'>Não</div>
 
         return value || '-';
     }
 
-    console.log(graduates);
+    const handleSendClick = async (graduates) => {
+        const mailData = {
+            subject: 'Atualização de Informações Cadastrais',
+            bcc: graduates,
+            text: "Que tal dar uma atualizada nos seus dados? É rapidinho! 😊"
+        }
+        setLoading(true);
+        try {
+            const response = await axiosPrivate.post(`/users/${auth.id}/send-bulk-emails`, mailData);
+            setLoading(false);
+            setSuccessMsg(`
+                Emails enviados. 
+                Aceitos: ${response.data.info.accepted?.length} 
+                Rejeitados: ${response.data.info.rejected?.length}
+            `);
+        } catch (err) {
+            console.log(err);
+            setLoading(false);
+            setErrMsg('Falha ao enviar emails.');
+        }
+    }
+
+    const handleAddGraduate = () => {
+        navigate("/admin/add-graduates");
+    }
 
     const config = [
         {
             label: 'Opções',
             render: (graduate) => {
                 return <div className='table-buttons'>
-                    <button className='info-button' onClick={() => console.log(graduate.id)}>Info</button>
+                    <button className='info-button' onClick={() => navigate(`/admin/graduates/${graduate.id}`)}>Info</button>
                     <button className='msg-button' onClick={() => console.log(graduate.id)}>Msg</button>
                 </div>
             }
@@ -79,6 +145,11 @@ function GraduatesPage() {
         {
             label: 'E-mail',
             render: (graduate) => handleNullValue(graduate.email),
+        },
+        {
+            label: 'Recebe Emails',
+            render: (graduate) => handleNullValue(graduate.recebeEmails),
+            sortValue: (graduate) => handleNullValue(graduate.recebeEmails)
         },
         {
             label: 'Ano de Ingresso',
@@ -212,16 +283,67 @@ function GraduatesPage() {
         }
     ];
 
+    const handleCourseChange = (value) => {
+        console.log('select value', value);
+        setFilter((prev) => ({
+            ...prev,
+            course: value.name === 'Todos os cursos' ? '' : value.name,
+        }));
+    };
+
+    useEffect(() => {
+        setPagination({
+            page: 1,
+            pageSize: 10,
+        })
+    }, [filter])
+
     return (
         <div className="page">
             <h1 className='pageTitle'>Egressos cadastrados</h1>
             <main className="pageContent">
-                <p className='page-subtitle'>
+                {/*<p className='page-subtitle'>
                     Abaixo estão listados os alunos que se declaram egressos do IF Sudeste MG - Campus Juiz de Fora
-                </p>
-                <div className='table-overflow-container'>
-                    <SortableTable data={graduates} keyFn={keyFn} config={config} />
+                </p>*/}
+                <div className='filtros'>
+                    Filtros aplicados:
+                    <FilterOptions filter={filter} setFilter={setFilter} />
+                    <div className='select-course-filter'>
+                        <label htmlFor="select_course">
+                            Filtrar por curso:
+                        </label>
+                        {!loading && <Dropdown options={courses} value={filter?.course} onChange={handleCourseChange} />}
+                    </div>
                 </div>
+                <p ref={successRef} className={successMsg ? 'successMsg' : 'offscreen'} aria-live='assertive'>
+                    {successMsg}
+                </p>
+                <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live='assertive'>
+                    {errMsg}
+                </p>
+                {loading && <p>Enviando emails...</p>}
+                <button className='add-button' onClick={() => handleAddGraduate()}>Adicionar Egresso(s)</button>
+                <div className='send-mails-container'>
+                    Enviar emails para o filtro selecionado? ({graduates?.length} egressos)
+                    <button onClick={() => handleSendClick(graduates)}>Enviar</button>
+                </div>
+                {
+                    graduates?.length ? <div className='table-overflow-container'>
+                        <SortableTable
+                            data={getPaginatedGraduates(graduates, pagination.page, pagination.pageSize)}
+                            keyFn={keyFn}
+                            config={config}
+                        />
+                    </div> : <p>Sem dados para mostrar.</p>
+                }
+                {
+                    graduates.length > 0 ?
+                    <Pagination
+                    pagination={pagination}
+                    setPagination={setPagination}
+                    listLength={graduates.length}
+                /> : null
+                }
             </main>
         </div>
     );

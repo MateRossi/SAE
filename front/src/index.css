@@ -8,6 +8,25 @@ html {
   font-size: 1vw;
 }
 
+.mail-text-area {
+  margin-bottom: 0.5rem;
+  border-radius: 0.625rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 90%;
+  height: 200px;
+  padding: 1rem;
+  font-size: 1rem;
+}
+
+.mail-text-area::first-letter {
+  text-transform: uppercase;
+}
+
+.mail-text-area:focus {
+  outline: #238636;
+}
+
 body {
   min-height: 100vh;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -376,6 +395,7 @@ td:last-of-type {
 
 .RegisterForm input[type="text"],
 .RegisterForm input[type="email"],
+.RegisterForm input[type="number"],
 .RegisterForm input[type="password"] {
   width: 100%;
   height: 2rem;
@@ -497,6 +517,238 @@ td:last-of-type {
 .survey-likert .likert-scale label {
   margin: 0;
   text-align: center;
+  width: 100%;
+}
+
+.send-mails-container {
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  gap: 10px;
+}
+
+.send-mails-container>button {
+  background-color: #238636;
+  color: #fff;
+  padding: 6px;
+  font-size: 0.8rem;
+}
+
+.filtros {
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  margin-bottom: 10px;
+}
+
+.filtros>.select-course-filter {
+  width: 60%;
+  margin-bottom: -10px;
+}
+
+.filtros button {
+  margin-top: 10px;
+  color: #fff;
+}
+
+.filtros .add-filter {
+  background-color: #238636;
+}
+
+.filtros .remove-filter {
+  background-color: firebrick;
+}
+
+.filter-buttons-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 10px;
+}
+
+.dottedList {
+  list-style: none;
+  padding: 0 20px;
+  margin: 0;
+  max-width: 800px;
+  width: 95%;
+  margin-bottom: 20px;
+}
+
+.dottedList li {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dotted #ccc;
+  padding: 5px 0;
+}
+
+.dottedList span {
+  display: inline-block;
+}
+
+.dottedList li span:first-of-type {
+  margin-right: 10px;
+  white-space: nowrap;
+}
+
+.dottedList li span:last-of-type {
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+/* Botão Flutuante */
+.backButton {
+  padding: 5px;
+  background-color: #238636;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.dottedList h4 {
+  margin-top: 1rem;
+  margin-bottom: 0.3rem;
+  text-align: center;
+}
+
+.answers {
+  border: 1px solid rgba(0, 0, 0, 0.1)
+}
+
+.question {
+  margin: 0 5px;
+  margin-bottom: 1rem;
+  border-bottom: 1px dotted rgba(0, 0, 0, 0.1);
+}
+
+.commentary {
+  padding: 10px;
+  margin-bottom: 1rem;
+  font-weight: 100;
+  text-align: justify;
+  border: 1px solid rgba(0, 0, 0, 0.1)
+}
+
+.question:first-of-type {
+  margin-top: 1rem;
+}
+
+.question p {
+  font-weight: 600;
+}
+
+.question span {
+  margin-left: 0.3rem;
+  font-weight: 100;
+}
+
+.backButton:disabled {
+  opacity: 0.5;
+}
+
+.backButton:disabled:hover {
+  border-color: #fff;
+}
+
+.detailsOptions {
+  display: flex;
+  flex-direction: row;
+}
+
+.detailsOptions .backButton:last-of-type {
+  background-color: firebrick;
+}
+
+.separator {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 80%;
+}
+
+.add-button {
+  padding: 5px !important;
+  background-color: #238636 !important;
+}
+
+.back-button {
+  background-color: firebrick;
+  color: #fff;
+}
+
+.flex-buttons {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+input[type="file"] {
+  padding: 20px;  
+  height: 60px;
+}
+
+.loading-container {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 8px solid linear-gradient(90deg, #238636, #1a1a1a);
+}
+
+.radio-filter-container {
+  margin-top: 2rem;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 16px;
+}
+
+.radio-filter-container div {
+  background-color: #bfbfbf;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.radio-filter-container div:hover {
+  background-color: #b6ceac;
+}
+
+.radio-filter-container div input {
+  width: 20px;
+}
+
+.radio-filter-container div label {
+  cursor: pointer;
+  width: 100%;
+}
+
+.sb-button {
+  width: 100% !important;
+  margin-top: 10px;
+}
+
+.alert-msgs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
 }
 

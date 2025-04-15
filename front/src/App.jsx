@@ -26,11 +26,17 @@ import PreRegisterPage from './pages/admins/PreRegisterPage';
 import StatisticsPage from "./pages/admins/StatisticsPage";
 import AddCoursePage from './pages/admins/AddCoursePage';
 import EditCoursePage from './pages/admins/EditCoursePage';
+import AddGraduatesPage from './pages/admins/AddGraduatesPages';
+import AddByFilePage from './pages/admins/AddByFilePage';
 
 import { Routes, Route } from "react-router-dom"
 import PersistLogin from "./components/PersistLogin";
 import AddModalityPage from './pages/admins/AddModalityPage';
 import EditModalityPage from './pages/admins/EditModalityPage';
+import SendGraduateMessage from './pages/graduates/SendGraduateMessage';
+import GraduateDetailsPage from './pages/admins/GraduateDetailsPage';
+import ForgotPassword from './pages/visitants/ForgotPassword';
+import DownloadPage from './pages/admins/DownloadPage';
 
 
 
@@ -43,6 +49,7 @@ function App() {
         <Route path="unauthorized" element={<UanuthorizedPage />} />
         <Route path="register" element={<RegisterPage />} />
         <Route path='registerSuccess' element={<RegisterSuccess />} />
+        <Route path='forgotPassword' element={<ForgotPassword />} />
       </Route>
 
       <Route element={<PersistLogin />}>
@@ -55,11 +62,16 @@ function App() {
           <Route path="profile" element={<ProfilePage />} />
           <Route path="review" element={<ReviewPage />} />
           <Route path="class" element={<SameClassPage />} />
+          <Route path='/graduate/:graduateId/send-message' element={<SendGraduateMessage />} />
         </Route>
 
         {/* Rotas que o admin tem acesso. Colocar várias talbes juntas ao invés de modalidade, etc?*/}
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="/admin" element={<GraduatesPage />} />
+          <Route path='/admin/add-graduates' element={<AddGraduatesPage />} />
+          <Route path='/admin/add-graduates/csv' element={<AddByFilePage />} />
+          <Route path='/admin/downloads' element={<DownloadPage />} />
+          <Route path='/admin/graduates/:graduateId' element={<GraduateDetailsPage />} />
           <Route path="companies" element={<CompaniesPage />} />
           <Route path="confirmRegister" element={<ConfirmRegisterPage />} />
           <Route path="courses" element={<CoursesPage />} />

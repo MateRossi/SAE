@@ -13,4 +13,5 @@ export const sequelize = new Sequelize(POSTGRES_DATABASE, POSTGRES_USER, POSTGRE
     dialect: 'postgres',
     dialectModule: pg,
     timezone: '+00:00',
+    logging: false
 });

@@ -17,7 +17,7 @@ class Review extends Model {
     public userId!: number;
 
     static associate() {
-        this.belongsTo(User, { as: 'review', foreignKey: 'userId' });
+        this.belongsTo(User, { as: 'review', foreignKey: 'userId', onDelete: 'CASCADE' });
     };
 };
 

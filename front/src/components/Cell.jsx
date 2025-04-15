@@ -3,7 +3,7 @@ import { RiMailFill } from "react-icons/ri";
 function Cell({ cellData }) {
     const renderedCells = () => {
         if (cellData === true || cellData === false) {
-            return <td><button className="tableOptionButton"><RiMailFill size={25}/></button></td>
+            return <td><button className="tableOptionButton" onClick={() => console.log(cellData)}><RiMailFill size={25}/></button></td>
         }  else {
             return <td>{cellData}</td>
         }

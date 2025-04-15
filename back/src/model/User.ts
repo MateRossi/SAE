@@ -31,11 +31,12 @@ class User extends Model {
         this.hasOne(Survey, { as: "survey", foreignKey: 'userId' });
     };
 
-    static validateRole(value: number | null, role: string) {
+    /*static validateRole(value: number | null, role: string) {
         if (!value && role === 'graduate') {
             throw new Error('É necessario informar o ano de graduação');
         };
     };
+    */
 };
 
 User.init(
@@ -126,8 +127,9 @@ User.init(
     },
 );
 
-User.beforeValidate((user: User) => {
+/*User.beforeValidate((user: User) => {
     User.validateRole(user.graduationYear, user.role);
 });
+*/
 
 export default User;

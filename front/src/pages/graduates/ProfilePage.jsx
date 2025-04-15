@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useAuth from '../../hooks/useAuth';
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -10,6 +10,9 @@ import EditGraduateInfo from "../../components/EditGraduateInfo";
 function ProfilePage() {
     const { auth } = useAuth();
     const axiosPrivate = useAxiosPrivate();
+
+    const [errMsg, setErrMsg] = useState('');
+    const errRef = useRef();
 
     const [userData, setUserData] = useState({});
 
@@ -34,15 +37,45 @@ function ProfilePage() {
         return () => isMounted = false;
     }, [auth, axiosPrivate, location, navigate]);
 
-    console.log(userData);
+    const handleDeleteAccount = async () => {
+        const isConfirmed = window.confirm('Tem certeza que deseja excluir seu cadastro?');
+
+        if (isConfirmed) {
+            try {
+                await axiosPrivate.delete(`/users/${auth.id}/delete-account`);
+                navigate('/');
+            } catch (error) {
+                if (!error?.response) {
+                    setErrMsg('Sem resposta.');
+                } else if (error.response?.status === 400) {
+                    setErrMsg('Dados faltantes.');
+                } else if (error.response?.status === 401) {
+                    setErrMsg('Não autorizado.');
+                } else {
+                    setErrMsg('Falha ao excluir conta.');
+                }
+                errRef.current.focus();
+            }
+        }
+    }
 
     return (
         <div className="page">
             <h1 className="pageTitle">Configurações do Perfil</h1>
             <main className="pageContent">
+                <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live='assertive'>
+                    {errMsg}
+                </p>
                 <UserInfoEdit userData={userData} setUserData={setUserData} axiosPrivate={axiosPrivate} />
                 <EditGraduateInfo userData={userData} setUserData={setUserData} axiosPrivate={axiosPrivate} />
                 <EditPassword userData={userData} setUserData={setUserData} axiosPrivate={axiosPrivate} />
+                <button
+                    className="button-back"
+                    style={{ width: '400px', marginTop: '20px', marginBottom: '20px' }}
+                    onClick={handleDeleteAccount}
+                >
+                    Apagar Conta
+                </button>
             </main>
         </div>
     )

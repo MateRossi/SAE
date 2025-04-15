@@ -21,7 +21,7 @@ class Survey extends Model {
     public userId!: number;
 
     static associate() {
-        this.belongsTo(User, { as: 'surveyUser', foreignKey: 'userId' });
+        this.belongsTo(User, { as: 'surveyUser', foreignKey: 'userId', onDelete: 'CASCADE' });
     };
 };
 

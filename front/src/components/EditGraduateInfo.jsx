@@ -53,7 +53,7 @@ function UserInfoEdit({ userData, setUserData, axiosPrivate }) {
             entryYear,
             graduationYear,
             workedBefore,
-            degreeLevel: degreeLevel.name,
+            degreeLevel: degreeLevel?.name,
             commentary,
         };
         try {

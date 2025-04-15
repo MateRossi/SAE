@@ -24,7 +24,6 @@ Course.init(
         },
         acronym: {
             type: DataTypes.STRING,
-            allowNull: false,
             unique: true,
         },
     },
