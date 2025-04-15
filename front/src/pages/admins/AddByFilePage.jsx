@@ -125,7 +125,7 @@ function AddByFilePage() {
                 <div className="flex-buttons">
                     <button onClick={() => navigate("/admin/add-graduates")} className="back-button">Voltar</button>
                 </div>
-                <div>
+                <div className="csv-instructions">
                     <h2>Instruções</h2>
                     <ol>
                         <li>

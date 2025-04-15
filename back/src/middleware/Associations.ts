@@ -3,6 +3,7 @@ import Course from "../model/Course";
 import Review from "../model/Review";
 import User from "../model/User";
 import Survey from "../model/Survey";
+import JobPosting from "../model/JobPosting";
 
 export default function associateModels() {
     Course.associate();
@@ -10,4 +11,5 @@ export default function associateModels() {
     Review.associate();
     User.associate();
     Survey.associate();
+    JobPosting.associate();
 }

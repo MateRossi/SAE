@@ -17,6 +17,9 @@ import surveyRouter from './src/routes/SurveyRouter';
 //Reviews
 import reviewRouter from './src/routes/ReviewRouter';
 
+//Job postings
+import jobPostingRouter from './src/routes/JobPostingRouter';
+
 //###################################### - - #############
 
 //USERS
@@ -34,5 +37,8 @@ router.use('/surveys', surveyRouter);
 
 //REVIEWS
 router.use('/reviews', reviewRouter);
+
+//JOB POSTINGS
+router.use('/job-postings', jobPostingRouter);
 
 export default router;

@@ -752,6 +752,10 @@ input[type="file"] {
   width: 100%;
 }
 
+.csv-instructions {
+  margin-bottom: 2rem;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

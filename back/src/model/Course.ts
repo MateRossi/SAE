@@ -2,6 +2,7 @@ import { Model, DataTypes } from 'sequelize';
 import { sequelize } from "../db/sequelize";
 import Modality from './Modality';
 import User from './User';
+import JobPosting from './JobPosting';
 
 class Course extends Model {
     public id!: number;
@@ -12,6 +13,7 @@ class Course extends Model {
     static associate() {
         this.belongsTo(Modality, { as: 'modality', foreignKey: {allowNull: false} });
         this.hasMany(User, {as: 'users', foreignKey: 'courseId', onDelete: 'RESTRICT' });
+        this.belongsToMany(JobPosting, { through: 'JobPosting_Course' })
     };
 };
 
