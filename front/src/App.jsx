@@ -37,6 +37,8 @@ import SendGraduateMessage from './pages/graduates/SendGraduateMessage';
 import GraduateDetailsPage from './pages/admins/GraduateDetailsPage';
 import ForgotPassword from './pages/visitants/ForgotPassword';
 import DownloadPage from './pages/admins/DownloadPage';
+import JobPostingPage from './pages/JobPostingPage';
+import AddJobPosting from './pages/admins/AddJobPosting';
 
 
 
@@ -63,6 +65,7 @@ function App() {
           <Route path="review" element={<ReviewPage />} />
           <Route path="class" element={<SameClassPage />} />
           <Route path='/graduate/:graduateId/send-message' element={<SendGraduateMessage />} />
+          <Route path='job-postings' element={<JobPostingPage />} />
         </Route>
 
         {/* Rotas que o admin tem acesso. Colocar várias talbes juntas ao invés de modalidade, etc?*/}
@@ -82,6 +85,8 @@ function App() {
           <Route path='modalities/:modalityId/edit-modality' element={<EditModalityPage />} />
           <Route path="preRegister" element={<PreRegisterPage />} />
           <Route path="statistics" element={<StatisticsPage />} />
+          <Route path='job-postings' element={<JobPostingPage />} />
+          <Route path='job-postings/add' element={<AddJobPosting />} />
           {/*<Route path='profile' element={<AdminProfile />} />*/}
         </Route>
       </Route>

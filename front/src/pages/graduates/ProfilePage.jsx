@@ -24,7 +24,7 @@ function ProfilePage() {
         const getGraduateData = async () => {
             try {
                 const response = await axiosPrivate.get(`/users/graduates/${auth.id}`);
-                console.log("Response data", response.data);
+                //console.log("Response data", response.data);
                 isMounted && setUserData(response.data);
             } catch (err) {
                 console.error(err);

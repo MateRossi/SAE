@@ -4,6 +4,7 @@ import course from '../img/course.svg';
 import rating from '../img/rating.svg';
 import research from '../img/research.svg';
 import profile from '../img/profile.svg';
+import job from '../img/job.svg';
 import useAuth from '../hooks/useAuth';
 import useLogout from '../hooks/useLogout';
 
@@ -26,6 +27,7 @@ function GraduateMenu() {
             <Link to={'followUp'}><img className='menuIcon' src={research} alt="ícone acompanhamento" />Acompanhamento</Link>
             <Link to={'review'}><img className='menuIcon' src={rating} alt="ícone avaliações" />Avaliações</Link>
             <Link to={'profile'}><img className='menuIcon' src={profile} alt="ícone perfil" />Perfil</Link>
+            <Link to={'job-postings'}><img className='menuIcon' src={job} alt="Ícone de oportunidades de emprego" />Oportunidades</Link>
         </nav>
         <div className='logout-container'>
             <h3>Olá, {auth?.name?.split(' ')[0]}</h3>
